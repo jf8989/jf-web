@@ -1,17 +1,26 @@
 // src/app/page.tsx
 import React from "react";
-import ProjectBrief from "@/components/client-brief/projectBrief";
-import { projectDataMain } from "@/components/client-brief/projectDataMain";
-import { projectDataTemplate } from "@/components/client-brief/projectDataTemplate";
+import Header from "@/components/Header";
+import HeroSection from "@/components/HeroSection";
+import ProjectsSection from "@/components/ProjectsSection";
+import AboutSection from "@/components/AboutSection";
+import ContactSection from "@/components/ContactSection";
+import Footer from "@/components/Footer";
 
 export default function Home() {
-  // Toggle between main data and dummy data for testing
-  const isTesting = true; // Set this to TRUE to use the TEMPLATE project data.  Set to FALSE to use the MAIN project data.
-
   return (
-    <main>
-      {/* Render the ProjectBrief, passing in either the main or dummy data */}
-      <ProjectBrief data={isTesting ? projectDataTemplate : projectDataMain} />
-    </main>
+    // Using React Fragment to group elements without adding extra DOM nodes
+    <>
+      <Header />
+      <main className="mt-16">
+        {" "}
+        {/* Add margin-top to avoid overlap with fixed header */}
+        <HeroSection />
+        <ProjectsSection />
+        <AboutSection />
+        <ContactSection />
+      </main>
+      <Footer />
+    </>
   );
 }

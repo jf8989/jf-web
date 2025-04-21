@@ -35,7 +35,7 @@ export const projectsData: ProjectType[] = [
       "LocalStorage",
       "TypeDoc",
     ],
-    imageUrl: "/public/images/angular.jpg",
+    imageUrl: "/images/angular.jpg",
     githubUrl: "https://github.com/jf8989/jflix-client-2",
     liveUrl: "https://jflix-client-2.vercel.app/",
     videoUrl: null,
@@ -57,7 +57,7 @@ export const projectsData: ProjectType[] = [
       "JWT",
       "JSDoc",
     ],
-    imageUrl: "/public/images/api.jpg",
+    imageUrl: "/images/api.jpg",
     githubUrl: "https://github.com/jf8989/j-flix",
     liveUrl: "https://j-flix-omega.vercel.app/", // Link to API (might show default message)
     videoUrl: null,
@@ -71,7 +71,7 @@ export const projectsData: ProjectType[] = [
     description:
       "Original React-based client for j-Flix using Redux for state management and React Bootstrap for UI.",
     techStack: ["React", "Redux", "React Bootstrap", "Parcel", "JavaScript"],
-    imageUrl: "/public/images/jflix-1.jpg",
+    imageUrl: "/images/jflix-1.jpg",
     githubUrl: "https://github.com/jf8989/j-flix-client",
     liveUrl: "https://j-flixcom.netlify.app/",
     videoUrl: null,
@@ -93,7 +93,7 @@ export const projectsData: ProjectType[] = [
       "OAuth2",
       "Recharts",
     ],
-    imageUrl: "/public/images/meet.jpg",
+    imageUrl: "/images/meet.jpg",
     githubUrl: "https://github.com/jf8989/meet-app",
     liveUrl: "https://meet-app-kappa.vercel.app/",
     videoUrl: null,
@@ -113,7 +113,7 @@ export const projectsData: ProjectType[] = [
       "Firestore",
       "AsyncStorage",
     ],
-    imageUrl: "/public/images/chat.jpg",
+    imageUrl: "/images/chat.jpg",
     githubUrl: "https://github.com/jf8989/chat-app",
     liveUrl: null, // No direct live web link for mobile app
     videoUrl: "https://www.youtube.com/watch?v=VQeiYhRNnrI", // Link to YouTube demo
@@ -127,7 +127,7 @@ export const projectsData: ProjectType[] = [
     description:
       "Simple Pokedex using jQuery and Bootstrap to display Pokemon data fetched from PokeAPI. Features pagination and modals.",
     techStack: ["JavaScript", "jQuery", "Bootstrap", "HTML", "CSS", "PokeAPI"],
-    imageUrl: "/public/images/pokedex.jpg",
+    imageUrl: "/images/pokedex.jpg",
     githubUrl: "https://github.com/jf8989/pokedex-app",
     liveUrl: "https://pokedex-app-seven-gamma.vercel.app/",
     videoUrl: null,
