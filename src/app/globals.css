@@ -1,0 +1,37 @@
+@import 'tailwindcss/base';
+@import 'tailwindcss/components';
+@import 'tailwindcss/utilities';
+
+:root {
+  --background: #ffffff;
+  --foreground: #171717;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #0a0a0a;
+    --foreground: #ededed;
+  }
+}
+
+body {
+  color: var(--foreground);
+  background: var(--background);
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+* {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+/* Fix for mobile font blurriness: 
+   On mobile (screens up to 768px wide), switching the WebKit font smoothing
+   from antialiased (which can cause a blurry/light look) to subpixel-antialiased
+   helps improve text clarity. */
+@media (max-width: 768px) {
+  * {
+    -webkit-font-smoothing: subpixel-antialiased;
+  }
+}
