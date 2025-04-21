@@ -1,42 +1,89 @@
 // src/components/HeroSection.tsx
-"use client"; // Keep for potential future client needs, though not strictly required now
+"use client";
 
-import React from "react";
+import React, { useState, useRef, useEffect } from "react"; // Import useRef, useEffect
 import Image from "next/image";
 
+// --- Configuration ---
+const videoSources = [
+  "/videos/background1.mp4",
+  "/videos/background2.mp4",
+  "/videos/background3.mp4",
+  "/videos/background4.mp4",
+];
+const transitionDurationMs = 1000;
+const defaultOpacity = 0.4;
+const defaultBrightness = 0.8;
+// --- End Configuration ---
+
 const HeroSection: React.FC = () => {
-  // Default values - Adjust these directly in the style attribute below as needed
-  const defaultOpacity = 0.4;
-  const defaultBrightness = 0.8;
+  const [currentVideoIndex, setCurrentVideoIndex] = useState(0);
+  // Create a ref to hold an array of video element refs
+  const videoRefs = useRef<(HTMLVideoElement | null)[]>([]);
+
+  // Function to advance to the next video
+  const handleVideoEnd = () => {
+    setCurrentVideoIndex((prevIndex) => (prevIndex + 1) % videoSources.length);
+  };
+
+  // Effect to play the new current video when index changes
+  useEffect(() => {
+    const currentVideo = videoRefs.current[currentVideoIndex];
+    const previousVideoIndex =
+      (currentVideoIndex - 1 + videoSources.length) % videoSources.length;
+    const previousVideo = videoRefs.current[previousVideoIndex];
+
+    if (currentVideo) {
+      // Attempt to play the current video
+      currentVideo.play().catch((error) => {
+        // Autoplay was prevented, log error or handle silently
+        console.error("Autoplay prevented for video:", currentVideo.src, error);
+      });
+    }
+
+    // Optionally pause and reset the previous video
+    if (previousVideo && previousVideo !== currentVideo) {
+      previousVideo.pause();
+      previousVideo.currentTime = 0; // Reset time
+    }
+  }, [currentVideoIndex]); // Dependency array ensures this runs when index changes
 
   return (
     <section
       id="home"
       className="relative overflow-hidden pt-28 pb-20 md:pt-32 md:pb-24 text-center h-screen flex items-center justify-center"
     >
-      {/* Video Background */}
-      <video
-        // === CHECK THIS PATH CAREFULLY ===
-        src="/videos/background.mp4"
-        // === Autoplay attributes ===
-        autoPlay // Tells the browser to attempt playing automatically
-        loop // Loop the video
-        muted // ESSENTIAL for autoplay in most browsers
-        playsInline // Helps with playback on iOS devices
-        // === Hardcoded styles for development tuning ===
-        style={{
-          opacity: defaultOpacity, // Adjust value here (e.g., 0.3, 0.5)
-          filter: `brightness(${defaultBrightness})`, // Adjust value here (e.g., 0.7, 1.0)
-        }}
-        className="absolute inset-0 w-full h-full object-cover -z-20"
-      />
+      {/* Video Container */}
+      <div className="absolute inset-0 w-full h-full -z-20 bg-black">
+        {videoSources.map((src, index) => (
+          <video
+            key={src}
+            // Assign ref to the corresponding index in the array
+            ref={(el) => {
+              videoRefs.current[index] = el;
+            }}
+            src={src}
+            // autoPlay is only truly effective for the very first video load
+            autoPlay={index === 0} // Only attempt autoplay on the initial video
+            loop={false}
+            muted
+            playsInline
+            onEnded={handleVideoEnd}
+            preload="auto"
+            style={{
+              opacity: index === currentVideoIndex ? defaultOpacity : 0,
+              filter: `brightness(${defaultBrightness})`,
+            }}
+            className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-${transitionDurationMs} ease-in-out ${
+              index === currentVideoIndex ? "opacity-100" : "opacity-0"
+            }`}
+          />
+        ))}
+      </div>
 
-      {/* Semi-Transparent Overlay */}
+      {/* Rest of the component remains the same... */}
       <div className="absolute inset-0 bg-black/40 -z-10"></div>
-
-      {/* Content Container */}
       <div className="relative z-10 container mx-auto px-4">
-        {/* Image */}
         <div className="mb-8">
           <Image
             src="/images/jf-profile-picture.jpg"
@@ -48,8 +95,6 @@ const HeroSection: React.FC = () => {
             priority={true}
           />
         </div>
-
-        {/* Text Content */}
         <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold mb-3 text-white tracking-tight [text-shadow:_0_1px_3px_rgb(0_0_0_/_40%)]">
           Juan Francisco Marcenaro A.
         </h1>
@@ -60,8 +105,6 @@ const HeroSection: React.FC = () => {
           Passionate about building impactful digital solutions and creating
           immersive audio experiences. Bridging technology and creativity.
         </p>
-
-        {/* Button */}
         <a
           href="#projects"
           className="inline-block bg-sky-600 text-white text-lg font-semibold py-3 px-10 rounded-lg shadow-md hover:bg-sky-700 focus:outline-none focus:ring-2 focus:ring-sky-500 focus:ring-offset-2 focus:ring-offset-black/50 transform hover:-translate-y-0.5 transition duration-300 ease-in-out"
@@ -69,8 +112,6 @@ const HeroSection: React.FC = () => {
           View My Work
         </a>
       </div>
-
-      {/* Controls removed */}
     </section>
   );
 };
