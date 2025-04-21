@@ -4,20 +4,23 @@ import React from "react";
 const Footer: React.FC = () => {
   const currentYear = new Date().getFullYear();
 
-  // URLs copied from ContactSection
   const linkedinUrl = "https://www.linkedin.com/in/jfmarcenaroa/";
   const githubUrl = "https://github.com/jf8989?tab=repositories";
   const email = "juanfrajf.contacto@gmail.com";
 
   return (
-    <footer className="bg-gray-900 text-gray-400 py-8 mt-16">
+    <footer className="bg-gray-900 text-gray-400 py-10 mt-16">
+      {" "}
+      {/* Slightly more padding */}
       <div className="container mx-auto px-4 text-center">
-        {/* Social Links with Icons */}
-        <div className="mb-4">
-          <p className="mb-2">Find me on:</p>
-          <div className="flex justify-center items-center space-x-5">
+        <div className="mb-5">
+          {" "}
+          {/* Slightly more margin bottom */}
+          <p className="mb-3 text-sm">Find me on:</p>{" "}
+          {/* Adjusted size/margin */}
+          <div className="flex justify-center items-center space-x-6">
             {" "}
-            {/* Increased spacing slightly */}
+            {/* Increased spacing */}
             {/* LinkedIn Icon Link */}
             <a
               href={linkedinUrl}
@@ -76,10 +79,10 @@ const Footer: React.FC = () => {
             </a>
           </div>
         </div>
-        <p className="mt-6 text-sm">
+        <p className="mt-6 text-xs opacity-80">
           {" "}
-          {/* Added margin top */}© {currentYear} Juan Francisco Marcenaro A.
-          All rights reserved.
+          {/* Adjusted size/opacity */}© {currentYear} Juan Francisco Marcenaro
+          A. All rights reserved.
         </p>
       </div>
     </footer>
