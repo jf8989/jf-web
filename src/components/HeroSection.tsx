@@ -1,7 +1,7 @@
 // src/components/HeroSection.tsx
 "use client";
 
-import React, { useState, useRef, useEffect } from "react"; // Import useRef, useEffect
+import React, { useState, useRef, useEffect } from "react";
 import Image from "next/image";
 
 // --- Configuration ---
@@ -82,7 +82,7 @@ const HeroSection: React.FC = () => {
         ))}
       </div>
 
-      {/* Rest of the component remains the same... */}
+      {/* Dark overlay */}
       <div className="absolute inset-0 bg-black/40 -z-10"></div>
       <div className="relative z-10 container mx-auto px-4">
         <div className="mb-8">
@@ -96,19 +96,23 @@ const HeroSection: React.FC = () => {
             priority={true}
           />
         </div>
-        <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold mb-3 text-white tracking-tight [text-shadow:_0_1px_3px_rgb(0_0_0_/_40%)]">
+        {/* Updated Typography for Name - Using Playfair Display */}
+        <h1 className="font-heading hero-name text-4xl sm:text-5xl md:text-6xl font-bold mb-3 text-white [text-shadow:_0_1px_3px_rgb(0_0_0_/_40%)]">
           Juan Francisco Marcenaro A.
         </h1>
-        <p className="text-xl md:text-2xl text-sky-300 font-medium mb-6 [text-shadow:_0_1px_2px_rgb(0_0_0_/_30%)]">
+        {/* Subtitle - Using Geist Sans (body font) with tracking */}
+        <p className="font-body tracking-body text-xl md:text-2xl text-sky-300 font-medium mb-6 [text-shadow:_0_1px_2px_rgb(0_0_0_/_30%)]">
           Full-Stack Developer | Sound Engineer
         </p>
-        <p className="text-lg text-gray-200 max-w-2xl mx-auto mb-8 leading-relaxed [text-shadow:_0_1px_2px_rgb(0_0_0_/_50%)]">
+        {/* Description - Using Geist Sans (body font) */}
+        <p className="font-body text-lg text-gray-200 max-w-2xl mx-auto mb-8 leading-relaxed [text-shadow:_0_1px_2px_rgb(0_0_0_/_50%)]">
           Passionate about building impactful digital solutions and creating
           immersive audio experiences. Bridging technology and creativity.
         </p>
+        {/* CTA Button - Using Geist Sans (body font) with tracking */}
         <a
           href="#projects"
-          className="inline-block bg-sky-600 text-white text-lg font-semibold py-3 px-10 rounded-lg shadow-md hover:bg-sky-700 focus:outline-none focus:ring-2 focus:ring-sky-500 focus:ring-offset-2 focus:ring-offset-black/50 transform hover:-translate-y-0.5 transition duration-300 ease-in-out"
+          className="font-body tracking-body inline-block bg-sky-600 text-white text-lg font-semibold py-3 px-10 rounded-lg shadow-md hover:bg-sky-700 focus:outline-none focus:ring-2 focus:ring-sky-500 focus:ring-offset-2 focus:ring-offset-black/50 transform hover:-translate-y-0.5 transition duration-300 ease-in-out"
         >
           View My Work
         </a>

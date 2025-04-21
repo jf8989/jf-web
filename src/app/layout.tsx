@@ -1,6 +1,7 @@
 // src/app/layout.tsx
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
+import { Playfair_Display } from "next/font/google"; // Added Playfair
 import AudioPlayer from "@/components/AudioPlayer";
 import "./globals.css";
 
@@ -12,6 +13,14 @@ const geistSans = Geist({
 const geistMono = Geist_Mono({
   variable: "--font-geist-mono",
   subsets: ["latin"],
+});
+
+// Add Playfair Display for headings and name
+const playfair = Playfair_Display({
+  variable: "--font-playfair",
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700"],
+  display: "swap",
 });
 
 export const metadata: Metadata = {
@@ -37,7 +46,7 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning={true}>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased text-base text-gray-900 dark:text-gray-100 leading-relaxed`}
+        className={`${geistSans.variable} ${geistMono.variable} ${playfair.variable} antialiased text-base text-gray-900 dark:text-gray-100 leading-relaxed`}
       >
         {children}
         <AudioPlayer /> {/* <-- Add AudioPlayer here */}

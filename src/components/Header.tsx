@@ -27,12 +27,8 @@ const Header: React.FC = () => {
     <header className="bg-gray-900/95 backdrop-blur-sm text-white fixed top-0 left-0 w-full z-50 shadow-lg">
       {/* Centered container with max-width for content alignment */}
       <nav className="max-w-content mx-auto px-4 sm:px-6 lg:px-8 h-header-height flex justify-between items-center">
-        {" "}
-        {/* Using header-height from theme */}
         {/* Logo/Brand */}
         <div className="flex-shrink-0">
-          {" "}
-          {/* Prevent shrinking */}
           <a
             href="#home"
             onClick={handleMobileLinkClick}
@@ -41,23 +37,20 @@ const Header: React.FC = () => {
             <Image
               src="/images/logo1.png"
               alt="Juan Francisco Marcenaro A. Logo"
-              width={80} // **UPDATE WIDTH**
-              height={80} // **UPDATE HEIGHT**
-              className="h-12 w-12" // Explicit size for consistency
+              width={80}
+              height={80}
+              className="h-12 w-12"
               priority
             />
           </a>
         </div>
         {/* Desktop Navigation Links */}
         <ul className="hidden md:flex items-center space-x-8">
-          {" "}
-          {/* Increased spacing */}
           {navItems.map((item) => (
             <li key={item.name}>
               <a
                 href={item.href}
-                // Added font-medium, slightly larger text, better hover/focus
-                className="text-sm font-medium text-gray-300 hover:text-white focus:outline-none focus:text-white transition duration-300 ease-in-out"
+                className="text-sm font-medium tracking-wide text-gray-300 hover:text-white focus:outline-none focus:text-white transition duration-300 ease-in-out"
               >
                 {item.name}
               </a>
@@ -69,7 +62,7 @@ const Header: React.FC = () => {
           <button
             aria-label="Toggle menu"
             onClick={toggleMobileMenu}
-            className="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-white hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white" // Added focus styles
+            className="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-white hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white"
           >
             {isMobileMenuOpen ? (
               <svg
@@ -107,24 +100,19 @@ const Header: React.FC = () => {
       </nav>
 
       {/* Mobile Menu Panel */}
-      {/* Refined styling for panel */}
       <div
         className={`absolute top-full left-0 w-full bg-gray-900 md:hidden transition-all duration-300 ease-in-out overflow-hidden shadow-lg ${
-          // Slightly darker bg, added shadow
           isMobileMenuOpen
             ? "max-h-96 opacity-100 border-t border-gray-700"
-            : "max-h-0 opacity-0" // Added border-top, limited max-height
+            : "max-h-0 opacity-0"
         }`}
       >
         <ul className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
-          {" "}
-          {/* Added padding and spacing */}
           {navItems.map((item) => (
             <li key={item.name}>
               <a
                 href={item.href}
-                // Refined mobile link styles
-                className="block px-3 py-2 rounded-md text-base font-medium text-gray-300 hover:text-white hover:bg-gray-700 focus:outline-none focus:text-white focus:bg-gray-700 transition duration-150 ease-in-out"
+                className="block px-3 py-2 rounded-md text-base font-medium tracking-wide text-gray-300 hover:text-white hover:bg-gray-700 focus:outline-none focus:text-white focus:bg-gray-700 transition duration-150 ease-in-out"
                 onClick={handleMobileLinkClick}
               >
                 {item.name}

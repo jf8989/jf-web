@@ -6,6 +6,15 @@
 :root {
   --background: #ffffff;
   --foreground: #171717;
+
+  /* Typography variables */
+  --font-heading: var(--font-playfair), Georgia, serif;
+  --font-body: var(--font-geist-sans), system-ui, sans-serif;
+  --font-code: var(--font-geist-mono), monospace;
+
+  /* Letter spacing */
+  --heading-letter-spacing: -0.025em;
+  --body-letter-spacing: 0.01em;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -23,9 +32,47 @@ html {
 body {
   color: var(--foreground);
   background: var(--background);
-  /* Using Geist Sans as default via layout.tsx className */
-  /* font-family: Arial, Helvetica, sans-serif; */
-  /* Removed this line */
+  font-family: var(--font-body);
+}
+
+/* Typography classes */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: var(--font-heading);
+  letter-spacing: var(--heading-letter-spacing);
+  font-weight: 700;
+}
+
+.font-heading {
+  font-family: var(--font-heading);
+}
+
+.font-body {
+  font-family: var(--font-body);
+}
+
+.font-code {
+  font-family: var(--font-code);
+}
+
+.tracking-heading {
+  letter-spacing: var(--heading-letter-spacing);
+}
+
+.tracking-body {
+  letter-spacing: var(--body-letter-spacing);
+}
+
+/* Hero name styling */
+.hero-name {
+  font-family: var(--font-heading);
+  letter-spacing: var(--heading-letter-spacing);
+  font-weight: 700;
+  line-height: 1.1;
 }
 
 * {
