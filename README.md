@@ -1,234 +1,118 @@
-# Next.js Template
+# Juan Francisco Marcenaro A. - Full-Stack Developer Portfolio 🚀
 
-## What You DON'T Need To Do! 🎉
-This template saves you time by having everything pre-configured:
-- ✅ No need to run `create-next-app`
-- ✅ No need to install and configure Tailwind CSS
-- ✅ No need to set up TypeScript
-- ✅ No need to configure ESLint or Prettier
-- ✅ No need to set up folder structure
-- ✅ No need to configure font optimization
+Welcome to the repository for my personal portfolio website! This project showcases my skills and the projects I've completed, particularly during my Full-Stack Web Development program at CareerFoundry. It's built using modern web technologies with a focus on a clean, professional, and slick user experience.
 
-Just clone and start coding!
+**✨ Live Demo:** [**(https://jf-web.vercel.app//)**]([YOUR_VERCEL_DEPLOYMENT_URL]) _(Please update this link after deployment)_
 
-## Step-by-Step Setup Instructions
+## 📜 Project Overview
 
-### 1. Create Your Project Folder
-First, let's set up your workspace:
+This single-page application serves as a dynamic digital resume and project showcase. It features:
 
-1. Create a new folder on your computer where you want your project to live
-   ```bash
-   # In Windows File Explorer:
-   - Right-click > New > Folder
-   - Name it your project name (example: "my-next-website")
+*   A visually engaging **Hero Section** with a looping video background and integrated profile information.
+*   Detailed **Project Showcase** section displaying work with descriptions, tech stacks, and links.
+*   An **About Me** section detailing my background in web development and sound engineering.
+*   A structured **Workflow Section** outlining my development process.
+*   Clear **Contact** information.
+*   An ambient **Background Audio Player** with floating controls.
+*   Subtle **Animations** and smooth scrolling for an enhanced user experience.
+*   **Responsive Design** adapting seamlessly across all devices.
+*   **Dark Mode** support based on system preferences.
 
-   # OR in PowerShell:
-   New-Item -ItemType Directory -Path "my-next-website"
-   Set-Location my-next-website
-   
-   # OR in Command Prompt:
-   mkdir my-next-website
-   cd my-next-website
-   ```
+This portfolio fulfills the final project requirements for CareerFoundry's Achievement 6 (Exercise 6.6).
 
-2. Open VS Code
-   - Open VS Code
-   - Go to File > Open Folder
-   - Select the folder you just created
+## ✨ Features
 
-3. Open the VS Code terminal
-   - Press `` Ctrl + ` `` (backtick key) or
-   - Go to View > Terminal
-   - Make sure PowerShell is selected as your terminal (click the dropdown in the terminal if needed)
+*   **Dynamic Hero Section:** Full-height section with cycling background videos (dev-adjustable opacity/brightness).
+*   **Interactive Project Cards:** Grid display of projects with hover effects (zoom, shadow, lift), line-clamped descriptions, tech stack badges, and links to GitHub/Live Demos/Video.
+*   **Animated Content:** Smooth fade-in animations on scroll for sections and project cards using Framer Motion.
+*   **Smooth Scrolling Navigation:** Fixed header with links that smoothly scroll to corresponding page sections.
+*   **Responsive Mobile Menu:** Functional hamburger menu for navigation on smaller screens.
+*   **Workflow Visualization:** Horizontal scrolling/grid display outlining the development lifecycle stages.
+*   **Skills Display:** Structured presentation of technical skills in the "About Me" section.
+*   **Ambient Audio Player:** Optional background audio with fixed toggle button and floating controls for play/pause, mute, and volume.
+*   **Modern Styling:** Built with Tailwind CSS for a professional, clean, and responsive UI, including dark mode support.
+*   **Optimized Images:** Uses `next/image` for optimized loading and display of profile picture and project visuals.
 
-### 2. Clone the Template
-In the VS Code terminal (PowerShell):
-```powershell
-git clone https://github.com/jf8989/next-js-template-jf8989.git .
-```
-(Don't forget the dot at the end - it means "clone into current folder")
+## 🛠️ Tech Stack
 
-### 3. Set Up Fresh Git Repository
-In the same terminal:
-```powershell
-# Remove the template's git history
-Remove-Item -Recurse -Force .git
+*   **Framework:** Next.js (v14+ with App Router)
+*   **Language:** TypeScript
+*   **UI Library:** React
+*   **Styling:** Tailwind CSS
+*   **Animation:** Framer Motion
+*   **Deployment:** Vercel
 
-# Start fresh git repository
-git init
+## 🚀 Getting Started
 
-# Check your default branch name (it might be 'master' or 'main')
-git branch --show-current
+**Prerequisites:**
 
-# If you need to rename your branch from 'master' to 'main' (optional)
-# git branch -m master main
+*   Node.js (LTS version recommended)
+*   npm or yarn
 
-# First, check if you have any remotes configured
-git remote -v
+**Installation & Running Locally:**
 
-# Add your own repository (replace with your actual GitHub repository URL)
-# Note: Make sure you first create the repository on GitHub!
-git remote add origin https://github.com/username/repo-name.git
+1.  **Clone the repository:**
+    ```bash
+    git clone https://github.com/jf8989/jf-web
+    cd <repository-folder-name>
+    ```
+2.  **Install dependencies:**
+    ```bash
+    npm install
+    # or
+    yarn install
+    ```
+3.  **Prepare Assets:**
+    *   Place your profile picture in `/public/images/`.
+    *   Place your project screenshots in `/public/images/` (or update paths in `src/data/projects.ts`).
+    *   Place your background videos in `/public/videos/` (or update paths in `src/components/HeroSection.tsx`).
+    *   Place your background audio track in `/public/audio/` (or update path in `src/components/AudioPlayer.tsx`).
+    *   Place your favicon files in `/public/`.
+4.  **Run the development server:**
+    ```bash
+    npm run dev
+    # or
+    yarn dev
+    ```
+    Open [http://localhost:3000](http://localhost:3000) in your browser.
 
-# Verify your remote was added correctly
-git remote -v
+## 📦 Building for Production
 
-# Stage and commit your initial files
-git add .
-git commit -m "ready to work on client brief"
+To create an optimized production build:
 
-# Push to your repository (use whatever branch name you have: main or master)
-git push -u origin master  # or 'main' if that's your branch name
-```
-
-### 4. Install Dependencies
-Still in the terminal:
-```powershell
-# Install all needed packages
-npm install
-
-# If you need to update your Next.js version
-npm install next@latest
-
-# Then check the version installed
-npx next --version
-
-# Then install Vercel globally for deployment
-npm install -g vercel
-
-# To login into Vercel
-vercel login
-vercel
+```bash
+npm run build
+# or
+yarn build
 ```
 
-### 5. Start Development Server
-```powershell
-# Start your project
-npm run dev
-```
+## ☁️ Deployment
 
-### 6. View Your Website
-- Open your browser
-- Go to http://localhost:3000
-- You should see your new website!
+This project is configured for easy deployment to [Vercel](https://vercel.com/). Connect your GitHub repository to Vercel for automatic deployments on push/merge to the main branch.
 
-### 7. Start Developing
-- Create a new branch for your brief
-```powershell
-# Create and switch to new branch
-git checkout -b brief
+## 👨‍💻 Author
 
-# Stage and commit your initial files
-git add .
-git commit -m "ready to work on client brief"
+**Juan Francisco Marcenaro A.**
 
-# Return to main branch
-git checkout main
-```
-- Open `app/page.tsx` in VS Code to edit the home page
-- Set "isTesting" TRUE to use the Dummy project data or FALSE to use the Main one
-- Save changes and they'll update automatically in your browser showing the correct project data information
+*   **LinkedIn:** [https://www.linkedin.com/in/jfmarcenaroa/](https://www.linkedin.com/in/jfmarcenaroa/)
+*   **GitHub:** [https://github.com/jf8989](https://github.com/jf8989)
 
-### 8. Deploy Brief Branch to Vercel
-- Deploy using CLI directly within your project's terminal:
-```powershell
-# 1. Run the deploy command
-vercel --prod
-# 2. When prompted:
-   - "Set up and deploy" → press Enter
-   - "Which scope do you want to deploy to?" → choose your account (press Enter)
-   - "Link to existing project? (y/N)" → type N
-   - "What’s your project’s name?" → type your project name (e.g., j-notes)
-   - "In which directory is your code located?" → press Enter (defaults to current folder)
-   - Vercel will auto-detect it’s a Next.js project
-   - "Want to override settings?" → type N
-   - "Install Command, Build Command, Output Directory" → press Enter for all (defaults)
-# 3. Wait for deployment to complete. You'll see:
-   ✔ Build completed
-   ✔ Project deployed to https://brief-yourproject.vercel.app
-```
-- OR:
-1. Go to [Vercel](https://vercel.com)
-2. Open your project dashboard
-3. Click "Git" in the main navigation
-4. Under "Branches," find your "brief" branch
-5. Click "Deploy" next to the branch name
-6. Wait for deployment to complete
-7. Access your deployed brief branch using the provided URL
+## 📄 License
 
-The deployment URL will typically be: `brief-[your-project-name].vercel.app`
+This project is licensed under the [Creative Commons Attribution-NonCommercial-NoDerivatives 4.0 International License (CC BY-NC-ND 4.0)](https://creativecommons.org/licenses/by-nc-nd/4.0/).
 
-## Common Issues & Solutions
+**You are free to:**
 
-- If `git clone` doesn't work: Make sure you have Git installed
-  - Download from: https://git-scm.com/downloads
+*   **Share** — copy and redistribute the material in any medium or format for non-commercial purposes only.
 
-- If `npm` commands don't work: Install Node.js
-  - Download from: https://nodejs.org
-  - Choose the "LTS" (Long Term Support) version
+**Under the following terms:**
 
-- If PowerShell says "running scripts is disabled":
-  1. Open PowerShell as Administrator
-  2. Run: `Set-ExecutionPolicy RemoteSigned`
-  3. Type 'Y' to accept
+*   **Attribution** — You must give appropriate credit, provide a link to the license, and indicate if changes were made. You may do so in any reasonable manner, but not in any way that suggests the licensor endorses you or your use.
+*   **NonCommercial** — You may not use the material for commercial purposes.
+*   **NoDerivatives** — If you remix, transform, or build upon the material, you may not distribute the modified material. This means you cannot use this code as a template or base for your own website.
 
-## Project Structure
+This license allows for viewing the code for educational purposes but restricts its reuse in other projects or websites.
 
-```
-your-project-folder/
-├── app/                # Your pages live here
-│   └── page.tsx       # Your home page
-├── components/         # Reusable parts
-├── public/            # Images and other files
-└── styles/            # CSS files
-```
+---
 
-## Features Included
-
-- Next.js 14+ (modern React framework)
-- Tailwind CSS (for styling)
-- TypeScript support
-- ESLint and Prettier (code formatting)
-- Responsive layout
-- Dark mode support
-
-## Development Tips
-
-### Creating New Pages
-To add a new page (example: About page):
-1. Create a new folder in `app`
-2. Name it what you want the URL to be
-3. Add a `page.tsx` file inside it
-
-Example:
-```
-app/
-└── about/
-    └── page.tsx    # Creates /about page
-```
-
-### Adding Styles
-Use Tailwind CSS classes directly in your code:
-```jsx
-<div className="text-blue-500 p-4">
-  This text will be blue with padding
-</div>
-```
-
-## Deployment
-
-When ready to publish:
-
-1. Push to GitHub
-2. Go to [Vercel](https://vercel.com)
-3. Connect your GitHub repository
-4. Click Deploy
-
-## Need Help?
-
-- [Next.js Documentation](https://nextjs.org/docs)
-- [Tailwind CSS Documentation](https://tailwindcss.com/docs)
-
-## License
-
-MIT License - Free to use for any purpose
+*Feel free to explore the code and reach out if you have any questions!*
