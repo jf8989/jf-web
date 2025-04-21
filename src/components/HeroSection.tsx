@@ -10,6 +10,7 @@ const videoSources = [
   "/videos/background2.mp4",
   "/videos/background3.mp4",
   "/videos/background4.mp4",
+  "/videos/background5.mp4",
 ];
 const transitionDurationMs = 1000;
 const defaultOpacity = 0.4;
