@@ -45,7 +45,7 @@ export const projectsData: ProjectType[] = [
   // Project 2: j-Flix API
   {
     id: 2,
-    title: "j-Flix API",
+    title: "J-Flix API",
     description:
       "Robust Node.js/Express REST API serving movie/series data. Features JWT authentication and MongoDB integration.",
     techStack: [

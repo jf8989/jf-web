@@ -14,8 +14,18 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "JF Portfolio", // Update title
-  description: "Portfolio website for Juan Francisco Marcenaro A.", // Update description
+  title: "Juan Francisco Marcenaro A. | Full-Stack Developer Portfolio",
+  description:
+    "Explore the portfolio of Juan Francisco Marcenaro A., showcasing projects in React, Angular, Node.js, Next.js, and more. Full-stack developer blending web technology and audio engineering.",
+  icons: {
+    icon: [
+      { url: "/favicon.ico", sizes: "any" },
+      { url: "/favicon-16x16.png", sizes: "16x16", type: "image/png" },
+      { url: "/favicon-32x32.png", sizes: "32x32", type: "image/png" },
+    ],
+    apple: "/apple-touch-icon.png",
+  },
+  manifest: "/site.webmanifest",
 };
 
 export default function RootLayout({
@@ -24,15 +34,12 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    // Ensure no whitespace before/after suppressHydrationWarning or lang
     <html lang="en" suppressHydrationWarning={true}>
-      {/* Ensure no whitespace before/after body tag */}
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`${geistSans.variable} ${geistMono.variable} antialiased text-base text-gray-900 dark:text-gray-100 leading-relaxed`} // Added text-base, text colors, leading-relaxed
       >
         {children}
       </body>
-      {/* Ensure no whitespace after closing body tag */}
     </html>
   );
 }
