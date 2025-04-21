@@ -13,11 +13,15 @@ const HeroSection: React.FC = () => {
         <Image
           src="/images/jf-profile-picture.jpg"
           alt="Juan Francisco Marcenaro A."
-          width={192} // Adjust width as needed
-          height={192} // Adjust height as needed
+          width={192}
+          height={192}
           className="rounded-full mx-auto border-4 border-sky-500 shadow-lg"
+          quality={100} // <-- Increased quality setting
+          priority={true} // <-- Added priority for LCP
         />
-        <h1 className="text-4xl md:text-5xl font-bold mb-2 text-gray-900 dark:text-white">
+        <h1 className="text-4xl md:text-5xl font-bold mb-2 mt-6 text-gray-900 dark:text-white">
+          {" "}
+          {/* Added margin-top */}
           Juan Francisco Marcenaro A.
         </h1>
         <p className="text-xl md:text-2xl text-sky-600 dark:text-sky-400 font-semibold mb-4">
