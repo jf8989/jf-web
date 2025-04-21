@@ -16,7 +16,7 @@ const ContactSection: React.FC = () => {
         <div className="flex justify-center space-x-6">
           {/* Placeholder Links - Replace # with actual URLs */}
           <a
-            href="#" // Replace with your LinkedIn URL
+            href="https://www.linkedin.com/in/jfmarcenaroa/"
             target="_blank"
             rel="noopener noreferrer"
             className="bg-sky-600 text-white font-medium py-2 px-6 rounded-md hover:bg-sky-700 transition duration-300"
@@ -24,7 +24,7 @@ const ContactSection: React.FC = () => {
             LinkedIn
           </a>
           <a
-            href="#" // Replace with your GitHub URL
+            href="https://github.com/jf8989?tab=repositories"
             target="_blank"
             rel="noopener noreferrer"
             className="bg-gray-700 text-white font-medium py-2 px-6 rounded-md hover:bg-gray-800 transition duration-300"
@@ -32,7 +32,7 @@ const ContactSection: React.FC = () => {
             GitHub
           </a>
           <a
-            href="mailto:your-email@example.com" // Replace with your email
+            href="mailto:juanfrajf.contacto@gmail.com"
             className="bg-gray-500 text-white font-medium py-2 px-6 rounded-md hover:bg-gray-600 transition duration-300"
           >
             Email Me

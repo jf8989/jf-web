@@ -59,7 +59,7 @@ export const projectsData: ProjectType[] = [
     ],
     imageUrl: "/images/api.jpg",
     githubUrl: "https://github.com/jf8989/j-flix",
-    liveUrl: "https://j-flix-omega.vercel.app/", // Link to API (might show default message)
+    liveUrl: "https://j-flixcom.netlify.app/", // Link to API (might show default message)
     videoUrl: null,
     tags: ["Node.js", "API", "Backend", "REST", "MongoDB", "Authentication"],
   },
