@@ -1,6 +1,7 @@
 // src/app/layout.tsx
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
+import AudioPlayer from "@/components/AudioPlayer";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -36,9 +37,10 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning={true}>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased text-base text-gray-900 dark:text-gray-100 leading-relaxed`} // Added text-base, text colors, leading-relaxed
+        className={`${geistSans.variable} ${geistMono.variable} antialiased text-base text-gray-900 dark:text-gray-100 leading-relaxed`}
       >
         {children}
+        <AudioPlayer /> {/* <-- Add AudioPlayer here */}
       </body>
     </html>
   );
