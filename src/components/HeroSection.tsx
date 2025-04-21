@@ -3,8 +3,9 @@
 
 import React, { useState, useRef, useEffect } from "react";
 import Image from "next/image";
+import AnimatedDiv from "@/components/utils/AnimatedDiv"; // Import AnimatedDiv
 
-// --- Configuration ---
+// --- Configuration --- (Assuming 5 videos now)
 const videoSources = [
   "/videos/background1.mp4",
   "/videos/background2.mp4",
@@ -19,15 +20,12 @@ const defaultBrightness = 0.8;
 
 const HeroSection: React.FC = () => {
   const [currentVideoIndex, setCurrentVideoIndex] = useState(0);
-  // Create a ref to hold an array of video element refs
   const videoRefs = useRef<(HTMLVideoElement | null)[]>([]);
 
-  // Function to advance to the next video
   const handleVideoEnd = () => {
     setCurrentVideoIndex((prevIndex) => (prevIndex + 1) % videoSources.length);
   };
 
-  // Effect to play the new current video when index changes
   useEffect(() => {
     const currentVideo = videoRefs.current[currentVideoIndex];
     const previousVideoIndex =
@@ -35,19 +33,20 @@ const HeroSection: React.FC = () => {
     const previousVideo = videoRefs.current[previousVideoIndex];
 
     if (currentVideo) {
-      // Attempt to play the current video
       currentVideo.play().catch((error) => {
-        // Autoplay was prevented, log error or handle silently
-        console.error("Autoplay prevented for video:", currentVideo.src, error);
+        console.debug(
+          "Autoplay prevented for video:",
+          currentVideo.src,
+          error.message
+        );
       });
     }
 
-    // Optionally pause and reset the previous video
     if (previousVideo && previousVideo !== currentVideo) {
       previousVideo.pause();
-      previousVideo.currentTime = 0; // Reset time
+      previousVideo.currentTime = 0;
     }
-  }, [currentVideoIndex]); // Dependency array ensures this runs when index changes
+  }, [currentVideoIndex]);
 
   return (
     <section
@@ -59,13 +58,11 @@ const HeroSection: React.FC = () => {
         {videoSources.map((src, index) => (
           <video
             key={src}
-            // Assign ref to the corresponding index in the array
             ref={(el) => {
               videoRefs.current[index] = el;
             }}
             src={src}
-            // autoPlay is only truly effective for the very first video load
-            autoPlay={index === 0} // Only attempt autoplay on the initial video
+            autoPlay={index === 0}
             loop={false}
             muted
             playsInline
@@ -84,8 +81,11 @@ const HeroSection: React.FC = () => {
 
       {/* Dark overlay */}
       <div className="absolute inset-0 bg-black/40 -z-10"></div>
+
+      {/* Content Container */}
       <div className="relative z-10 container mx-auto px-4">
-        <div className="mb-8">
+        {/* Animate Image */}
+        <AnimatedDiv delay={0.1} className="mb-8">
           <Image
             src="/images/jf-profile-picture.jpg"
             alt="Juan Francisco Marcenaro A."
@@ -95,27 +95,39 @@ const HeroSection: React.FC = () => {
             quality={95}
             priority={true}
           />
-        </div>
-        {/* Updated Typography for Name - Using Playfair Display */}
-        <h1 className="font-heading hero-name text-4xl sm:text-5xl md:text-6xl font-bold mb-3 text-white [text-shadow:_0_1px_3px_rgb(0_0_0_/_40%)]">
-          Juan Francisco Marcenaro A.
-        </h1>
-        {/* Subtitle - Using Geist Sans (body font) with tracking */}
-        <p className="font-body tracking-body text-xl md:text-2xl text-sky-300 font-medium mb-6 [text-shadow:_0_1px_2px_rgb(0_0_0_/_30%)]">
-          Full-Stack Developer | Sound Engineer
-        </p>
-        {/* Description - Using Geist Sans (body font) */}
-        <p className="font-body text-lg text-gray-200 max-w-2xl mx-auto mb-8 leading-relaxed [text-shadow:_0_1px_2px_rgb(0_0_0_/_50%)]">
-          Passionate about building impactful digital solutions and creating
-          immersive audio experiences. Bridging technology and creativity.
-        </p>
-        {/* CTA Button - Using Geist Sans (body font) with tracking */}
-        <a
-          href="#projects"
-          className="font-body tracking-body inline-block bg-sky-600 text-white text-lg font-semibold py-3 px-10 rounded-lg shadow-md hover:bg-sky-700 focus:outline-none focus:ring-2 focus:ring-sky-500 focus:ring-offset-2 focus:ring-offset-black/50 transform hover:-translate-y-0.5 transition duration-300 ease-in-out"
-        >
-          View My Work
-        </a>
+        </AnimatedDiv>
+
+        {/* Animate Name */}
+        <AnimatedDiv delay={0.2}>
+          <h1 className="hero-name text-5xl sm:text-6xl md:text-7xl font-bold mb-3 text-white [text-shadow:_0_1px_3px_rgb(0_0_0_/_40%)]">
+            Juan Francisco Marcenaro A.
+          </h1>
+        </AnimatedDiv>
+
+        {/* Animate Subtitle */}
+        <AnimatedDiv delay={0.3}>
+          <p className="font-body text-xl md:text-2xl text-sky-300 font-medium mb-6 [text-shadow:_0_1px_2px_rgb(0_0_0_/_30%)]">
+            Full-Stack Developer | Sound Engineer
+          </p>
+        </AnimatedDiv>
+
+        {/* Animate Description */}
+        <AnimatedDiv delay={0.4}>
+          <p className="font-body text-lg text-gray-200 max-w-2xl mx-auto mb-8 leading-relaxed [text-shadow:_0_1px_2px_rgb(0_0_0_/_50%)]">
+            Passionate about building impactful digital solutions and creating
+            immersive audio experiences. Bridging technology and creativity.
+          </p>
+        </AnimatedDiv>
+
+        {/* Animate Button */}
+        <AnimatedDiv delay={0.5}>
+          <a
+            href="#projects"
+            className="font-body inline-block bg-sky-600 text-white text-lg font-semibold py-3 px-10 rounded-lg shadow-md hover:bg-sky-700 focus:outline-none focus:ring-2 focus:ring-sky-500 focus:ring-offset-2 focus:ring-offset-black/50 transform hover:-translate-y-0.5 transition duration-300 ease-in-out"
+          >
+            View My Work
+          </a>
+        </AnimatedDiv>
       </div>
     </section>
   );

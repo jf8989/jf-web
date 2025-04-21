@@ -14,7 +14,9 @@
 
   /* Letter spacing */
   --heading-letter-spacing: -0.025em;
-  --body-letter-spacing: 0.01em;
+  /* Keep heading tracking tight */
+  --body-letter-spacing: normal;
+  /* Reset body tracking to normal */
 }
 
 @media (prefers-color-scheme: dark) {
@@ -24,7 +26,6 @@
   }
 }
 
-/* Add this rule */
 html {
   scroll-behavior: smooth;
 }
@@ -33,9 +34,13 @@ body {
   color: var(--foreground);
   background: var(--background);
   font-family: var(--font-body);
+  font-size: 17px;
+  /* Increased base font size slightly */
+  line-height: 1.7;
+  /* Adjusted line height for better readability */
 }
 
-/* Typography classes */
+/* Global heading styles */
 h1,
 h2,
 h3,
@@ -45,8 +50,10 @@ h6 {
   font-family: var(--font-heading);
   letter-spacing: var(--heading-letter-spacing);
   font-weight: 700;
+  /* Ensure headings are bold */
 }
 
+/* Utility classes (if needed, otherwise rely on body/heading defaults) */
 .font-heading {
   font-family: var(--font-heading);
 }
@@ -59,20 +66,20 @@ h6 {
   font-family: var(--font-code);
 }
 
-.tracking-heading {
-  letter-spacing: var(--heading-letter-spacing);
-}
+/* Removed tracking classes - use default or specific Tailwind tracking */
+/* .tracking-heading { ... } */
+/* .tracking-body { ... } */
 
-.tracking-body {
-  letter-spacing: var(--body-letter-spacing);
-}
-
-/* Hero name styling */
+/* Keep hero name specific styling if needed, but font is now global h1 */
 .hero-name {
-  font-family: var(--font-heading);
-  letter-spacing: var(--heading-letter-spacing);
-  font-weight: 700;
+  /* font-family: var(--font-heading); */
+  /* Handled globally */
+  /* letter-spacing: var(--heading-letter-spacing); */
+  /* Handled globally */
+  /* font-weight: 700; */
+  /* Handled globally */
   line-height: 1.1;
+  /* Specific line height for large hero name */
 }
 
 * {
@@ -81,12 +88,18 @@ h6 {
   text-rendering: optimizeLegibility;
 }
 
-/* Fix for mobile font blurriness:
-   On mobile (screens up to 768px wide), switching the WebKit font smoothing
-   from antialiased (which can cause a blurry/light look) to subpixel-antialiased
-   helps improve text clarity. */
 @media (max-width: 768px) {
   * {
     -webkit-font-smoothing: subpixel-antialiased;
   }
+}
+
+/* Scrollbar Hiding Utility */
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 }

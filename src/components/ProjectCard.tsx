@@ -45,15 +45,17 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project }) => {
 
       {/* Content Area */}
       <div className="p-5 md:p-6">
-        <h3 className="text-lg md:text-xl font-semibold mb-2 text-gray-900 dark:text-white group-hover:text-sky-600 dark:group-hover:text-sky-400 transition-colors duration-300">
+        {/* Title uses global h3 style (Playfair) - Apply Tailwind size/margin utilities */}
+        <h3 className="text-xl md:text-2xl font-bold mb-2 text-gray-900 dark:text-white group-hover:text-sky-600 dark:group-hover:text-sky-400 transition-colors duration-300">
           {project.title}
         </h3>
-        <p className="text-sm text-gray-600 dark:text-gray-400 mb-4 leading-relaxed line-clamp-3">
+        {/* Description uses body font (Geist), ensure text-sm */}
+        <p className="font-body text-sm text-gray-600 dark:text-gray-400 mb-4 leading-relaxed line-clamp-3">
           {project.description}
         </p>
 
-        {/* Tech Stack Badges */}
-        <div className="mb-5 flex flex-wrap gap-2">
+        {/* Tech Stack Badges use body font (Geist) */}
+        <div className="mb-5 flex flex-wrap gap-2 font-body">
           {project.techStack.slice(0, 4).map((tech) => (
             <span
               key={tech}
@@ -69,8 +71,8 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project }) => {
           )}
         </div>
 
-        {/* Links */}
-        <div className="flex justify-start space-x-4 pt-3 border-t border-gray-100 dark:border-gray-700/60">
+        {/* Links use body font (Geist) */}
+        <div className="font-body flex justify-start space-x-4 pt-3 border-t border-gray-100 dark:border-gray-700/60">
           <a
             href={project.githubUrl}
             target="_blank"

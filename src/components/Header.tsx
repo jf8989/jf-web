@@ -1,8 +1,10 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 // src/components/Header.tsx
 "use client";
 
 import React, { useState } from "react";
 import Image from "next/image";
+import { motion } from "framer-motion"; // Import motion
 
 const Header: React.FC = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -11,6 +13,7 @@ const Header: React.FC = () => {
     { name: "Home", href: "#home" },
     { name: "Projects", href: "#projects" },
     { name: "About", href: "#about" },
+    { name: "Workflow", href: "#workflow" }, // Added Workflow link
     { name: "Contact", href: "#contact" },
   ];
 
@@ -23,9 +26,13 @@ const Header: React.FC = () => {
   };
 
   return (
-    // Slightly reduced vertical padding for a sleeker look
-    <header className="bg-gray-900/95 backdrop-blur-sm text-white fixed top-0 left-0 w-full z-50 shadow-lg">
-      {/* Centered container with max-width for content alignment */}
+    // Wrap header content with motion.div for initial fade-in
+    <motion.header
+      initial={{ opacity: 0, y: -20 }} // Start hidden and slightly above
+      animate={{ opacity: 1, y: 0 }} // Animate to visible and original position
+      transition={{ duration: 0.5, ease: "easeOut" }} // Animation duration
+      className="bg-gray-900/95 backdrop-blur-sm text-white fixed top-0 left-0 w-full z-50 shadow-lg"
+    >
       <nav className="max-w-content mx-auto px-4 sm:px-6 lg:px-8 h-header-height flex justify-between items-center">
         {/* Logo/Brand */}
         <div className="flex-shrink-0">
@@ -35,11 +42,11 @@ const Header: React.FC = () => {
             aria-label="Homepage Logo"
           >
             <Image
-              src="/images/logo1.png"
+              src="/images/logo1.png" // Your Logo Path
               alt="Juan Francisco Marcenaro A. Logo"
-              width={80}
-              height={80}
-              className="h-12 w-12"
+              width={80} // Your Logo Width
+              height={80} // Your Logo Height
+              className="h-12 w-12" // Display size
               priority
             />
           </a>
@@ -50,7 +57,7 @@ const Header: React.FC = () => {
             <li key={item.name}>
               <a
                 href={item.href}
-                className="text-sm font-medium tracking-wide text-gray-300 hover:text-white focus:outline-none focus:text-white transition duration-300 ease-in-out"
+                className="text-sm font-medium text-gray-300 hover:text-white focus:outline-none focus:text-white transition duration-300 ease-in-out"
               >
                 {item.name}
               </a>
@@ -112,7 +119,7 @@ const Header: React.FC = () => {
             <li key={item.name}>
               <a
                 href={item.href}
-                className="block px-3 py-2 rounded-md text-base font-medium tracking-wide text-gray-300 hover:text-white hover:bg-gray-700 focus:outline-none focus:text-white focus:bg-gray-700 transition duration-150 ease-in-out"
+                className="block px-3 py-2 rounded-md text-base font-medium text-gray-300 hover:text-white hover:bg-gray-700 focus:outline-none focus:text-white focus:bg-gray-700 transition duration-150 ease-in-out"
                 onClick={handleMobileLinkClick}
               >
                 {item.name}
@@ -121,8 +128,14 @@ const Header: React.FC = () => {
           ))}
         </ul>
       </div>
-    </header>
+    </motion.header>
   );
 };
+
+// --- SVG Icons --- (Assume correct paths)
+const PlayIcon = () => <svg>...</svg>;
+const PauseIcon = () => <svg>...</svg>;
+const SpeakerLoudIcon = () => <svg>...</svg>;
+const SpeakerMutedIcon = () => <svg>...</svg>;
 
 export default Header;

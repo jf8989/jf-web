@@ -6,15 +6,15 @@ import AnimatedDiv from "@/components/utils/AnimatedDiv"; // Import the utility 
 
 const ContactSection: React.FC = () => {
   return (
+    // Applied alternating background color
     <section
       id="contact"
       className="py-16 sm:py-20 bg-gray-100 dark:bg-gray-800 overflow-hidden"
     >
-      {" "}
-      {/* Added overflow-hidden */}
       <div className="container mx-auto px-4 text-center">
         {/* Animate heading */}
         <AnimatedDiv>
+          {/* Heading uses global h2 style (Playfair) */}
           <h2 className="text-3xl sm:text-4xl font-bold mb-6 text-gray-900 dark:text-white tracking-tight">
             Let&apos;s Connect
           </h2>
@@ -22,7 +22,8 @@ const ContactSection: React.FC = () => {
 
         {/* Animate paragraph */}
         <AnimatedDiv delay={0.1}>
-          <p className="text-lg mb-10 text-gray-600 dark:text-gray-300 max-w-xl mx-auto leading-relaxed">
+          {/* Paragraph uses body font (Geist), text-lg */}
+          <p className="font-body text-lg mb-10 text-gray-600 dark:text-gray-300 max-w-xl mx-auto leading-relaxed">
             Interested in collaborating or have a question? Feel free to reach
             out!
           </p>
@@ -30,7 +31,8 @@ const ContactSection: React.FC = () => {
 
         {/* Animate button container */}
         <AnimatedDiv delay={0.2}>
-          <div className="flex flex-col sm:flex-row justify-center items-center space-y-4 sm:space-y-0 sm:space-x-6">
+          {/* Buttons use body font (Geist) */}
+          <div className="flex flex-col sm:flex-row justify-center items-center space-y-4 sm:space-y-0 sm:space-x-6 font-body">
             <a
               href="https://www.linkedin.com/in/jfmarcenaroa/"
               target="_blank"
