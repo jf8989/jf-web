@@ -10,12 +10,9 @@ import Footer from "@/components/Footer";
 
 export default function Home() {
   return (
-    // Using React Fragment to group elements without adding extra DOM nodes
     <>
       <Header />
       <main className="mt-16">
-        {" "}
-        {/* Add margin-top to avoid overlap with fixed header */}
         <HeroSection />
         <ProjectsSection />
         <AboutSection />

@@ -9,14 +9,14 @@ const Footer: React.FC = () => {
   const email = "juanfrajf.contacto@gmail.com";
 
   return (
-    <footer className="bg-gray-900 text-gray-400 py-10 mt-16">
+    <footer className="bg-gray-800 text-gray-400 py-10 ">
       {" "}
       {/* Slightly more padding */}
       <div className="container mx-auto px-4 text-center">
         <div className="mb-5">
           {" "}
           {/* Slightly more margin bottom */}
-          <p className="mb-3 text-sm">Find me on:</p>{" "}
+          <p className="mb-3 text-base">Find me on:</p>{" "}
           {/* Adjusted size/margin */}
           <div className="flex justify-center items-center space-x-6">
             {" "}
@@ -79,7 +79,7 @@ const Footer: React.FC = () => {
             </a>
           </div>
         </div>
-        <p className="mt-6 text-xs opacity-80">
+        <p className="mt-6 text-sm opacity-80">
           {" "}
           {/* Adjusted size/opacity */}© {currentYear} Juan Francisco Marcenaro
           A. All rights reserved.

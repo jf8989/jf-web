@@ -48,13 +48,13 @@ const WorkflowCard: React.FC<{ title: string; description: string }> = ({
   title,
   description,
 }) => (
-  <div className="bg-white dark:bg-gray-800 p-4 rounded-lg shadow-md border border-gray-200 dark:border-gray-700 h-full flex flex-col">
+  <div className="bg-white dark:bg-gray-800 p-4 rounded-lg shadow-lg border border-gray-200 dark:border-gray-700 h-full flex flex-col">
     {/* Title uses global h4 style (Playfair) */}
     <h4 className="text-base md:text-lg font-semibold mb-2 text-sky-700 dark:text-sky-400">
       {title}
     </h4>
     {/* Description uses body font (Geist), ensure text-sm */}
-    <p className="text-sm text-gray-600 dark:text-gray-400 flex-grow">
+    <p className="text-sm text-gray-600 dark:text-gray-400 font-serif flex-grow">
       {description}
     </p>
   </div>

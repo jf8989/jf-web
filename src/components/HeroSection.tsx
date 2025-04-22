@@ -111,7 +111,7 @@ const HeroSection: React.FC = () => {
 
             {/* Second glow layer */}
             <div
-              className={`absolute inset-0 rounded-full bg-cyan-300 blur-sm opacity-80 ${
+              className={`absolute inset-0 rounded-full bg-blue-300 blur-sm opacity-80 ${
                 pulseState ? "scale-105" : "scale-100"
               } transition-transform duration-1000 ease-in-out`}
             ></div>
@@ -141,13 +141,13 @@ const HeroSection: React.FC = () => {
         {/* Animate Subtitle */}
         <AnimatedDiv delay={0.3}>
           <p className="font-body text-xl md:text-2xl text-sky-300 font-medium mb-6 [text-shadow:_0_1px_2px_rgb(0_0_0_/_30%)]">
-            Full-Stack Developer | Sound Engineer
+            Full-Stack Web & Mobile Developer | Sound Engineer
           </p>
         </AnimatedDiv>
 
         {/* Animate Description */}
         <AnimatedDiv delay={0.4}>
-          <p className="font-body text-xl text-gray-200 max-w-2xl mx-auto mb-8 leading-relaxed [text-shadow:_0_1px_2px_rgb(0_0_0_/_50%)]">
+          <p className="font-body font-serif text-lg text-gray-200 max-w-2xl mx-auto mb-8 leading-relaxed [text-shadow:_0_1px_2px_rgb(0_0_0_/_50%)]">
             Passionate about building impactful digital solutions and creating
             immersive audio experiences. Bridging technology and creativity.
           </p>

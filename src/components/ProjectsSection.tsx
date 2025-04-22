@@ -20,7 +20,7 @@ const ProjectsSection: React.FC = () => {
     // Added subtle sky background
     <section
       id="projects"
-      className="py-16 sm:py-20 bg-sky-50 dark:bg-gray-900/30"
+      className="py-16 sm:py-20 bg-amber-50 dark:bg-amber-900/20"
     >
       <div className="container mx-auto px-4">
         <AnimatedDiv>

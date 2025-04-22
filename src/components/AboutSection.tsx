@@ -93,14 +93,14 @@ const AboutSection: React.FC = () => {
             {skillCategories.map((category) => (
               <div
                 key={category.title}
-                className="bg-gray-50 dark:bg-gray-800 p-6 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700"
+                className="bg-gray-100 dark:bg-gray-800 p-6 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700"
               >
                 {/* Heading uses global h4 style (Playfair) */}
-                <h4 className="text-xl font-semibold mb-4 text-center text-gray-800 dark:text-white">
+                <h4 className="text-xl font-semibold font-serif mb-4 text-center text-gray-800 dark:text-white">
                   {category.title}
                 </h4>
                 {/* List uses body font (Geist) */}
-                <ul className="space-y-2 text-center sm:text-left">
+                <ul className="space-y-2 text-center font-serif sm:text-left">
                   {category.skills.map((skill) => (
                     <li
                       key={skill}

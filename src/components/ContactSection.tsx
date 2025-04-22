@@ -23,7 +23,7 @@ const ContactSection: React.FC = () => {
         {/* Animate paragraph */}
         <AnimatedDiv delay={0.1}>
           {/* Paragraph uses body font (Geist), text-lg */}
-          <p className="font-body text-lg mb-10 text-gray-600 dark:text-gray-300 max-w-xl mx-auto leading-relaxed">
+          <p className="font-body text-lg mb-10 font-serif text-gray-600 dark:text-gray-300 max-w-xl mx-auto leading-relaxed">
             Interested in collaborating or have a question? Feel free to reach
             out!
           </p>
