@@ -202,7 +202,7 @@ const Header: React.FC = () => {
                 />
               </div>
               <span className="hidden sm:block font-bold text-white text-lg">
-                <span className="text-blue-400">J</span>uan
+                <span className="text-blue-400">J</span>F
               </span>
             </a>
           </motion.div>
