@@ -1,17 +1,19 @@
 // src/components/Header.tsx
 "use client";
 
-import React, { useState, useEffect, useRef } from "react"; // Added useRef
+import React, { useState, useEffect, useRef } from "react"; // Keep useRef
 import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
 
 const Header: React.FC = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
-  // State to store the target href temporarily for scrolling after animation
   const [targetHref, setTargetHref] = useState<string | null>(null);
-  // Ref to the header element to get its height accurately
   const headerRef = useRef<HTMLElement>(null);
+  // --- NEW: Refs for click outside detection ---
+  const mobileMenuRef = useRef<HTMLDivElement>(null); // Ref for the mobile menu panel
+  const mobileButtonRef = useRef<HTMLButtonElement>(null); // Ref for the mobile menu button
+  // --- END NEW ---
 
   const navItems = [
     { name: "Home", href: "#home", icon: "🏠" },
@@ -20,7 +22,7 @@ const Header: React.FC = () => {
     { name: "Workflow", href: "#workflow", icon: "📋" },
   ];
 
-  // Handle scroll event to change header appearance & manage body scroll for mobile menu
+  // Scroll handling effect (no changes needed here)
   useEffect(() => {
     const handleScroll = () => {
       const isScrolled = window.scrollY > 20;
@@ -28,97 +30,92 @@ const Header: React.FC = () => {
         setScrolled(isScrolled);
       }
     };
-
     window.addEventListener("scroll", handleScroll);
-
-    // Add/Remove overflow style management for mobile menu based on state
-    // This useEffect now ONLY handles the overflow based on menu state
     if (isMobileMenuOpen) {
       document.body.style.overflow = "hidden";
     } else {
-      // Reset overflow ONLY when menu state changes to closed
-      // We will handle the immediate reset during scroll separately if needed
       document.body.style.overflow = "";
     }
-
-    // Cleanup function
     return () => {
       window.removeEventListener("scroll", handleScroll);
-      // Ensure overflow is reset on unmount/cleanup regardless of state
       document.body.style.overflow = "";
     };
-  }, [scrolled, isMobileMenuOpen]); // Dependency remains the same
+  }, [scrolled, isMobileMenuOpen]);
+
+  // --- NEW: Effect for handling clicks outside the mobile menu ---
+  useEffect(() => {
+    // Only add listener if menu is open
+    if (!isMobileMenuOpen) return;
+
+    const handleClickOutside = (event: MouseEvent | TouchEvent) => {
+      // Check if the click target exists
+      if (!event.target) return;
+
+      // Check if click is outside the menu panel AND outside the toggle button
+      if (
+        mobileMenuRef.current &&
+        !mobileMenuRef.current.contains(event.target as Node) &&
+        mobileButtonRef.current &&
+        !mobileButtonRef.current.contains(event.target as Node)
+      ) {
+        // If click is outside both, close the menu
+        setIsMobileMenuOpen(false);
+      }
+    };
+
+    // Add event listener for mousedown (fires slightly before click)
+    document.addEventListener("mousedown", handleClickOutside);
+    // Add touchstart listener for mobile devices
+    document.addEventListener("touchstart", handleClickOutside);
+
+    // Cleanup function to remove listener when menu closes or component unmounts
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+      document.removeEventListener("touchstart", handleClickOutside);
+    };
+  }, [isMobileMenuOpen]); // Re-run this effect only when isMobileMenuOpen changes
+  // --- END NEW ---
 
   const toggleMobileMenu = () => {
-    // If closing the menu manually, clear any pending scroll target
     if (isMobileMenuOpen) {
       setTargetHref(null);
     }
     setIsMobileMenuOpen(!isMobileMenuOpen);
   };
 
-  // --- REFINED FUNCTION V5 (Store Target, Scroll on Exit) ---
   const handleMobileLinkClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
-    e.preventDefault(); // Prevent default jump always
-    console.log("Mobile link clicked (v5)");
-
+    e.preventDefault();
     const href = e.currentTarget.getAttribute("href");
     if (!href || !href.startsWith("#")) {
       console.error("Invalid href (v5):", href);
-      setTargetHref(null); // Clear target
-      setIsMobileMenuOpen(false); // Close menu immediately on error
+      setTargetHref(null);
+      setIsMobileMenuOpen(false);
       return;
     }
-
-    console.log("Storing targetHref (v5):", href);
-    // 1. Store the target href
     setTargetHref(href);
-    // 2. Trigger the menu close (this starts the exit animation)
     setIsMobileMenuOpen(false);
-    // *** SCROLLING LOGIC MOVED TO handleExitComplete ***
   };
-  // --- END REFINED FUNCTION V5 ---
 
-  // --- Function to handle scroll AFTER menu exit animation ---
   const handleExitComplete = () => {
-    console.log("handleExitComplete triggered. TargetHref:", targetHref); // DEBUG
     if (targetHref) {
       const targetId = targetHref.substring(1);
       const targetElement = document.getElementById(targetId);
-
       if (targetElement) {
-        console.log("Target element found on exit (v5):", targetElement);
-
-        // Use ref for header height if available, otherwise estimate
         const headerHeight = headerRef.current
           ? headerRef.current.offsetHeight
           : 60;
         const elementPosition = targetElement.getBoundingClientRect().top;
         const offsetPosition =
-          elementPosition + window.pageYOffset - headerHeight - 10; // Buffer
-
-        console.log(
-          `Scrolling instantly on exit (v5): ${offsetPosition} (Header height: ${headerHeight})`
-        );
-
-        // Ensure body overflow is reset BEFORE scrolling (belt-and-suspenders)
+          elementPosition + window.pageYOffset - headerHeight - 10;
         document.body.style.overflow = "";
-
-        window.scrollTo({
-          top: offsetPosition,
-          // behavior: 'smooth' // Keep instant for reliability
-        });
+        window.scrollTo({ top: offsetPosition });
       } else {
         console.error("Target element NOT found on exit (v5):", targetId);
       }
-      // IMPORTANT: Clear the target href after attempting scroll
       setTargetHref(null);
-    } else {
-      console.log("No targetHref to scroll to on exit.");
     }
   };
 
-  // Variants remain the same...
   const logoVariants = {
     hidden: { opacity: 0, scale: 0.8 },
     visible: {
@@ -158,7 +155,6 @@ const Header: React.FC = () => {
   };
 
   return (
-    // Add ref to the header element
     <motion.header
       ref={headerRef}
       initial={{ opacity: 0, y: -20 }}
@@ -182,11 +178,9 @@ const Header: React.FC = () => {
             <a
               href="#home"
               onClick={(e) => {
-                // Use V5 handler only when mobile menu is open
                 if (isMobileMenuOpen) {
                   handleMobileLinkClick(e);
                 }
-                // Allow default behavior if menu is closed
               }}
               className="flex items-center space-x-2"
               aria-label="Homepage Logo"
@@ -219,7 +213,7 @@ const Header: React.FC = () => {
               >
                 <a
                   href={item.href}
-                  className="relative px-3 py-2 text-sm font-medium text-gray-300 hover:text-white group"
+                  className="font-geist relative px-3 py-2 text-sm font-medium text-gray-300 hover:text-white group"
                 >
                   <span className="relative z-10">{item.name}</span>
                   <motion.span
@@ -235,18 +229,20 @@ const Header: React.FC = () => {
               href="#contact"
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
-              className="ml-4 px-4 py-2 bg-blue-600 text-white rounded-full font-medium shadow-lg shadow-blue-600/20 hover:bg-blue-500 transition-all duration-300"
+              className="font-geist ml-4 px-4 py-2 bg-blue-600 text-white rounded-full font-medium shadow-lg shadow-blue-600/20 hover:bg-blue-500 transition-all duration-300"
             >
               Hire Me
             </motion.a>
           </div>
 
           {/* Mobile Menu Button */}
+          {/* --- NEW: Assign ref to the button --- */}
           <div className="md:hidden">
             <motion.button
+              ref={mobileButtonRef} // Assign ref here
               whileTap={{ scale: 0.9 }}
               aria-label="Toggle menu"
-              onClick={toggleMobileMenu} // Use toggle which now also clears targetHref if closing
+              onClick={toggleMobileMenu}
               className="inline-flex items-center justify-center p-2 rounded-full text-gray-400 hover:text-white hover:bg-gray-700/70 focus:outline-none focus:ring-2 focus:ring-blue-400"
               aria-expanded={isMobileMenuOpen}
             >
@@ -276,14 +272,16 @@ const Header: React.FC = () => {
               </svg>
             </motion.button>
           </div>
+          {/* --- END NEW --- */}
         </nav>
       </div>
 
       {/* Mobile Menu Panel with AnimatePresence */}
-      {/* *** KEY CHANGE: Added onExitComplete prop *** */}
       <AnimatePresence onExitComplete={handleExitComplete}>
         {isMobileMenuOpen && (
+          // --- NEW: Assign ref to the menu panel ---
           <motion.div
+            ref={mobileMenuRef} // Assign ref here
             key="mobile-menu"
             initial="closed"
             animate="open"
@@ -291,6 +289,7 @@ const Header: React.FC = () => {
             variants={mobileMenuVariants}
             className="absolute top-full left-0 w-full bg-gray-900/95 backdrop-blur-md shadow-lg border-t border-gray-800 overflow-hidden"
           >
+            {/* --- END NEW --- */}
             <motion.ul className="px-4 py-2 space-y-1">
               {navItems.map((item, index) => (
                 <motion.li
@@ -300,8 +299,8 @@ const Header: React.FC = () => {
                 >
                   <a
                     href={item.href}
-                    className="flex items-center space-x-3 px-4 py-3 rounded-lg text-base font-medium text-gray-300 hover:text-white hover:bg-gray-800/60 focus:outline-none focus:text-white focus:bg-gray-700 transition-all duration-300"
-                    onClick={handleMobileLinkClick} // Uses V5 handler
+                    className="font-geist flex items-center space-x-3 px-4 py-3 rounded-lg text-base font-medium text-gray-300 hover:text-white hover:bg-gray-800/60 focus:outline-none focus:text-white focus:bg-gray-700 transition-all duration-300"
+                    onClick={handleMobileLinkClick}
                   >
                     <span className="text-blue-400" aria-hidden="true">
                       {item.icon}
@@ -313,8 +312,8 @@ const Header: React.FC = () => {
               <motion.li variants={mobileItemVariants}>
                 <a
                   href="#contact"
-                  className="block mt-6 mx-2 px-4 py-3 bg-blue-600 text-white rounded-lg font-medium text-center shadow-lg shadow-blue-600/20 hover:bg-blue-500 transition-all duration-300"
-                  onClick={handleMobileLinkClick} // Uses V5 handler
+                  className="font-geist block mt-6 mx-2 px-4 py-3 bg-blue-600 text-white rounded-lg font-medium text-center shadow-lg shadow-blue-600/20 hover:bg-blue-500 transition-all duration-300"
+                  onClick={handleMobileLinkClick}
                 >
                   Hire Me
                 </a>
