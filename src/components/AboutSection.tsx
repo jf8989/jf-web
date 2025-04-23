@@ -59,11 +59,11 @@ const AboutSection: React.FC = () => {
     {
       title: "Audio Production",
       skills: [
-        { name: "Music Mixing", icon: <SiMusicbrainz /> }, // Example
-        { name: "Mastering", icon: <HiOutlineSpeakerWave /> }, // Example
-        { name: "Sound Design", icon: <HiOutlineSpeakerWave /> }, // Example
+        { name: "Music Mixing", icon: <SiMusicbrainz /> },
+        { name: "Mastering", icon: <HiOutlineSpeakerWave /> },
+        { name: "Sound Design", icon: <HiOutlineSpeakerWave /> },
         { name: "Pro Tools", icon: <SiProtools /> },
-        { name: "Studio One", icon: <SiTon /> }, // Use appropriate icon
+        { name: "Studio One", icon: <SiTon /> },
       ],
       iconColor: "text-purple-500 dark:text-purple-400",
     },
@@ -73,10 +73,10 @@ const AboutSection: React.FC = () => {
         { name: "Git", icon: <FaGitAlt /> },
         { name: "GitHub", icon: <FaGithub /> },
         { name: "MongoDB", icon: <SiMongodb /> },
-        { name: "Mongoose", icon: <SiMongodb /> }, // Reuse or find specific
-        { name: "PWAs", icon: <LuBrainCircuit /> }, // Placeholder
-        { name: "TDD", icon: <LuTestTubeDiagonal /> }, // Placeholder
-        { name: "Agile Methodologies", icon: <LuIterationCw /> }, // Placeholder
+        { name: "Mongoose", icon: <SiMongodb /> },
+        { name: "PWAs", icon: <LuBrainCircuit /> },
+        { name: "TDD", icon: <LuTestTubeDiagonal /> },
+        { name: "Agile Methodologies", icon: <LuIterationCw /> },
         { name: "Vercel", icon: <SiVercel /> },
       ],
       iconColor: "text-emerald-500 dark:text-emerald-400",
@@ -101,33 +101,40 @@ const AboutSection: React.FC = () => {
     },
   };
 
+  // Define background style object with image
+  const sectionStyle = {
+    backgroundImage: `url('/images/about-background.png')`, // Path relative to public folder
+  };
+
   return (
     <section
       id="about"
-      className="py-20 sm:py-24 bg-white dark:bg-gray-900 overflow-hidden"
+      className="relative py-20 sm:py-24 bg-cover bg-center bg-no-repeat overflow-hidden"
+      style={sectionStyle} // Apply background image via style
     >
-      <div className="container mx-auto px-4">
+      {/* Overlay with gradient fade-out at bottom */}
+      <div className="absolute inset-0 bg-gradient-to-b from-white/90 to-transparent dark:from-gray-900/90 dark:to-transparent backdrop-blur-sm z-0"></div>
+
+      {/* Container with improved positioning */}
+      <div className="relative z-10 container mx-auto px-4">
         {/* --- About Me Section --- */}
         <AnimatedDiv>
-          <h2 className="text-3xl sm:text-4xl font-bold text-center mb-12 sm:mb-16 text-gray-900 dark:text-white tracking-tight">
+          <h2 className="text-3xl sm:text-4xl font-bold text-center mb-12 sm:mb-16 text-gray-800 dark:text-white tracking-tight">
             About Me
           </h2>
         </AnimatedDiv>
         <AnimatedDiv delay={0.1}>
-          {/* Removed container styling, adjusted text size/spacing */}
           <div
             className="
-            max-w-3xl mx-auto mb-16             /* Reduced bottom margin */
-            text-gray-700 dark:text-gray-400    /* Adjusted dark text color */
-            text-lg md:text-xl                 /* Increased base size */
+            max-w-3xl mx-auto mb-16
+            text-gray-700 dark:text-gray-200
+            text-lg md:text-xl
             leading-relaxed md:leading-loose
             text-left
             font-body
           "
           >
             <p className="mb-6">
-              {" "}
-              {/* Increased paragraph spacing */}
               As a passionate web developer and sound engineer from Lima, I have
               embarked on a journey to create impactful digital solutions and
               mesmerizing audio experiences.
@@ -144,48 +151,45 @@ const AboutSection: React.FC = () => {
 
         {/* --- Skillset Section --- */}
         <AnimatedDiv delay={0.2}>
-          <h3 className="text-2xl sm:text-3xl font-semibold text-center mb-12 text-gray-900 dark:text-white tracking-tight">
+          <h3 className="text-2xl sm:text-3xl font-semibold text-center mb-12 text-gray-800 dark:text-white tracking-tight">
             My Skillset
           </h3>
         </AnimatedDiv>
         <motion.div
-          className="grid grid-cols-1 md:grid-cols-3 gap-8 lg:gap-10 max-w-6xl mx-auto"
+          className="grid grid-cols-1 md:grid-cols-3 gap-8 lg:gap-10 max-w-6xl mx-auto pb-8"
           variants={gridContainerVariants}
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, amount: 0.1 }}
         >
+          {/* Skill Cards with improved contrast */}
           {skillCategories.map((category) => (
             <motion.div
               key={category.title}
               className={`
                 p-6 rounded-xl shadow-lg border transition-all duration-300 ease-in-out
-                bg-white dark:bg-gray-800/60 backdrop-blur-sm
-                border-gray-200 dark:border-gray-700/80
+                bg-white/95 dark:bg-gray-800/95 backdrop-blur-md
+                dark:shadow-lg
+                border-gray-200/50 dark:border-gray-700/60
                 hover:shadow-xl hover:-translate-y-1.5 hover:border-gray-300 dark:hover:border-gray-600
                 dark:shadow-gray-900/50
               `}
               variants={cardVariants}
             >
-              {/* Card Title */}
               <h4
-                className={`text-lg font-semibold mb-6 text-center ${category.iconColor} tracking-wide`}
+                className={`font-semibold mb-6 text-center text-xl ${category.iconColor} tracking-wide`}
               >
                 {category.title}
               </h4>
-              {/* Skills List */}
               <ul className="space-y-4">
-                {" "}
-                {/* Increased spacing */}
                 {category.skills.map((skill) => (
                   <li
                     key={skill.name}
-                    className="flex items-center text-gray-700 dark:text-gray-300 text-base font-body group" // Increased text size
+                    className="flex items-center text-gray-700 dark:text-gray-200 text-base font-body group"
                   >
                     <span
-                      className={`w-5 h-5 mr-3 ${category.iconColor} opacity-80 group-hover:opacity-100 transition-opacity`}
+                      className={`w-5 h-5 mr-3 ${category.iconColor} opacity-90 group-hover:opacity-100 transition-opacity`}
                     >
-                      {/* Use fallback icon if specific one isn't provided */}
                       {skill.icon || <LuBrainCircuit />}
                     </span>
                     <span>{skill.name}</span>
