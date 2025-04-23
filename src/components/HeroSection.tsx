@@ -3,6 +3,7 @@
 
 import React, { useState, useRef, useEffect } from "react";
 import Image from "next/image";
+import { motion, AnimatePresence } from "framer-motion";
 import AnimatedDiv from "@/components/utils/AnimatedDiv";
 
 // --- Configuration ---
@@ -23,37 +24,66 @@ const defaultOpacity = 0.4;
 const defaultBrightness = 0.8;
 // --- End Configuration ---
 
+// Scroll Indicator Component
+const ScrollIndicator: React.FC = () => (
+  <motion.div
+    initial={{ opacity: 0, y: -10 }}
+    animate={{ opacity: 1, y: 0 }}
+    exit={{ opacity: 0, y: 10 }}
+    transition={{ duration: 0.5 }}
+    className="absolute bottom-8 left-1/2 transform -translate-x-1/2 z-20 pointer-events-none"
+  >
+    <motion.svg
+      animate={{ y: [0, 8, 0] }}
+      transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
+      className="w-6 h-6 text-gray-400"
+      fill="none"
+      viewBox="0 0 24 24"
+      stroke="currentColor"
+      strokeWidth={2}
+    >
+      <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
+    </motion.svg>
+  </motion.div>
+);
+
 const HeroSection: React.FC = () => {
   const [currentVideoIndex, setCurrentVideoIndex] = useState(0);
   const videoRefs = useRef<(HTMLVideoElement | null)[]>([]);
+  const [showScrollIndicator, setShowScrollIndicator] = useState(true);
 
   const handleVideoEnd = () => {
     setCurrentVideoIndex((prevIndex) => (prevIndex + 1) % videoSources.length);
   };
 
+  // Video switching logic
   useEffect(() => {
     const currentVideo = videoRefs.current[currentVideoIndex];
     const previousVideoIndex =
       (currentVideoIndex - 1 + videoSources.length) % videoSources.length;
     const previousVideo = videoRefs.current[previousVideoIndex];
-
     if (currentVideo) {
       currentVideo.play().catch((error) => {
-        console.debug(
-          "Autoplay prevented for video:",
-          currentVideo.src,
-          error.message
-        );
+        console.debug("Autoplay prevented:", error.message);
       });
       currentVideo.style.opacity = `${defaultOpacity}`;
     }
-
     if (previousVideo && previousVideo !== currentVideo) {
       previousVideo.pause();
       previousVideo.currentTime = 0;
       previousVideo.style.opacity = "0";
     }
   }, [currentVideoIndex]);
+
+  // Scroll indicator logic
+  useEffect(() => {
+    const handleScroll = () => {
+      setShowScrollIndicator(window.scrollY <= 50);
+    };
+    window.addEventListener("scroll", handleScroll);
+    handleScroll(); // Initial check
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
   return (
     <section
@@ -62,6 +92,8 @@ const HeroSection: React.FC = () => {
     >
       {/* Video Container */}
       <div className="absolute inset-0 w-full h-full -z-20 bg-black">
+        {" "}
+        {/* Video container at z-20 */}
         {videoSources.map((src, index) => (
           <video
             key={src}
@@ -88,20 +120,21 @@ const HeroSection: React.FC = () => {
           />
         ))}
       </div>
-
+      {/* Noise Overlay using CSS class */}
+      {/* Needs z-index between video (-20) and dark overlay (-10) */}
+      <div className="noise-overlay"></div>{" "}
+      {/* Class applies filter and z-index: -15 */}
       {/* Dark overlay */}
+      {/* Needs z-index between noise (-15) and content (10+) */}
       <div className="absolute inset-0 bg-black/40 -z-10"></div>
-
       {/* Content Container */}
+      {/* Needs z-index above overlays */}
       <div className="relative z-10 container mx-auto px-4">
         {/* Animate Image with Neon Effect */}
         <AnimatedDiv delay={0.1} className="mb-8">
           <div className="relative mx-auto w-48 h-48 rounded-full">
-            {/* First glow layer (Outer) - Apply new animation */}
             <div className="absolute inset-0 rounded-full bg-cyan-400 blur-md opacity-70 animate-aura-glow-outer"></div>
-            {/* Second glow layer (Inner) - Apply new animation */}
             <div className="absolute inset-0 rounded-full bg-blue-300 blur-sm opacity-80 animate-aura-glow-inner"></div>
-            {/* Main image */}
             <div className="relative w-full h-full p-1 rounded-full overflow-hidden">
               <Image
                 src="/images/jf-profile-picture.jpg"
@@ -142,12 +175,16 @@ const HeroSection: React.FC = () => {
         <AnimatedDiv delay={0.5}>
           <a
             href="#projects"
-            className="font-body inline-block bg-sky-600 text-white text-lg font-semibold py-3 px-10 rounded-lg shadow-md hover:bg-sky-700 focus:outline-none focus:ring-2 focus:ring-sky-500 focus:ring-offset-2 focus:ring-offset-black/50 transform hover:-translate-y-0.5 transition duration-300 ease-in-out"
+            className="font-body inline-block bg-sky-600 text-white text-lg font-semibold py-3 px-10 rounded-lg shadow-md hover:bg-sky-700 focus:outline-none focus:ring-2 focus:ring-sky-500 focus:ring-offset-2 focus:ring-offset-black/50 transform hover:-translate-y-0.5 transition-all duration-300 hover:shadow-[0_0_15px_rgba(2,132,199,0.6)]" // Or hover:shadow-sky-glow-md
           >
             View My Work
           </a>
         </AnimatedDiv>
       </div>
+      {/* Conditionally render Scroll Indicator */}
+      <AnimatePresence>
+        {showScrollIndicator && <ScrollIndicator />}
+      </AnimatePresence>
     </section>
   );
 };

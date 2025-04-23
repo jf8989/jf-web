@@ -13,9 +13,7 @@
 
   /* Letter spacing */
   --heading-letter-spacing: -0.025em;
-  /* Keep heading tracking tight */
   --body-letter-spacing: normal;
-  /* Reset body tracking to normal */
 }
 
 @media (prefers-color-scheme: dark) {
@@ -34,12 +32,9 @@ body {
   background: var(--background);
   font-family: var(--font-body);
   font-size: 17px;
-  /* Increased base font size slightly */
   line-height: 1.7;
-  /* Adjusted line height for better readability */
 }
 
-/* Global heading styles */
 h1,
 h2,
 h3,
@@ -49,10 +44,8 @@ h6 {
   font-family: var(--font-heading);
   letter-spacing: var(--heading-letter-spacing);
   font-weight: 700;
-  /* Ensure headings are bold */
 }
 
-/* Utility classes (if needed, otherwise rely on body/heading defaults) */
 .font-heading {
   font-family: var(--font-heading);
 }
@@ -65,20 +58,8 @@ h6 {
   font-family: var(--font-code);
 }
 
-/* Removed tracking classes - use default or specific Tailwind tracking */
-/* .tracking-heading { ... } */
-/* .tracking-body { ... } */
-
-/* Keep hero name specific styling if needed, but font is now global h1 */
 .hero-name {
-  /* font-family: var(--font-heading); */
-  /* Handled globally */
-  /* letter-spacing: var(--heading-letter-spacing); */
-  /* Handled globally */
-  /* font-weight: 700; */
-  /* Handled globally */
   line-height: 1.1;
-  /* Specific line height for large hero name */
 }
 
 * {
@@ -93,7 +74,6 @@ h6 {
   }
 }
 
-/* Scrollbar Hiding Utility */
 .scrollbar-hide::-webkit-scrollbar {
   display: none;
 }
@@ -103,8 +83,10 @@ h6 {
   scrollbar-width: none;
 }
 
-/* === ADDED KEYFRAMES FOR AURA EFFECT === */
+/* === ADDED / MODIFIED CSS for Noise Overlay & Aura === */
 @layer utilities {
+
+  /* Aura Keyframes */
   @keyframes aura-glow-outer {
 
     0%,
@@ -115,9 +97,7 @@ h6 {
 
     50% {
       transform: scale(1.08);
-      /* Slightly larger scale */
       opacity: 0.5;
-      /* Slightly dimmer */
     }
   }
 
@@ -131,11 +111,30 @@ h6 {
 
     50% {
       transform: scale(1.05);
-      /* Slightly smaller scale than outer */
       opacity: 0.6;
-      /* Slightly dimmer */
     }
+  }
+
+  /* Noise Overlay Rule */
+  .noise-overlay {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0.06;
+    /* Adjust intensity (0.03 to 0.1 is common) */
+    filter: url(#noiseFilter);
+    /* Apply the SVG filter */
+    pointer-events: none;
+    z-index: -15;
+    /* Ensure correct layering */
   }
 }
 
-/* === END ADDED KEYFRAMES === */
+/* === END ADDED / MODIFIED CSS === */
+
+/* Ensure correct layering for other elements if needed */
+/* Adjust these z-index values based on your specific layout if noise doesn't appear correctly */
+/* .video-container-or-element { z-index: -20; } */
+/* .dark-overlay-element { z-index: -10; } */
+/* .main-content-container { position: relative; z-index: 10; } */

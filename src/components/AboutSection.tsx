@@ -1,72 +1,117 @@
 // src/components/AboutSection.tsx
-"use client"; // Needs to be client component for animation
+"use client";
 
 import React from "react";
-import AnimatedDiv from "@/components/utils/AnimatedDiv"; // Import the utility component
+import AnimatedDiv from "@/components/utils/AnimatedDiv";
+import { motion } from "framer-motion";
+// --- Icon Imports (Assume these are correct now) ---
+import {
+  FaReact,
+  FaAngular,
+  FaNodeJs,
+  FaHtml5,
+  FaCss3Alt,
+  FaGitAlt,
+  FaGithub,
+  FaJsSquare,
+  FaServer,
+  FaMobileAlt,
+} from "react-icons/fa";
+import {
+  SiNextdotjs,
+  SiTypescript,
+  SiTailwindcss,
+  SiMongodb,
+  SiVercel,
+  SiMusicbrainz,
+  SiProtools,
+  SiTon, // Correct icon for Studio One (assuming this is right now)
+  SiFirebase,
+} from "react-icons/si";
+import {
+  LuBrainCircuit,
+  LuIterationCw,
+  LuTestTubeDiagonal,
+} from "react-icons/lu";
+import { HiOutlineSpeakerWave } from "react-icons/hi2";
+// --- END Icon Imports ---
 
 const AboutSection: React.FC = () => {
   const skillCategories = [
     {
       title: "Web & Mobile Development",
       skills: [
-        "React",
-        "Angular",
-        "Next.js",
-        "Node.js",
-        "TypeScript",
-        "JavaScript (ES6+)",
-        "HTML5",
-        "CSS3",
-        "Tailwind CSS",
-        "React Native",
-        "REST APIs",
-        "Firebase",
+        { name: "React", icon: <FaReact /> },
+        { name: "Angular", icon: <FaAngular /> },
+        { name: "Next.js", icon: <SiNextdotjs /> },
+        { name: "Node.js", icon: <FaNodeJs /> },
+        { name: "TypeScript", icon: <SiTypescript /> },
+        { name: "JavaScript (ES6+)", icon: <FaJsSquare /> },
+        { name: "HTML5", icon: <FaHtml5 /> },
+        { name: "CSS3", icon: <FaCss3Alt /> },
+        { name: "Tailwind CSS", icon: <SiTailwindcss /> },
+        { name: "React Native", icon: <FaMobileAlt /> },
+        { name: "REST APIs", icon: <FaServer /> },
+        { name: "Firebase", icon: <SiFirebase /> },
       ],
+      iconColor: "text-sky-500 dark:text-sky-400",
     },
     {
       title: "Audio Production",
       skills: [
-        "Music Mixing",
-        "Mastering",
-        "Sound Design",
-        "Pro Tools",
-        "Studio One",
+        { name: "Music Mixing", icon: <SiMusicbrainz /> },
+        { name: "Mastering", icon: <HiOutlineSpeakerWave /> },
+        { name: "Sound Design", icon: <HiOutlineSpeakerWave /> },
+        { name: "Pro Tools", icon: <SiProtools /> },
+        { name: "Studio One", icon: <SiTon /> }, // Using SiTon
       ],
+      iconColor: "text-purple-500 dark:text-purple-400",
     },
     {
       title: "Tools & Concepts",
       skills: [
-        "Git",
-        "GitHub",
-        "MongoDB",
-        "Mongoose",
-        "PWAs",
-        "TDD",
-        "Agile Methodologies",
-        "Vercel",
+        { name: "Git", icon: <FaGitAlt /> },
+        { name: "GitHub", icon: <FaGithub /> },
+        { name: "MongoDB", icon: <SiMongodb /> },
+        { name: "Mongoose", icon: <SiMongodb /> },
+        { name: "PWAs", icon: <LuBrainCircuit /> },
+        { name: "TDD", icon: <LuTestTubeDiagonal /> },
+        { name: "Agile Methodologies", icon: <LuIterationCw /> },
+        { name: "Vercel", icon: <SiVercel /> },
       ],
+      iconColor: "text-emerald-500 dark:text-emerald-400",
     },
   ];
 
+  // Animation variants
+  const gridContainerVariants = {
+    hidden: { opacity: 0 },
+    visible: { opacity: 1, transition: { delay: 0.3, staggerChildren: 0.15 } },
+  };
+  const cardVariants = {
+    hidden: { opacity: 0, y: 30, scale: 0.95 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      scale: 1,
+      transition: { duration: 0.5, ease: "easeOut" },
+    },
+  };
+
   return (
-    // Kept background white/dark grey for contrast
     <section
       id="about"
-      className="py-16 sm:py-20 bg-white dark:bg-gray-900 overflow-hidden"
+      className="py-20 sm:py-24 bg-white dark:bg-gray-900 overflow-hidden"
     >
       <div className="container mx-auto px-4">
+        {/* About Me Text */}
         <AnimatedDiv>
-          {/* Heading uses global h2 style (Playfair) */}
           <h2 className="text-3xl sm:text-4xl font-bold text-center mb-10 text-gray-900 dark:text-white tracking-tight">
             About Me
           </h2>
         </AnimatedDiv>
-
         <AnimatedDiv delay={0.1}>
-          {/* Body text uses global body font (Geist) */}
-          <div className="max-w-3xl mx-auto text-gray-700 dark:text-gray-300 text-base md:text-lg leading-relaxed mb-16">
-            {" "}
-            {/* Ensure text-base or md:text-lg */}
+          <div className="max-w-3xl mx-auto text-gray-700 dark:text-gray-300 text-base md:text-lg leading-relaxed mb-16 text-center sm:text-left">
             <p className="mb-4">
               As a passionate web developer and sound engineer from Lima, I have
               embarked on a journey to create impactful digital solutions and
@@ -81,41 +126,63 @@ const AboutSection: React.FC = () => {
           </div>
         </AnimatedDiv>
 
+        {/* Skillset Section */}
         <AnimatedDiv delay={0.2}>
-          {/* Heading uses global h3 style (Playfair) */}
           <h3 className="text-2xl sm:text-3xl font-semibold text-center mb-12 text-gray-900 dark:text-white tracking-tight">
             My Skillset
           </h3>
         </AnimatedDiv>
 
-        <AnimatedDiv delay={0.3}>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 lg:gap-12 max-w-5xl mx-auto">
-            {skillCategories.map((category) => (
-              <div
-                key={category.title}
-                className="bg-gray-100 dark:bg-gray-800 p-6 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700"
+        {/* Animated Grid for Skill Cards */}
+        <motion.div
+          className="grid grid-cols-1 md:grid-cols-3 gap-8 lg:gap-10 max-w-6xl mx-auto"
+          variants={gridContainerVariants}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, amount: 0.1 }}
+        >
+          {skillCategories.map((category) => (
+            <motion.div
+              key={category.title}
+              className={`
+                p-6 rounded-xl shadow-lg border transition-all duration-300 ease-in-out
+                bg-white dark:bg-gray-800/60 backdrop-blur-sm
+                border-gray-200 dark:border-gray-700/80
+                hover:shadow-xl hover:-translate-y-1.5 hover:border-gray-300 dark:hover:border-gray-600
+                dark:shadow-gray-900/50
+              `}
+              variants={cardVariants}
+            >
+              {/* Card Title */}
+              <h4
+                className={`text-lg font-semibold mb-6 text-center ${category.iconColor} tracking-wide`}
               >
-                {/* Heading uses global h4 style (Playfair) */}
-                <h4 className="text-xl font-semibold font-serif mb-4 text-center text-gray-800 dark:text-white">
-                  {category.title}
-                </h4>
-                {/* List uses body font (Geist) */}
-                <ul className="space-y-2 text-center font-serif sm:text-left">
-                  {category.skills.map((skill) => (
-                    <li
-                      key={skill}
-                      className="text-gray-600 dark:text-gray-400 text-sm"
+                {category.title}
+              </h4>
+              {/* Skills List */}
+              {/* --- UPDATED: Adjusted spacing --- */}
+              <ul className="space-y-4">
+                {" "}
+                {/* Increased spacing slightly */}
+                {category.skills.map((skill) => (
+                  <li
+                    key={skill.name}
+                    // --- UPDATED: Changed text-sm to text-base ---
+                    className="flex items-center text-gray-700 dark:text-gray-300 text-base font-body group"
+                  >
+                    <span
+                      // Optional: Increase icon size if desired: w-6 h-6 mr-4
+                      className={`w-5 h-5 mr-3 ${category.iconColor} opacity-80 group-hover:opacity-100 transition-opacity`}
                     >
-                      {" "}
-                      {/* Keep skill text potentially smaller */}
-                      {skill}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            ))}
-          </div>
-        </AnimatedDiv>
+                      {skill.icon || <LuBrainCircuit />}
+                    </span>
+                    <span>{skill.name}</span>
+                  </li>
+                ))}
+              </ul>
+            </motion.div>
+          ))}
+        </motion.div>
       </div>
     </section>
   );

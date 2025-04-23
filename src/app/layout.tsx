@@ -1,4 +1,3 @@
-// src/app/layout.tsx
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import { Playfair_Display } from "next/font/google"; // Added Playfair
@@ -48,8 +47,30 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} ${playfair.variable} antialiased text-base text-gray-900 dark:text-gray-100 leading-relaxed`}
       >
+        {/* === ADDED SVG Noise Filter Definition === */}
+        <svg
+          style={{
+            position: "absolute",
+            width: 0,
+            height: 0,
+            overflow: "hidden",
+          }}
+          aria-hidden="true"
+        >
+          <defs>
+            <filter id="noiseFilter">
+              <feTurbulence
+                type="fractalNoise"
+                baseFrequency="0.85" /* Adjust frequency for noise grain size */
+                numOctaves="3" /* Complexity */
+                stitchTiles="stitch"
+              />
+            </filter>
+          </defs>
+        </svg>
+        {/* === END SVG Noise Filter Definition === */}
         {children}
-        <AudioPlayer /> {/* <-- Add AudioPlayer here */}
+        <AudioPlayer /> {/* <-- AudioPlayer remains */}
       </body>
     </html>
   );
