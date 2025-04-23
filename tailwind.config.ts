@@ -3,11 +3,11 @@ import type { Config } from "tailwindcss";
 
 export default {
   content: [
-    // Root directory
-    "./pages/**/*.{js,ts,jsx,tsx,mdx}",
-    "./components/**/*.{js,ts,jsx,tsx,mdx}",
-    "./app/**/*.{js,ts,jsx,tsx,mdx}",
-    // Src directory
+    // Root directory (keep if needed, but might be redundant with src)
+    // "./pages/**/*.{js,ts,jsx,tsx,mdx}",
+    // "./components/**/*.{js,ts,jsx,tsx,mdx}",
+    // "./app/**/*.{js,ts,jsx,tsx,mdx}",
+    // Src directory (Primary paths for Next.js App Router)
     "./src/pages/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/components/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
@@ -37,7 +37,6 @@ export default {
           800: "#0E1627",
           900: "#070B13",
         },
-        // --- ADD THESE NEW COLORS ---
         gray: {
           50: "#f9fafb",
           100: "#f3f4f6",
@@ -51,7 +50,6 @@ export default {
           900: "#111827",
         },
         sky: {
-          // Use 'sky' instead of custom 'navy'
           50: "#f0f9ff",
           100: "#e0f2fe",
           200: "#bae6fd",
@@ -66,7 +64,7 @@ export default {
         beige: {
           50: "#fff5e6",
           100: "#ffeeda",
-          200: "#ffe7cb", // Extracted dominant beige
+          200: "#ffe7cb",
           300: "#f7d6b8",
           400: "#eec4a5",
           500: "#e5b292",
@@ -77,12 +75,9 @@ export default {
         },
       },
       fontFamily: {
-        // We'll define our "sans" default as Inter (via the Next.js variable)
         sans: ["var(--font-inter)", "system-ui", "sans-serif"],
         serif: ["Georgia", "serif"],
         mono: ["Menlo", "monospace"],
-
-        // Additional font families, referencing Next/Font variables:
         inter: ["var(--font-inter)", "sans-serif"],
         poppins: ["var(--font-poppins)", "sans-serif"],
         montserrat: ["var(--font-montserrat)", "sans-serif"],
@@ -94,13 +89,19 @@ export default {
         geistMono: ["var(--font-geist-mono)", "monospace"],
       },
       animation: {
-        // Most commonly used animations
+        // Existing animations
         fadeIn: "fadeIn 0.8s ease-out forwards",
         fadeOut: "fadeOut 0.8s ease-in forwards",
-        pulse: "pulse 2s infinite",
+        pulse: "pulse 2s infinite", // Keep pulse if used elsewhere
         float: "float 3s ease-in-out infinite",
+
+        // === ADDED AURA ANIMATIONS ===
+        "aura-glow-outer": "aura-glow-outer 6s ease-in-out infinite",
+        "aura-glow-inner": "aura-glow-inner 5s ease-in-out infinite",
+        // === END ADDED AURA ANIMATIONS ===
       },
       keyframes: {
+        // Existing keyframes
         fadeIn: {
           "0%": { opacity: "0" },
           "100%": { opacity: "1" },
@@ -110,6 +111,7 @@ export default {
           "100%": { opacity: "0" },
         },
         pulse: {
+          // Keep pulse if used elsewhere
           "0%, 100%": { transform: "scale(1)" },
           "50%": { transform: "scale(1.05)" },
         },
@@ -117,13 +119,22 @@ export default {
           "0%, 100%": { transform: "translateY(0)" },
           "50%": { transform: "translateY(-5px)" },
         },
+
+        // === ADDED AURA KEYFRAMES ===
+        "aura-glow-outer": {
+          "0%, 100%": { transform: "scale(1)", opacity: "0.7" },
+          "50%": { transform: "scale(1.08)", opacity: "0.5" },
+        },
+        "aura-glow-inner": {
+          "0%, 100%": { transform: "scale(1)", opacity: "0.8" },
+          "50%": { transform: "scale(1.05)", opacity: "0.6" },
+        },
+        // === END ADDED AURA KEYFRAMES ===
       },
-      // Responsive spacing utilities
       spacing: {
         "header-height": "4rem",
         "footer-height": "12rem",
       },
-      // Common max-width containers
       maxWidth: {
         "8xl": "88rem",
         "9xl": "96rem",
