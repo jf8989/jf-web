@@ -1,7 +1,7 @@
 // src/components/ProjectsSection.tsx
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useRef, useEffect, useMemo } from "react";
 import { motion } from "framer-motion";
 import { projectsData } from "@/data/projects";
 import ProjectCard from "./ProjectCard";
@@ -15,40 +15,50 @@ const containerVariants = {
   },
 };
 
-// Extract all unique tech stacks for filter options
+// ---- helpers --------------------------------------------------------------
 const getAllTechStacks = () => {
   const techSet = new Set<string>();
-  projectsData.forEach((project) => {
-    project.techStack.forEach((tech) => techSet.add(tech));
-  });
+  projectsData.forEach((p) => p.techStack.forEach((t) => techSet.add(t)));
   return Array.from(techSet).sort();
 };
+// --------------------------------------------------------------------------
 
 const ProjectsSection: React.FC = () => {
   const [filter, setFilter] = useState<string>("All");
-  const [filteredProjects, setFilteredProjects] = useState(projectsData);
-  const [showDropdown, setShowDropdown] = useState<boolean>(false);
-  const techOptions = ["All", ...getAllTechStacks()];
+  const [showDropdown, setShowDropdown] = useState(false);
+  const dropdownRef = useRef<HTMLDivElement>(null);
 
-  // Handle filter change
-  useEffect(() => {
-    if (filter === "All") {
-      setFilteredProjects(projectsData);
-    } else if (filter === "Featured") {
-      setFilteredProjects(projectsData.filter((project) => project.featured));
-    } else {
-      setFilteredProjects(
-        projectsData.filter((project) => project.techStack.includes(filter))
-      );
-    }
+  const techOptions = useMemo(() => ["All", ...getAllTechStacks()], []);
+
+  // derived list – no extra state
+  const filteredProjects = useMemo(() => {
+    if (filter === "All") return projectsData;
+    if (filter === "Featured") return projectsData.filter((p) => p.featured);
+    return projectsData.filter((p) => p.techStack.includes(filter));
   }, [filter]);
+
+  // close dropdown on outside click
+  useEffect(() => {
+    const handler = (e: MouseEvent) => {
+      if (
+        showDropdown &&
+        dropdownRef.current &&
+        !dropdownRef.current.contains(e.target as Node)
+      ) {
+        setShowDropdown(false);
+      }
+    };
+    document.addEventListener("mousedown", handler);
+    return () => document.removeEventListener("mousedown", handler);
+  }, [showDropdown]);
+  // ------------------------------------------------------------------------
 
   return (
     <section
       id="projects"
       className="py-20 sm:py-24 relative bg-gradient-to-b from-sky-50 to-white dark:from-gray-900 dark:to-gray-800"
     >
-      {/* Background pattern overlay */}
+      {/* background pattern */}
       <div
         className="absolute inset-0 opacity-5 dark:opacity-10"
         style={{
@@ -67,52 +77,50 @@ const ProjectsSection: React.FC = () => {
           </p>
         </AnimatedDiv>
 
-        {/* Filter controls */}
+        {/* ---- filter controls ---- */}
         <div className="mb-12">
           <div className="flex flex-wrap justify-center gap-2 max-w-4xl mx-auto">
-            <button
-              onClick={() => setFilter("All")}
-              className={`px-4 py-2 rounded-full text-sm font-medium transition-all duration-300 
-                ${
-                  filter === "All"
+            {/* All & Featured */}
+            {["All", "Featured"].map((tag) => (
+              <button
+                key={tag}
+                onClick={() => {
+                  setFilter(tag);
+                  setShowDropdown(false);
+                }}
+                className={`px-4 py-2 rounded-full text-sm font-medium transition-all duration-300 ${
+                  filter === tag
                     ? "bg-sky-600 text-white shadow-md"
                     : "bg-white dark:bg-gray-800 text-gray-600 dark:text-gray-300 hover:bg-sky-50 dark:hover:bg-sky-900/20"
                 }`}
-            >
-              All Projects
-            </button>
-            <button
-              onClick={() => setFilter("Featured")}
-              className={`px-4 py-2 rounded-full text-sm font-medium transition-all duration-300 
-                ${
-                  filter === "Featured"
-                    ? "bg-sky-600 text-white shadow-md"
-                    : "bg-white dark:bg-gray-800 text-gray-600 dark:text-gray-300 hover:bg-sky-50 dark:hover:bg-sky-900/20"
-                }`}
-            >
-              Featured
-            </button>
-            {techOptions.slice(0, 5).map((tech) => {
-              if (tech === "All") return null;
-              return (
+              >
+                {tag === "All" ? "All Projects" : tag}
+              </button>
+            ))}
+
+            {/* first five tech options */}
+            {techOptions.slice(0, 5).map((tech) =>
+              tech === "All" ? null : (
                 <button
                   key={tech}
-                  onClick={() => setFilter(tech)}
-                  className={`px-4 py-2 rounded-full text-sm font-medium transition-all duration-300 
-                    ${
-                      filter === tech
-                        ? "bg-sky-600 text-white shadow-md"
-                        : "bg-white dark:bg-gray-800 text-gray-600 dark:text-gray-300 hover:bg-sky-50 dark:hover:bg-sky-900/20"
-                    }`}
+                  onClick={() => {
+                    setFilter(tech);
+                    setShowDropdown(false);
+                  }}
+                  className={`px-4 py-2 rounded-full text-sm font-medium transition-all duration-300 ${
+                    filter === tech
+                      ? "bg-sky-600 text-white shadow-md"
+                      : "bg-white dark:bg-gray-800 text-gray-600 dark:text-gray-300 hover:bg-sky-50 dark:hover:bg-sky-900/20"
+                  }`}
                 >
                   {tech}
                 </button>
-              );
-            })}
+              )
+            )}
 
-            {/* More filters dropdown */}
+            {/* dropdown for the rest */}
             {techOptions.length > 6 && (
-              <div className="relative">
+              <div ref={dropdownRef} className="relative">
                 <button
                   onClick={() => setShowDropdown((prev) => !prev)}
                   className="px-4 py-2 rounded-full text-sm font-medium bg-white dark:bg-gray-800 text-gray-600 dark:text-gray-300 hover:bg-sky-50 dark:hover:bg-sky-900/20 transition-all duration-300"
@@ -122,9 +130,8 @@ const ProjectsSection: React.FC = () => {
                 {showDropdown && (
                   <div className="absolute right-0 mt-2 w-48 bg-white dark:bg-gray-800 rounded-md shadow-lg z-10">
                     <div className="py-1 max-h-60 overflow-auto">
-                      {techOptions.slice(5).map((tech) => {
-                        if (tech === "All") return null;
-                        return (
+                      {techOptions.slice(5).map((tech) =>
+                        tech === "All" ? null : (
                           <button
                             key={tech}
                             onClick={() => {
@@ -135,8 +142,8 @@ const ProjectsSection: React.FC = () => {
                           >
                             {tech}
                           </button>
-                        );
-                      })}
+                        )
+                      )}
                     </div>
                   </div>
                 )}
@@ -145,19 +152,17 @@ const ProjectsSection: React.FC = () => {
           </div>
         </div>
 
-        {/* Projects grid */}
+        {/* ---- projects grid ---- */}
         <motion.div
+          key={filter} // restart animation on change
           className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 lg:gap-10"
           variants={containerVariants}
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, amount: 0.1 }}
-          key={filter} // Re-render animation when filter changes
         >
-          {filteredProjects.length > 0 ? (
-            filteredProjects.map((project) => (
-              <ProjectCard key={project.id} project={project} />
-            ))
+          {filteredProjects.length ? (
+            filteredProjects.map((p) => <ProjectCard key={p.id} project={p} />)
           ) : (
             <div className="col-span-3 text-center py-12">
               <p className="text-gray-600 dark:text-gray-400 text-lg">
@@ -167,7 +172,7 @@ const ProjectsSection: React.FC = () => {
           )}
         </motion.div>
 
-        {/* GitHub link */}
+        {/* ---- GitHub link ---- */}
         <div className="mt-16 text-center">
           <a
             href="https://github.com/jf8989"
