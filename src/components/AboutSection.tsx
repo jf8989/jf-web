@@ -34,52 +34,74 @@ import {
   LuTestTubeDiagonal, // Placeholder
 } from "react-icons/lu";
 import { HiOutlineSpeakerWave } from "react-icons/hi2"; // Placeholder
+import { SiAndroidstudio, SiKotlin } from "react-icons/si";
 // --- END Icon Imports ---
 
 const AboutSection: React.FC = () => {
   const skillCategories = [
     {
       title: "Web & Mobile Development",
+      iconColor: "text-sky-500 dark:text-sky-400",
       skills: [
-        { name: "React", icon: <FaReact /> },
-        { name: "Angular", icon: <FaAngular /> },
-        { name: "Next.js", icon: <SiNextdotjs /> },
-        { name: "Node.js", icon: <FaNodeJs /> },
-        { name: "TypeScript", icon: <SiTypescript /> },
+        // Languages
         { name: "JavaScript (ES6+)", icon: <FaJsSquare /> },
+        { name: "TypeScript", icon: <SiTypescript /> },
+        { name: "Kotlin", icon: <SiKotlin /> },
+
+        // Markup & Styling
         { name: "HTML5", icon: <FaHtml5 /> },
         { name: "CSS3", icon: <FaCss3Alt /> },
         { name: "Tailwind CSS", icon: <SiTailwindcss /> },
+
+        // Frameworks & Libraries
+        { name: "React", icon: <FaReact /> },
+        { name: "Angular", icon: <FaAngular /> },
+        { name: "Next.js", icon: <SiNextdotjs /> },
         { name: "React Native", icon: <FaMobileAlt /> },
+
+        // Backend & APIs
+        { name: "Node.js", icon: <FaNodeJs /> },
         { name: "REST APIs", icon: <FaServer /> },
         { name: "Firebase", icon: <SiFirebase /> },
+
+        // Tools & IDE
+        { name: "Android Studio", icon: <SiAndroidstudio /> },
       ],
-      iconColor: "text-sky-500 dark:text-sky-400",
     },
     {
       title: "Audio Production",
+      iconColor: "text-purple-500 dark:text-purple-400",
       skills: [
-        { name: "Music Mixing", icon: <SiMusicbrainz /> },
-        { name: "Mastering", icon: <HiOutlineSpeakerWave /> },
-        { name: "Sound Design", icon: <HiOutlineSpeakerWave /> },
+        // DAWs
         { name: "Pro Tools", icon: <SiProtools /> },
         { name: "Studio One", icon: <SiTon /> },
+
+        // Production Tasks
+        { name: "Music Mixing", icon: <SiMusicbrainz /> },
+        { name: "Sound Design", icon: <HiOutlineSpeakerWave /> },
+        { name: "Mastering", icon: <HiOutlineSpeakerWave /> },
       ],
-      iconColor: "text-purple-500 dark:text-purple-400",
     },
     {
       title: "Tools & Concepts",
+      iconColor: "text-emerald-500 dark:text-emerald-400",
       skills: [
+        // Version Control
         { name: "Git", icon: <FaGitAlt /> },
         { name: "GitHub", icon: <FaGithub /> },
+
+        // Databases
         { name: "MongoDB", icon: <SiMongodb /> },
         { name: "Mongoose", icon: <SiMongodb /> },
-        { name: "PWAs", icon: <LuBrainCircuit /> },
+
+        // Methodologies & Testing
         { name: "TDD", icon: <LuTestTubeDiagonal /> },
         { name: "Agile Methodologies", icon: <LuIterationCw /> },
+
+        // PWA & Hosting
+        { name: "PWAs", icon: <LuBrainCircuit /> },
         { name: "Vercel", icon: <SiVercel /> },
       ],
-      iconColor: "text-emerald-500 dark:text-emerald-400",
     },
   ];
 
