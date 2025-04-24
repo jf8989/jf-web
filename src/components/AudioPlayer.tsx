@@ -86,19 +86,19 @@ const AudioPlayer: React.FC = () => {
   // Playlist
   const trackList = useMemo(
     () => [
+      "/audio/UwunuInstrumental-JF-Master.mp3",
+      "/audio/Oddyssey-JF-Master.mp3",
       "/audio/BBC4-Instrumental-JF-Master.mp3",
       "/audio/FaceTheNight-Mazure-JF-Master.mp3",
-      "/audio/Oddyssey-JF-Master.mp3",
-      "/audio/UwunuInstrumental-JF-Master.mp3",
     ],
     []
   );
   const trackNames = useMemo(
     () => [
+      "Uwunu - Shani [Instrumental] (JF Master)",
+      "Oddyssey (JF Master)",
       "BBC4 - Francu [Instrumental] (JF Master)",
       "Face The Night - Mazure (JF Master)",
-      "Oddyssey (JF Master)",
-      "Uwunu - Shani [Instrumental] (JF Master)",
     ],
     []
   );
