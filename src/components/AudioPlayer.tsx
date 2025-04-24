@@ -115,10 +115,10 @@ const AudioPlayer: React.FC = () => {
   // NEW: flag to force autoplay of next track
   const autoPlayNextRef = useRef(false);
 
-  // === Hint auto-dismiss after 8 s ===
+  // === Hint auto-dismiss after 20 s ===
   useEffect(() => {
     if (!showHint) return;
-    const t = setTimeout(() => setShowHint(false), 8000);
+    const t = setTimeout(() => setShowHint(false), 20000);
     return () => clearTimeout(t);
   }, [showHint]);
 
