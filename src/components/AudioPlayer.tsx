@@ -97,7 +97,7 @@ const AudioPlayer: React.FC = () => {
     () => [
       "Uwunu - Shani [Instrumental] (JF Master)",
       "BBC4 - Francu [Instrumental] (JF Master)",
-      "Oddyssey (JF Master)",
+      "Odyssey (JF Master)",
       "Face The Night - Mazure (JF Master)",
     ],
     []
