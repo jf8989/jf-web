@@ -2,7 +2,7 @@
 
 Welcome to the repository for my personal portfolio website! This project showcases my skills and the projects I've completed, particularly during my Full-Stack Web Development program at CareerFoundry. It's built using modern web technologies with a focus on a clean, professional, and slick user experience.
 
-**✨ Live Demo:** [**(https://jf-web.vercel.app//)**]([YOUR_VERCEL_DEPLOYMENT_URL]) _(Please update this link after deployment)_
+**✨ Live Demo:** [**(https://jf-web.vercel.app//)**]([YOUR_VERCEL_DEPLOYMENT_URL]) 
 
 ## 📜 Project Overview
 
@@ -13,7 +13,7 @@ This single-page application serves as a dynamic digital resume and project show
 *   An **About Me** section detailing my background in web development and sound engineering.
 *   A structured **Workflow Section** outlining my development process.
 *   Clear **Contact** information.
-*   An ambient **Background Audio Player** with floating controls.
+*   An ambient **Background Audio Player** with floating controls that can iterate through a list of audio tracks that he's worked on as a Mixing and/or Mastering engineer.
 *   Subtle **Animations** and smooth scrolling for an enhanced user experience.
 *   **Responsive Design** adapting seamlessly across all devices.
 *   **Dark Mode** support based on system preferences.
@@ -29,7 +29,7 @@ This portfolio fulfills the final project requirements for CareerFoundry's Achie
 *   **Responsive Mobile Menu:** Functional hamburger menu for navigation on smaller screens.
 *   **Workflow Visualization:** Horizontal scrolling/grid display outlining the development lifecycle stages.
 *   **Skills Display:** Structured presentation of technical skills in the "About Me" section.
-*   **Ambient Audio Player:** Optional background audio with fixed toggle button and floating controls for play/pause, mute, and volume.
+*   **Ambient Audio Player:** Optional background audio with fixed toggle button and floating controls for play/pause/previous/next, mute, and volume.
 *   **Modern Styling:** Built with Tailwind CSS for a professional, clean, and responsive UI, including dark mode support.
 *   **Optimized Images:** Uses `next/image` for optimized loading and display of profile picture and project visuals.
 
