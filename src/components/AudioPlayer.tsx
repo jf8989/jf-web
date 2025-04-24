@@ -2,7 +2,13 @@
 // src/components/AudioPlayer.tsx
 "use client";
 
-import React, { useState, useRef, useEffect, useCallback } from "react";
+import React, {
+  useState,
+  useRef,
+  useEffect,
+  useCallback,
+  DependencyList,
+} from "react";
 
 // SVG Icons (unchanged)
 const SpeakerLoudIcon = () => (
@@ -75,6 +81,7 @@ const AudioPlayer: React.FC = () => {
   const [volume, setVolume] = useState(0.45);
   const [isMuted, setIsMuted] = useState(false);
   const [showControls, setShowControls] = useState(false);
+  const [showHint, setShowHint] = useState(true); // NEW: onboarding hint
 
   // Playlist
   const trackList = useMemo(
@@ -107,6 +114,13 @@ const AudioPlayer: React.FC = () => {
 
   // NEW: flag to force autoplay of next track
   const autoPlayNextRef = useRef(false);
+
+  // === Hint auto-dismiss after 8 s ===
+  useEffect(() => {
+    if (!showHint) return;
+    const t = setTimeout(() => setShowHint(false), 8000);
+    return () => clearTimeout(t);
+  }, [showHint]);
 
   const formatTime = (sec: number) => {
     const m = Math.floor(sec / 60);
@@ -212,7 +226,10 @@ const AudioPlayer: React.FC = () => {
     if (audioRef.current) audioRef.current.muted = !isMuted;
   }, [isMuted]);
 
-  const toggleControls = () => setShowControls((s) => !s);
+  const toggleControls = () => {
+    setShowControls((s) => !s);
+    setShowHint(false); // dismiss hint on first interaction
+  };
 
   const prevTrack = () =>
     setCurrentTrackIndex((i) => (i - 1 + trackList.length) % trackList.length);
@@ -241,17 +258,33 @@ const AudioPlayer: React.FC = () => {
         preload="auto"
       />
 
-      {/* Speaker Toggle Button */}
-      <button
-        ref={toggleButtonRef}
-        onClick={toggleControls}
-        className="fixed bottom-5 right-5 z-50 p-2 bg-gray-800/70 dark:bg-black/70 backdrop-blur-sm rounded-full text-white hover:bg-gray-700 dark:hover:bg-gray-900 transition-colors shadow-lg"
-        aria-label={
-          showControls ? "Hide audio controls" : "Show audio controls"
-        }
-      >
-        {isMuted ? <SpeakerMutedIcon /> : <SpeakerLoudIcon />}
-      </button>
+      {/* Toggle button + hint wrapper */}
+      <div className="fixed bottom-5 right-5 z-50">
+        {/* Onboarding hint */}
+        {showHint && (
+          <div className="absolute -top-12 right-0 flex flex-col items-end select-none">
+            <span className="mb-1 text-xs bg-sky-600 text-white px-2 py-0 rounded-lg shadow-md animate-pulse">
+              Click to listen
+            </span>
+            {/* Simple arrow down */}
+            <div className="w-2 h-2 mr-4 bg-sky-600 rotate-45 transform"></div>
+            {/* pulse ring (simplified) */}
+            <span className="absolute inset-0 rounded-full bg-sky-400/40 animate-ping pointer-events-none"></span>
+          </div>
+        )}
+
+        {/* Speaker Toggle Button */}
+        <button
+          ref={toggleButtonRef}
+          onClick={toggleControls}
+          className="relative p-2 bg-gray-800/70 dark:bg-black/70 backdrop-blur-sm rounded-full text-white hover:bg-gray-700 dark:hover:bg-gray-900 transition-colors shadow-lg"
+          aria-label={
+            showControls ? "Hide audio controls" : "Show audio controls"
+          }
+        >
+          {isMuted ? <SpeakerMutedIcon /> : <SpeakerLoudIcon />}
+        </button>
+      </div>
 
       {/* Control Panel */}
       <div
@@ -332,7 +365,7 @@ const AudioPlayer: React.FC = () => {
 export default AudioPlayer;
 
 // Custom useMemo implementation
-function useMemo<T>(factory: () => T, deps: React.DependencyList): T {
+function useMemo<T>(factory: () => T, deps: DependencyList): T {
   const [state, setState] = React.useState(factory);
   React.useEffect(() => setState(factory()), deps);
   return state;
