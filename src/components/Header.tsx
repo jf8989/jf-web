@@ -162,8 +162,8 @@ const Header: React.FC = () => {
       transition={{ duration: 0.5, ease: "easeOut" }}
       className={`fixed top-0 left-0 w-full z-50 transition-all duration-300 ease-in-out ${
         scrolled
-          ? "bg-gray-900/95 backdrop-blur-md shadow-lg py-2"
-          : "bg-gray-900/80 backdrop-blur-sm py-4"
+          ? "bg-gray-900/45 backdrop-blur-md shadow-lg py-2"
+          : "bg-gray-900/35 backdrop-blur-sm py-4"
       } ${isMobileMenuOpen ? "mobile-menu-open" : ""}`}
     >
       <div className="max-w-content mx-auto px-4 sm:px-6 lg:px-8">
