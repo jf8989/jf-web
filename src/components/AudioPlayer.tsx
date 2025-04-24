@@ -76,7 +76,7 @@ const AudioPlayer: React.FC = () => {
   const [isMuted, setIsMuted] = useState(false);
   const [showControls, setShowControls] = useState(false);
 
-  // NEW: Playlist of audio files
+  // Playlist
   const trackList = useMemo(
     () => [
       "/audio/BBC4-Instrumental-JF-Master.mp3",
@@ -86,20 +86,18 @@ const AudioPlayer: React.FC = () => {
     ],
     []
   );
-  // NEW: Corresponding track names for display
   const trackNames = useMemo(
     () => [
-      "BBC4 Instrumental (JF Master)",
-      "Face The Night Mazure (JF Master)",
+      "BBC4 - Francu [Instrumental] (JF Master)",
+      "Face The Night - Mazure (JF Master)",
       "Oddyssey (JF Master)",
-      "Uwunu Instrumental (JF Master)",
+      "Uwunu - Shani [Instrumental] (JF Master)",
     ],
     []
   );
-  // NEW: Index of the currently playing track
   const [currentTrackIndex, setCurrentTrackIndex] = useState(0);
 
-  // NEW: Playhead state
+  // Playhead
   const [currentTime, setCurrentTime] = useState(0);
   const [duration, setDuration] = useState(0);
 
@@ -107,23 +105,21 @@ const AudioPlayer: React.FC = () => {
   const controlsPanelRef = useRef<HTMLDivElement>(null);
   const toggleButtonRef = useRef<HTMLButtonElement>(null);
 
-  // Helper to format seconds -> mm:ss
+  // NEW: flag to force autoplay of next track
+  const autoPlayNextRef = useRef(false);
+
   const formatTime = (sec: number) => {
     const m = Math.floor(sec / 60);
     const s = Math.floor(sec % 60);
     return `${m}:${s < 10 ? "0" + s : s}`;
   };
 
-  // Attempt autoplay on mount
   useEffect(() => {
     if (audioRef.current) {
-      audioRef.current.play().catch((error) => {
-        console.debug("Initial autoplay attempt failed:", error.message);
-      });
+      audioRef.current.play().catch(() => {});
     }
   }, []);
 
-  // Sync volume and muted state
   useEffect(() => {
     if (audioRef.current) {
       audioRef.current.volume = volume;
@@ -131,7 +127,6 @@ const AudioPlayer: React.FC = () => {
     }
   }, [volume, isMuted]);
 
-  // Handle audio metadata and time updates
   useEffect(() => {
     const audio = audioRef.current;
     if (!audio) return;
@@ -145,15 +140,14 @@ const AudioPlayer: React.FC = () => {
     };
   }, []);
 
-  // Handle clicks outside control panel
   useEffect(() => {
     if (!showControls) return;
-    const handleClickOutside = (event: MouseEvent | TouchEvent) => {
+    const handleClickOutside = (e: MouseEvent | TouchEvent) => {
       if (
         controlsPanelRef.current &&
-        !controlsPanelRef.current.contains(event.target as Node) &&
+        !controlsPanelRef.current.contains(e.target as Node) &&
         toggleButtonRef.current &&
-        !toggleButtonRef.current.contains(event.target as Node)
+        !toggleButtonRef.current.contains(e.target as Node)
       ) {
         setShowControls(false);
       }
@@ -166,7 +160,6 @@ const AudioPlayer: React.FC = () => {
     };
   }, [showControls]);
 
-  // Update play/pause state based on audio events
   useEffect(() => {
     const audio = audioRef.current;
     if (!audio) return;
@@ -180,17 +173,20 @@ const AudioPlayer: React.FC = () => {
     };
   }, []);
 
-  // NEW: Update audio src when track changes
+  // Update source on track change
   useEffect(() => {
     const audio = audioRef.current;
     if (!audio) return;
     audio.src = trackList[currentTrackIndex];
     setCurrentTime(0);
     setDuration(0);
-    if (isPlaying) {
+
+    // Autoplay if user was playing or if flag set by handleEnded
+    if (isPlaying || autoPlayNextRef.current) {
       audio.play().catch(() => setIsPlaying(false));
     }
-  }, [currentTrackIndex, isPlaying, trackList]);
+    autoPlayNextRef.current = false;
+  }, [currentTrackIndex, trackList]); // intentionally exclude isPlaying to respect pause state
 
   const togglePlayPause = useCallback(() => {
     const audio = audioRef.current;
@@ -205,33 +201,34 @@ const AudioPlayer: React.FC = () => {
     }
   }, [isPlaying]);
 
-  const handleVolumeChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const val = parseFloat(event.target.value);
+  const handleVolumeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const val = parseFloat(e.target.value);
     setVolume(val);
     if (isMuted && val > 0) setIsMuted(false);
   };
 
   const toggleMute = useCallback(() => {
     setIsMuted((m) => !m);
-    if (audioRef.current) {
-      audioRef.current.muted = !isMuted;
-    }
+    if (audioRef.current) audioRef.current.muted = !isMuted;
   }, [isMuted]);
 
   const toggleControls = () => setShowControls((s) => !s);
 
-  // NEW: Switch to previous track
   const prevTrack = () =>
     setCurrentTrackIndex((i) => (i - 1 + trackList.length) % trackList.length);
-  // NEW: Switch to next track
   const nextTrack = () =>
     setCurrentTrackIndex((i) => (i + 1) % trackList.length);
 
-  // NEW: Seek handler
-  const handleSeek = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const time = parseFloat(event.target.value);
-    if (audioRef.current) audioRef.current.currentTime = time;
-    setCurrentTime(time);
+  const handleSeek = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const t = parseFloat(e.target.value);
+    if (audioRef.current) audioRef.current.currentTime = t;
+    setCurrentTime(t);
+  };
+
+  // Advance after 1-second delay
+  const handleEnded = () => {
+    autoPlayNextRef.current = true;
+    setTimeout(nextTrack, 1000);
   };
 
   return (
@@ -240,7 +237,7 @@ const AudioPlayer: React.FC = () => {
       <audio
         ref={audioRef}
         src={trackList[currentTrackIndex]}
-        onEnded={nextTrack} // Advance on end
+        onEnded={handleEnded}
         preload="auto"
       />
 
@@ -265,12 +262,10 @@ const AudioPlayer: React.FC = () => {
             : "opacity-0 translate-y-4 pointer-events-none"
         }`}
       >
-        {/* Display current track name */}
-        <div className="mb-2 text-sm font-semibold">
+        <div className="mb-2 text-sm text-center font-semibold">
           {trackNames[currentTrackIndex]}
         </div>
 
-        {/* NEW: Playhead slider */}
         <input
           type="range"
           min="0"
@@ -286,7 +281,6 @@ const AudioPlayer: React.FC = () => {
         </div>
 
         <div className="flex items-center space-x-3">
-          {/* Previous Track */}
           <button
             onClick={prevTrack}
             className="p-1 hover:bg-gray-700 rounded-full"
@@ -295,7 +289,6 @@ const AudioPlayer: React.FC = () => {
             ◀︎
           </button>
 
-          {/* Play/Pause */}
           <button
             onClick={togglePlayPause}
             className="p-1 hover:bg-gray-700 rounded-full"
@@ -304,7 +297,6 @@ const AudioPlayer: React.FC = () => {
             {isPlaying ? <PauseIcon /> : <PlayIcon />}
           </button>
 
-          {/* Next Track */}
           <button
             onClick={nextTrack}
             className="p-1 hover:bg-gray-700 rounded-full"
@@ -313,7 +305,6 @@ const AudioPlayer: React.FC = () => {
             ▶︎
           </button>
 
-          {/* Mute/Unmute */}
           <button
             onClick={toggleMute}
             className="p-1 hover:bg-gray-700 rounded-full"
@@ -322,7 +313,6 @@ const AudioPlayer: React.FC = () => {
             {isMuted ? <SpeakerMutedIcon /> : <SpeakerLoudIcon />}
           </button>
 
-          {/* Volume Slider */}
           <input
             type="range"
             min="0"
@@ -344,10 +334,6 @@ export default AudioPlayer;
 // Custom useMemo implementation
 function useMemo<T>(factory: () => T, deps: React.DependencyList): T {
   const [state, setState] = React.useState(factory);
-
-  React.useEffect(() => {
-    setState(factory());
-  }, deps);
-
+  React.useEffect(() => setState(factory()), deps);
   return state;
 }

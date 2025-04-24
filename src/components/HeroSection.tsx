@@ -8,13 +8,13 @@ import AnimatedDiv from "@/components/utils/AnimatedDiv";
 
 // --- Configuration ---
 const videoSources = [
-  "/videos/background1.mp4",
+  "/videos/background7.mp4",
   "/videos/background2.mp4",
   "/videos/background3.mp4",
   "/videos/background4.mp4",
   "/videos/background5.mp4",
   "/videos/background6.mp4",
-  "/videos/background7.mp4",
+  "/videos/background1.mp4",
   "/videos/background8.mp4",
   "/videos/background9.mp4",
   "/videos/background10.mp4",
