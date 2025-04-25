@@ -9,17 +9,18 @@ import AnimatedDiv from "@/components/utils/AnimatedDiv";
 // --- Configuration ---
 const videoSources = [
   "/videos/background7.mp4",
+  "/videos/background11.mp4",
   "/videos/background2.mp4",
-  "/videos/background3.mp4",
   "/videos/background4.mp4",
   "/videos/background5.mp4",
-  "/videos/background6.mp4",
+  "/videos/background12.mp4",
   "/videos/background1.mp4",
   "/videos/background8.mp4",
   "/videos/background9.mp4",
   "/videos/background10.mp4",
+  "/videos/background13.mp4",
 ];
-const transitionDurationMs = 1000;
+const transitionDurationMs = 600; // ultra‑quick 10 ms cross‑fade
 const defaultOpacity = 0.4;
 const defaultBrightness = 0.8;
 // --- End Configuration ---
@@ -51,6 +52,12 @@ const HeroSection: React.FC = () => {
   const [currentVideoIndex, setCurrentVideoIndex] = useState(0);
   const videoRefs = useRef<(HTMLVideoElement | null)[]>([]);
   const [showScrollIndicator, setShowScrollIndicator] = useState(true);
+  const [hasMounted, setHasMounted] = useState(false); // for initial fade‑in
+
+  // set after first paint to trigger fade‑in
+  useEffect(() => {
+    setHasMounted(true);
+  }, []);
 
   const handleVideoEnd = () => {
     setCurrentVideoIndex((prevIndex) => (prevIndex + 1) % videoSources.length);
@@ -62,16 +69,21 @@ const HeroSection: React.FC = () => {
     const previousVideoIndex =
       (currentVideoIndex - 1 + videoSources.length) % videoSources.length;
     const previousVideo = videoRefs.current[previousVideoIndex];
+
     if (currentVideo) {
       currentVideo.play().catch((error) => {
         console.debug("Autoplay prevented:", error.message);
       });
       currentVideo.style.opacity = `${defaultOpacity}`;
     }
+
     if (previousVideo && previousVideo !== currentVideo) {
       previousVideo.pause();
-      previousVideo.currentTime = 0;
       previousVideo.style.opacity = "0";
+      // reset frame AFTER fade‑out to avoid flash
+      setTimeout(() => {
+        if (previousVideo) previousVideo.currentTime = 0;
+      }, transitionDurationMs);
     }
   }, [currentVideoIndex]);
 
@@ -92,8 +104,6 @@ const HeroSection: React.FC = () => {
     >
       {/* Video Container */}
       <div className="absolute inset-0 w-full h-full -z-20 bg-black">
-        {" "}
-        {/* Video container at z-20 */}
         {videoSources.map((src, index) => (
           <video
             key={src}
@@ -113,24 +123,26 @@ const HeroSection: React.FC = () => {
               width: "100%",
               height: "100%",
               objectFit: "cover",
-              opacity: index === currentVideoIndex ? defaultOpacity : 0,
+              opacity:
+                index === currentVideoIndex
+                  ? hasMounted
+                    ? defaultOpacity
+                    : 0 // fade‑in on first load
+                  : 0,
               filter: `brightness(${defaultBrightness})`,
               transition: `opacity ${transitionDurationMs}ms ease-in-out`,
             }}
           />
         ))}
       </div>
-      {/* Noise Overlay using CSS class */}
-      {/* Needs z-index between video (-20) and dark overlay (-10) */}
-      <div className="noise-overlay"></div>{" "}
-      {/* Class applies filter and z-index: -15 */}
+
+      {/* Noise Overlay */}
+      <div className="noise-overlay"></div>
       {/* Dark overlay */}
-      {/* Needs z-index between noise (-15) and content (10+) */}
       <div className="absolute inset-0 bg-black/40 -z-10"></div>
+
       {/* Content Container */}
-      {/* Needs z-index above overlays */}
       <div className="relative z-10 container mx-auto px-4">
-        {/* Animate Image with Neon Effect */}
         <AnimatedDiv delay={0.1} className="mb-8">
           <div className="relative mx-auto w-48 h-48 rounded-full">
             <div className="absolute inset-0 rounded-full bg-cyan-400 blur-md opacity-70 animate-aura-glow-outer"></div>
@@ -149,21 +161,18 @@ const HeroSection: React.FC = () => {
           </div>
         </AnimatedDiv>
 
-        {/* Animate Name */}
         <AnimatedDiv delay={0.2}>
           <h1 className="hero-name text-5xl sm:text-6xl md:text-7xl font-bold mb-3 text-white [text-shadow:_0_1px_3px_rgb(0_0_0_/_40%)]">
             Juan Francisco Marcenaro A.
           </h1>
         </AnimatedDiv>
 
-        {/* Animate Subtitle */}
         <AnimatedDiv delay={0.3}>
           <p className="font-body text-xl md:text-2xl text-sky-300 font-medium mb-6 [text-shadow:_0_1px_2px_rgb(0_0_0_/_30%)]">
             Full-Stack Web & Mobile Developer | Sound Engineer
           </p>
         </AnimatedDiv>
 
-        {/* Animate Description */}
         <AnimatedDiv delay={0.4}>
           <p className="font-body font-serif text-lg text-gray-200 max-w-2xl mx-auto mb-8 leading-relaxed [text-shadow:_0_1px_2px_rgb(0_0_0_/_50%)]">
             Passionate about building impactful digital solutions and creating
@@ -171,17 +180,16 @@ const HeroSection: React.FC = () => {
           </p>
         </AnimatedDiv>
 
-        {/* Animate Button */}
         <AnimatedDiv delay={0.5}>
           <a
             href="#projects"
-            className="font-body inline-block bg-sky-600 text-white text-lg font-semibold py-3 px-10 rounded-lg shadow-md hover:bg-sky-700 focus:outline-none focus:ring-2 focus:ring-sky-500 focus:ring-offset-2 focus:ring-offset-black/50 transform hover:-translate-y-0.5 transition-all duration-300 hover:shadow-[0_0_15px_rgba(2,132,199,0.6)]" // Or hover:shadow-sky-glow-md
+            className="font-body inline-block bg-sky-600 text-white text-lg font-semibold py-3 px-10 rounded-lg shadow-md hover:bg-sky-700 focus:outline-none focus:ring-2 focus:ring-sky-500 focus:ring-offset-2 focus:ring-offset-black/50 transform hover:-translate-y-0.5 transition-all duration-300 hover:shadow-[0_0_15px_rgba(2,132,199,0.6)]"
           >
             View My Work
           </a>
         </AnimatedDiv>
       </div>
-      {/* Conditionally render Scroll Indicator */}
+
       <AnimatePresence>
         {showScrollIndicator && <ScrollIndicator />}
       </AnimatePresence>
