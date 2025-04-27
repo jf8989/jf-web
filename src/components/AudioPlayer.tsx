@@ -90,6 +90,7 @@ const AudioPlayer: React.FC = () => {
       "/audio/UwunuInstrumental-JF-Master.mp3",
       "/audio/Oddyssey-JF-Master.mp3",
       "/audio/FaceTheNight-Mazure-JF-Master.mp3",
+      "/audio/SonarContigo-Mazure-JF-Master-2025.mp3",
     ],
     []
   );
@@ -99,6 +100,7 @@ const AudioPlayer: React.FC = () => {
       "Uwunu - Shani [Instrumental] (JF Master)",
       "Odyssey (JF Master)",
       "Face The Night - Mazure (JF Master)",
+      "Soñar Contigo - Mazure (JF Master)",
     ],
     []
   );
