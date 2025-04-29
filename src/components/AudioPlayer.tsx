@@ -87,6 +87,7 @@ const AudioPlayer: React.FC = () => {
   const trackList = useMemo(
     () => [
       "/audio/BBC4-Instrumental-JF-Master.mp3",
+      "/audio/Osmosis-Francu-JFMaster2025.mp3",
       "/audio/Destino-Francu-JFMaster2025.mp3",
       "/audio/UwunuInstrumental-JF-Master.mp3",
       "/audio/Oddyssey-JF-Master.mp3",
@@ -98,6 +99,7 @@ const AudioPlayer: React.FC = () => {
   const trackNames = useMemo(
     () => [
       "BBC4 - Francu [Instrumental] (JF Mix|Master)",
+      "Osmosis - Francu (JF Mix|Master)",
       "Destino - Francu (JF Mix|Master)",
       "Uwunu - Shani [Instrumental] (JF Mix|Master)",
       "Odyssey (JF Master)",
