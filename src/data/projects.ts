@@ -43,7 +43,7 @@ export const projectsData: ProjectType[] = [
     videoUrl: null,
     tags: ["Angular", "Frontend", "Client", "TypeScript", "Responsive"],
     featured: true,
-    year: "2023",
+    year: "2025",
   },
 
   // Project 2: j-Flix API
@@ -67,7 +67,7 @@ export const projectsData: ProjectType[] = [
     videoUrl: null,
     tags: ["Node.js", "API", "Backend", "REST", "MongoDB", "Authentication"],
     featured: true,
-    year: "2023",
+    year: "2024",
   },
 
   // Project 3: J-Flix React Client
@@ -82,7 +82,7 @@ export const projectsData: ProjectType[] = [
     liveUrl: "https://j-flixcom.netlify.app/",
     videoUrl: null,
     tags: ["React", "Frontend", "Client", "Redux", "JavaScript"],
-    year: "2022",
+    year: "2024",
   },
 
   // Project 4: Meet App (React PWA)
@@ -106,7 +106,7 @@ export const projectsData: ProjectType[] = [
     videoUrl: null,
     tags: ["React", "PWA", "Serverless", "TDD", "API Integration", "Data Viz"],
     featured: true,
-    year: "2023",
+    year: "2025",
   },
 
   // Project 5: React Native Chat App
@@ -127,7 +127,7 @@ export const projectsData: ProjectType[] = [
     liveUrl: null,
     videoUrl: "https://www.youtube.com/watch?v=VQeiYhRNnrI",
     tags: ["React Native", "Mobile", "Firebase", "Real-time", "Cross-platform"],
-    year: "2022",
+    year: "2025",
   },
 
   // Project 6: Pokedex App
@@ -142,7 +142,44 @@ export const projectsData: ProjectType[] = [
     liveUrl: "https://pokedex-app-seven-gamma.vercel.app/",
     videoUrl: null,
     tags: ["JavaScript", "jQuery", "Frontend", "API Client"],
-    year: "2021",
+    year: "2024",
+  },
+
+  // Project 7: International Mechanical Timekeeper
+  {
+    id: 7, // Corrected ID
+    title: "International Mechanical Timekeeper",
+    description:
+      "An interactive web application displaying global time via an animated SVG mechanical clock. Features dynamic timezone selection (IANA-based with search and offset grouping), real-time updates, and a responsive, themeable interface. Built with Next.js, React, and TypeScript to showcase modern front-end development skills.",
+    techStack: [
+      "Next.js",
+      "React",
+      "TypeScript",
+      "Tailwind CSS",
+      "SVG",
+      "Intl API",
+      "clsx",
+      "tailwind-merge",
+      "ESLint",
+      "Prettier",
+    ],
+    imageUrl: "/images/clock.jpg",
+    githubUrl: "https://github.com/jf8989/international-clock",
+    liveUrl: "https://your-timekeeper-live-url.vercel.app/", // Placeholder: Replace with your actual live deployment URL
+    videoUrl: null, // Or add a video URL if you have a demo
+    tags: [
+      "Next.js",
+      "React",
+      "TypeScript",
+      "SVG",
+      "Timezone",
+      "Clock",
+      "Frontend",
+      "Showcase",
+      "WIP", // Work In Progress
+    ],
+    featured: true, // Assuming you want to feature this prominent project
+    year: "2025", // Assuming current year, adjust if started earlier
   },
 ];
 

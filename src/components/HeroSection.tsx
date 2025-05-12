@@ -20,9 +20,9 @@ const videoSources = [
   "/videos/background10.mp4",
   "/videos/background13.mp4",
 ];
-const transitionDurationMs = 600; // ultra‑quick 10 ms cross‑fade
-const defaultOpacity = 0.4;
-const defaultBrightness = 0.8;
+const transitionDurationMs = 600;
+const defaultOpacity = 0.6;
+const defaultBrightness = 0.9;
 // --- End Configuration ---
 
 // Scroll Indicator Component
