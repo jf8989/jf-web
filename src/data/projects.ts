@@ -165,8 +165,8 @@ export const projectsData: ProjectType[] = [
     ],
     imageUrl: "/images/clock.jpg",
     githubUrl: "https://github.com/jf8989/international-clock",
-    liveUrl: "https://your-timekeeper-live-url.vercel.app/", // Placeholder: Replace with your actual live deployment URL
-    videoUrl: null, // Or add a video URL if you have a demo
+    liveUrl: "https://international-clock-five.vercel.app/",
+    videoUrl: null,
     tags: [
       "Next.js",
       "React",
