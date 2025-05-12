@@ -172,6 +172,7 @@ export const projectsData: ProjectType[] = [
       "React",
       "TypeScript",
       "SVG",
+      "PWA",
       "Timezone",
       "Clock",
       "Frontend",
@@ -180,6 +181,35 @@ export const projectsData: ProjectType[] = [
     ],
     featured: true, // Assuming you want to feature this prominent project
     year: "2025", // Assuming current year, adjust if started earlier
+  },
+
+  // Project 8: OnGuard Native Android App
+  {
+    id: 8,
+    title: "OnGuard Native Android App",
+    description:
+      "A real-time surveillance  application for Android devices, built with Kotlin.  It allows users to synchronize to multiple devices with the right permissions.",
+    techStack: [
+      "Android Studio",
+      "Kotlin",
+      "Firebase",
+      "Firestore",
+      "Google Maps API",
+    ],
+    imageUrl: "/images/onguard.jpg",
+    githubUrl: "https://github.com/jf8989/kotlinSample",
+    liveUrl: "",
+    videoUrl: null,
+    tags: [
+      "Android Studio",
+      "Next.js",
+      "Android",
+      "Kotlin",
+      "Firestore",
+      "Google Maps API",
+    ],
+    featured: true,
+    year: "2025",
   },
 ];
 
