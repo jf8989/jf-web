@@ -8,7 +8,7 @@ const Footer: React.FC = () => {
   const currentYear = new Date().getFullYear();
 
   const linkedinUrl = "https://www.linkedin.com/in/jfmarcenaroa/";
-  const githubUrl = "https://github.com/jf8989?tab=repositories";
+  const githubUrl = "https://github.com/jf8989";
   const email = "juanfrajf.contacto@gmail.com";
 
   return (
