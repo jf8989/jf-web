@@ -149,7 +149,7 @@ const HeroSection: React.FC = () => {
             <div className="absolute inset-0 rounded-full bg-blue-300 blur-sm opacity-80 animate-aura-glow-inner"></div>
             <div className="relative w-full h-full p-1 rounded-full overflow-hidden">
               <Image
-                src="/images/jf-profile-picture.jpg"
+                src="/images/jf-profile-picture3.jpg"
                 alt="Juan Francisco Marcenaro A."
                 width={192}
                 height={192}
