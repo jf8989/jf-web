@@ -244,7 +244,7 @@ const HeroSection: React.FC = () => {
             </a>
             {/* GitHub */}
             <a
-              href="#"
+              href="https://github.com/jf8989?tab=repositories"
               className="text-gray-400 hover:text-sky-400 transition-colors duration-300"
             >
               <span className="sr-only">GitHub</span>
@@ -258,7 +258,7 @@ const HeroSection: React.FC = () => {
             </a>
             {/* Twitter/X */}
             <a
-              href="#"
+              href="https://x.com/PriestAi_jf"
               className="text-gray-400 hover:text-sky-400 transition-colors duration-300"
             >
               <span className="sr-only">Twitter</span>
