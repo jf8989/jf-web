@@ -98,13 +98,13 @@ const AudioPlayer: React.FC = () => {
   );
   const trackNames = useMemo(
     () => [
-      "BBC4 - Francu [Instrumental] (JF Mix|Master)",
-      "Destino - Francu (JF Mix|Master)",
-      "Osmosis - Francu (JF Mix|Master)",
-      "Uwunu - Shani [Instrumental] (JF Mix|Master)",
+      "BBC4 - Francu [Instrumental] (JF Mix | Master)",
+      "Destino - Francu (JF Mix | Master)",
+      "Osmosis - Francu (JF Mix | Master)",
+      "Uwunu - Shani [Instrumental] (JF Mix | Master)",
       "Odyssey (JF Master)",
-      "Face The Night - Mazure (JF Mix|Master)",
-      "Soñar Contigo - Mazure (JF Mix|Master)",
+      "Face The Night - Mazure (JF Mix | Master)",
+      "Soñar Contigo - Mazure (JF Mix | Master)",
     ],
     []
   );
