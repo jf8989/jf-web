@@ -6,24 +6,25 @@ import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
 import AnimatedDiv from "@/components/utils/AnimatedDiv";
 
-// --- Configuration ---
-const videoSources = [
-  "/videos/background7.mp4",
-  "/videos/background11.mp4",
-  "/videos/background2.mp4",
-  "/videos/background4.mp4",
-  "/videos/background5.mp4",
-  "/videos/background12.mp4",
-  "/videos/background1.mp4",
-  "/videos/background8.mp4",
-  "/videos/background9.mp4",
-  "/videos/background10.mp4",
-  "/videos/background13.mp4",
+/* ---------- Configuration ---------- */
+const videoNames = [
+  "background7",
+  "background11",
+  "background2",
+  "background4",
+  "background5",
+  "background12",
+  "background1",
+  "background8",
+  "background9",
+  "background10",
+  "background13",
 ];
 const transitionDurationMs = 600;
 const defaultOpacity = 0.7;
 const defaultBrightness = 0.85;
-// --- End Configuration ---
+const particleCount = 12;
+/* ---------- End Configuration ---------- */
 
 // Enhanced Scroll Indicator Component
 const ScrollIndicator: React.FC = () => (
@@ -107,19 +108,17 @@ const HeroSection: React.FC = () => {
   const [showScrollIndicator, setShowScrollIndicator] = useState(true);
   const [hasMounted, setHasMounted] = useState(false);
 
-  useEffect(() => {
-    setHasMounted(true);
-  }, []);
+  useEffect(() => setHasMounted(true), []);
 
   const handleVideoEnd = () => {
-    setCurrentVideoIndex((prevIndex) => (prevIndex + 1) % videoSources.length);
+    setCurrentVideoIndex((prev) => (prev + 1) % videoNames.length);
   };
 
   // Video switching logic
   useEffect(() => {
     const currentVideo = videoRefs.current[currentVideoIndex];
     const previousVideoIndex =
-      (currentVideoIndex - 1 + videoSources.length) % videoSources.length;
+      (currentVideoIndex - 1 + videoNames.length) % videoNames.length;
     const previousVideo = videoRefs.current[previousVideoIndex];
 
     if (currentVideo) {
@@ -153,38 +152,42 @@ const HeroSection: React.FC = () => {
       id="home"
       className="relative overflow-hidden py-0 text-center min-h-screen flex items-center justify-center"
     >
-      {/* Enhanced Video Container */}
+      {/* ——— Background Video Container ——— */}
       <div className="absolute inset-0 w-full h-full -z-20 bg-black">
-        {videoSources.map((src, index) => (
-          <video
-            key={src}
-            ref={(el) => {
-              videoRefs.current[index] = el;
-            }}
-            src={src}
-            autoPlay={index === 0}
-            loop={false}
-            muted
-            playsInline
-            onEnded={handleVideoEnd}
-            preload="auto"
-            style={{
-              position: "absolute",
-              inset: "0",
-              width: "100%",
-              height: "100%",
-              objectFit: "cover",
-              opacity:
-                index === currentVideoIndex
-                  ? hasMounted
-                    ? defaultOpacity
-                    : 0
-                  : 0,
-              filter: `brightness(${defaultBrightness}) saturate(1.1) contrast(1.05)`,
-              transition: `opacity ${transitionDurationMs}ms ease-in-out, filter 1000ms ease-in-out`,
-            }}
-          />
-        ))}
+        {videoNames.map((name, index) => {
+          const isActive = index === currentVideoIndex;
+
+          return (
+            <video
+              key={name}
+              ref={(el) => {
+                videoRefs.current[index] = el;
+              }}
+              /* ★ Load strategy: eager for the first clip, lazy for the rest */
+              preload={isActive ? "auto" : "none"} // ★
+              // loading attribute removed as it is not valid for <video> elements
+              autoPlay={index === 0}
+              loop={false}
+              muted
+              playsInline
+              poster={`/images/posters/${name}.jpg`} // ★ optional visual polish
+              onEnded={handleVideoEnd}
+              style={{
+                position: "absolute",
+                inset: 0,
+                width: "100%",
+                height: "100%",
+                objectFit: "cover",
+                opacity: isActive && hasMounted ? defaultOpacity : 0,
+                filter: `brightness(${defaultBrightness}) saturate(1.1) contrast(1.05)`,
+                transition: `opacity ${transitionDurationMs}ms ease-in-out, filter 1000ms ease-in-out`,
+              }}
+            >
+              {/* flat layout – single MP4 source */}
+              <source src={`/videos/${name}.mp4`} type="video/mp4" />
+            </video>
+          );
+        })}
       </div>
 
       {/* Enhanced Noise Overlay */}
@@ -210,30 +213,35 @@ const HeroSection: React.FC = () => {
         }}
       />
 
-      {/* Floating particles effect */}
-      <div className="absolute inset-0 -z-15 pointer-events-none">
-        {[...Array(12)].map((_, i) => (
-          <motion.div
-            key={i}
-            className="absolute w-1 h-1 bg-sky-400/20 rounded-full"
-            style={{
-              left: `${Math.random() * 100}%`,
-              top: `${Math.random() * 100}%`,
-            }}
-            animate={{
-              y: [0, -100, 0],
-              opacity: [0, 0.6, 0],
-              scale: [0.5, 1, 0.5],
-            }}
-            transition={{
-              duration: 8 + Math.random() * 4,
-              repeat: Infinity,
-              delay: Math.random() * 5,
-              ease: "easeInOut",
-            }}
-          />
-        ))}
-      </div>
+      {/* ——— FLOATING PARTICLES ——— */}
+      {hasMounted && ( // ★ hydration-safe
+        <div className="absolute inset-0 -z-15 pointer-events-none">
+          {[...Array(particleCount)].map((_, i) => {
+            const left = Math.random() * 100;
+            const top = Math.random() * 100;
+            const duration = 8 + Math.random() * 4;
+            const delay = Math.random() * 5;
+            return (
+              <motion.div
+                key={i}
+                className="absolute w-1 h-1 bg-sky-400/20 rounded-full"
+                style={{ left: `${left}%`, top: `${top}%` }}
+                animate={{
+                  y: [0, -100, 0],
+                  opacity: [0, 0.6, 0],
+                  scale: [0.5, 1, 0.5],
+                }}
+                transition={{
+                  duration,
+                  repeat: Infinity,
+                  delay,
+                  ease: "easeInOut",
+                }}
+              />
+            );
+          })}
+        </div>
+      )}
 
       {/* Content Container */}
       <div className="relative z-10 container mx-auto px-6 py-16">
@@ -391,14 +399,14 @@ const HeroSection: React.FC = () => {
               transition={{ duration: 0.2 }}
             >
               <span className="relative z-10 [text-shadow:_0_2px_4px_rgb(0_0_0_/_40%)]">
-                Sound Engineer
+                Audio Engineer
               </span>
               <motion.span
                 className="absolute inset-0 text-sky-400/30 blur-sm"
                 animate={{ opacity: [0.2, 0.4, 0.2] }}
                 transition={{ duration: 3, repeat: Infinity, delay: 1.5 }}
               >
-                Sound Engineer
+                Audio Engineer
               </motion.span>
             </motion.p>
           </motion.div>
