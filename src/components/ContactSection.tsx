@@ -42,7 +42,7 @@ const ContactSection: React.FC = () => {
               LinkedIn
             </a>
             <a
-              href="https://github.com/jf8989?tab=repositories"
+              href="https://github.com/jf8989"
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex items-center justify-center bg-gray-700 text-white text-base sm:text-lg font-semibold py-3 px-8 rounded-lg shadow-md hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800 transform hover:-translate-y-0.5 transition duration-300 ease-in-out w-full sm:w-auto"
