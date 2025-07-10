@@ -23,29 +23,6 @@ export interface ProjectType {
  * An array containing data for all portfolio projects.
  */
 export const projectsData: ProjectType[] = [
-  // Project 1: J-Flix Angular Client
-  {
-    id: 1,
-    title: "J-Flix Angular Client",
-    description:
-      "A responsive movie browsing platform built with Angular. Users can create profiles, browse and search movies, and maintain a favorites list with detailed information and responsive design for all devices.",
-    techStack: [
-      "Angular",
-      "TypeScript",
-      "Angular Material",
-      "RxJS",
-      "LocalStorage",
-      "TypeDoc",
-    ],
-    imageUrl: "/images/angular.jpg",
-    githubUrl: "https://github.com/jf8989/jflix-client-2",
-    liveUrl: "https://jflix-client-2.vercel.app/",
-    videoUrl: null,
-    tags: ["Angular", "Frontend", "Client", "TypeScript", "Responsive"],
-    featured: true,
-    year: "2025",
-  },
-
   // Project 2: j-Flix API
   {
     id: 2,
@@ -83,6 +60,45 @@ export const projectsData: ProjectType[] = [
     videoUrl: null,
     tags: ["React", "Frontend", "Client", "Redux", "JavaScript"],
     year: "2024",
+  },
+
+  // Project 3: Berlitz Report AI Dashboard
+  {
+    id: 3, // Keeping the ID as requested
+    title: "Berlitz Report AI Dashboard", // Updated title
+    description:
+      "An interactive, full-stack dashboard for analyzing student performance data, featuring a conversational AI assistant powered by Google Gemini. This project transforms static spreadsheet data into a dynamic, insightful, and user-friendly web application.",
+    // Updated tech stack to reflect the actual technologies used
+    techStack: [
+      "Next.js",
+      "React",
+      "TypeScript",
+      "Tailwind CSS",
+      "Google Gemini",
+      "Vercel",
+      "Recharts",
+      "Framer Motion",
+      "Dexie.js",
+    ],
+    // IMPORTANT: You'll need to take a screenshot of your dashboard for this image
+    imageUrl: "/images/berlitz.jpg",
+    // Updated GitHub URL to the correct repository
+    githubUrl: "https://github.com/jf8989/berlitz-report",
+    // Placeholder for your live Vercel deployment URL
+    liveUrl: "https://berlitz-report.vercel.app/",
+    videoUrl: null,
+    // Updated tags to be relevant and impressive for this project
+    tags: [
+      "Next.js",
+      "AI",
+      "Dashboard",
+      "Google Gemini",
+      "Data Visualization",
+      "Full-Stack",
+      "TypeScript",
+    ],
+    featured: true, // Marked as a featured project
+    year: "2025",
   },
 
   // Project 4: Meet App (React PWA)
@@ -208,6 +224,29 @@ export const projectsData: ProjectType[] = [
       "Firestore",
       "Google Maps API",
     ],
+    featured: true,
+    year: "2025",
+  },
+
+  // Project 1: J-Flix Angular Client
+  {
+    id: 1,
+    title: "J-Flix Angular Client",
+    description:
+      "A responsive movie browsing platform built with Angular. Users can create profiles, browse and search movies, and maintain a favorites list with detailed information and responsive design for all devices.",
+    techStack: [
+      "Angular",
+      "TypeScript",
+      "Angular Material",
+      "RxJS",
+      "LocalStorage",
+      "TypeDoc",
+    ],
+    imageUrl: "/images/angular.jpg",
+    githubUrl: "https://github.com/jf8989/jflix-client-2",
+    liveUrl: "https://jflix-client-2.vercel.app/",
+    videoUrl: null,
+    tags: ["Angular", "Frontend", "Client", "TypeScript", "Responsive"],
     featured: true,
     year: "2025",
   },
