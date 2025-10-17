@@ -3,7 +3,7 @@
 
 import React, { useState, useRef, useEffect } from "react";
 import Image from "next/image";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
 import AnimatedDiv from "@/components/utils/AnimatedDiv";
 
 /* ---------- Configuration ---------- */
@@ -26,80 +26,134 @@ const particleCount = 12;
 /* ---------- End Configuration ---------- */
 
 // Enhanced Scroll Indicator Component
-const ScrollIndicator: React.FC = () => (
-  <motion.div
-    initial={{ opacity: 0, y: -20 }}
-    animate={{ opacity: 1, y: 0 }}
-    exit={{ opacity: 0, y: 20 }}
-    transition={{ duration: 0.8, ease: [0.25, 0.46, 0.45, 0.94] }}
-    className="absolute bottom-8 left-1/2 transform -translate-x-1/2 z-20 pointer-events-none"
-  >
+const ScrollIndicator: React.FC = () => {
+  const prefersReducedMotion = useReducedMotion();
+
+  return (
     <motion.div
-      animate={{ y: [0, 12, 0] }}
-      transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
-      className="flex flex-col items-center group"
+      initial={{ opacity: 0, y: -20 }}
+      animate={{ opacity: 1, y: 0 }}
+      exit={{ opacity: 0, y: 20 }}
+      transition={{ duration: 0.8, ease: [0.25, 0.46, 0.45, 0.94] }}
+      className="absolute bottom-8 inset-x-0 z-20 pointer-events-none"
     >
-      {/* Enhanced scroll text with glow */}
-      <motion.span
-        className="text-gray-200/80 text-xs font-light mb-3 tracking-[0.2em] uppercase relative"
-        initial={{ letterSpacing: "0.2em" }}
-        animate={{ letterSpacing: ["0.2em", "0.25em", "0.2em"] }}
-        transition={{ duration: 3, repeat: Infinity }}
-      >
-        <span className="relative z-10">Scroll</span>
+      <div className="w-full flex justify-center">
         <motion.div
-          className="absolute inset-0 text-sky-300/60 blur-sm"
-          animate={{ opacity: [0.3, 0.7, 0.3] }}
-          transition={{ duration: 2, repeat: Infinity }}
+          animate={
+            prefersReducedMotion
+              ? {}
+              : { y: [0, 8, 0], opacity: [0.85, 1, 0.85] }
+          }
+          transition={
+            prefersReducedMotion
+              ? { duration: 0 }
+              : {
+                  duration: 1.6,
+                  repeat: Infinity,
+                  repeatType: "mirror",
+                  ease: "easeInOut",
+                }
+          }
+          className="flex flex-col items-center group"
         >
-          Scroll
+          {/* Scroll text with subtle glow */}
+          <motion.span
+            className="text-gray-200/80 text-xs font-light mb-3 tracking-[0.2em] uppercase relative"
+            initial={{ letterSpacing: "0.2em" }}
+            animate={
+              prefersReducedMotion
+                ? {}
+                : { letterSpacing: ["0.2em", "0.25em", "0.2em"] }
+            }
+            transition={
+              prefersReducedMotion
+                ? { duration: 0 }
+                : { duration: 3, repeat: Infinity, repeatType: "mirror" }
+            }
+          >
+            <span className="relative z-10">Scroll</span>
+            <motion.div
+              className="absolute inset-0 text-sky-300/60 blur-sm"
+              animate={prefersReducedMotion ? {} : { opacity: [0.3, 0.7, 0.3] }}
+              transition={
+                prefersReducedMotion
+                  ? { duration: 0 }
+                  : { duration: 2, repeat: Infinity, repeatType: "mirror" }
+              }
+            >
+              Scroll
+            </motion.div>
+          </motion.span>
+
+          {/* Arrow with layered accent */}
+          <div className="relative">
+            <motion.svg
+              className="w-6 h-6 text-sky-300 relative z-10"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+              strokeWidth={1.5}
+              animate={
+                prefersReducedMotion ? {} : { strokeWidth: [1.5, 2, 1.5] }
+              }
+              transition={
+                prefersReducedMotion
+                  ? { duration: 0 }
+                  : { duration: 2, repeat: Infinity, repeatType: "mirror" }
+              }
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M19 9l-7 7-7-7"
+              />
+            </motion.svg>
+            <motion.svg
+              className="w-6 h-6 text-sky-400/40 absolute inset-0 blur-sm"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+              strokeWidth={2}
+              animate={
+                prefersReducedMotion
+                  ? {}
+                  : { opacity: [0.4, 0.8, 0.4], scale: [1, 1.08, 1] }
+              }
+              transition={
+                prefersReducedMotion
+                  ? { duration: 0 }
+                  : { duration: 2, repeat: Infinity, repeatType: "mirror" }
+              }
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M19 9l-7 7-7-7"
+              />
+            </motion.svg>
+          </div>
+
+          {/* Animated line */}
+          <motion.div
+            className="w-px bg-gradient-to-b from-sky-400/60 to-transparent mt-2"
+            initial={prefersReducedMotion ? { height: 12 } : { height: 0 }}
+            animate={prefersReducedMotion ? {} : { height: [0, 24, 0] }}
+            transition={
+              prefersReducedMotion
+                ? { duration: 0 }
+                : {
+                    duration: 2,
+                    repeat: Infinity,
+                    delay: 0.4,
+                    ease: "easeInOut",
+                  }
+            }
+          />
         </motion.div>
-      </motion.span>
-
-      {/* Enhanced arrow with multiple layers */}
-      <div className="relative">
-        <motion.svg
-          className="w-6 h-6 text-sky-300 relative z-10"
-          fill="none"
-          viewBox="0 0 24 24"
-          stroke="currentColor"
-          strokeWidth={1.5}
-          animate={{ strokeWidth: [1.5, 2, 1.5] }}
-          transition={{ duration: 2, repeat: Infinity }}
-        >
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            d="M19 9l-7 7-7-7"
-          />
-        </motion.svg>
-        <motion.svg
-          className="w-6 h-6 text-sky-400/40 absolute inset-0 blur-sm"
-          fill="none"
-          viewBox="0 0 24 24"
-          stroke="currentColor"
-          strokeWidth={2}
-          animate={{ opacity: [0.4, 0.8, 0.4], scale: [1, 1.1, 1] }}
-          transition={{ duration: 2, repeat: Infinity }}
-        >
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            d="M19 9l-7 7-7-7"
-          />
-        </motion.svg>
       </div>
-
-      {/* Animated line */}
-      <motion.div
-        className="w-px bg-gradient-to-b from-sky-400/60 to-transparent mt-2"
-        initial={{ height: 0 }}
-        animate={{ height: [0, 24, 0] }}
-        transition={{ duration: 2, repeat: Infinity, delay: 0.5 }}
-      />
     </motion.div>
-  </motion.div>
-);
+  );
+};
 
 const HeroSection: React.FC = () => {
   const [currentVideoIndex, setCurrentVideoIndex] = useState(0);

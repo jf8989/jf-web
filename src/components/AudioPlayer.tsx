@@ -268,15 +268,23 @@ const AudioPlayer: React.FC = () => {
       <div className="fixed bottom-5 right-5 z-50">
         {/* Onboarding hint */}
         {showHint && (
-          <div className="absolute -top-12 right-0 flex flex-col items-end select-none">
-            <span className="mb-1 text-xs bg-sky-600 text-white px-2 py-0 rounded-lg shadow-md animate-pulse">
+          <button
+            type="button"
+            onClick={() => {
+              setShowControls(true);
+              setShowHint(false);
+            }}
+            className="absolute -top-12 right-0 flex flex-col items-end focus:outline-none"
+            aria-label="Open audio player"
+            title="Open audio player"
+          >
+            <span className="mb-1 text-xs bg-sky-600 text-white px-2 py-0 rounded-lg shadow-md animate-pulse cursor-pointer">
               Click to listen
             </span>
-            {/* Simple arrow down */}
-            <div className="w-2 h-2 mr-4 bg-sky-600 rotate-45 transform"></div>
-            {/* pulse ring (simplified) */}
-            <span className="absolute inset-0 rounded-full bg-sky-400/40 animate-ping pointer-events-none"></span>
-          </div>
+            <div className="w-2 h-2 mr-4 bg-sky-600 rotate-45 transform" />
+            {/* pulse ring should not block clicks */}
+            <span className="absolute inset-0 rounded-full bg-sky-400/40 animate-ping pointer-events-none" />
+          </button>
         )}
 
         {/* Speaker Toggle Button */}
