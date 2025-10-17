@@ -12,7 +12,7 @@ export default function Home() {
   return (
     <>
       <Header />
-      <main className="mt-16">
+      <main className="mt-0">
         <HeroSection />
         <ProjectsSection />
         <AboutSection />

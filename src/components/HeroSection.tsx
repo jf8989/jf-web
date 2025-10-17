@@ -314,7 +314,7 @@ const HeroSection: React.FC = () => {
 
             {/* Profile image container with enhanced backdrop */}
             <motion.div
-              className="relative w-full h-full p-3 rounded-full overflow-hidden"
+              className="relative w-full h-full p-3 mt-14 rounded-full overflow-hidden"
               style={{
                 background:
                   "linear-gradient(135deg, rgba(255,255,255,0.15) 0%, rgba(255,255,255,0.05) 100%)",
