@@ -340,7 +340,7 @@ const HeroSection: React.FC = () => {
 
             {/* Pulsing inner glow */}
             <motion.div
-              className="absolute inset-1 rounded-full bg-gradient-to-r from-cyan-400/30 to-blue-500/30"
+              className="absolute inset-1 rounded-full bg-gradient-to-r from-cyan-400/30 to-green-500/30"
               animate={{
                 opacity: [0.3, 0.7, 0.3],
                 scale: [0.95, 1.05, 0.95],
@@ -404,7 +404,7 @@ const HeroSection: React.FC = () => {
             </span>
             {/* Subtle glow effect for the text */}
             <motion.span
-              className="absolute inset-0 bg-clip-text text-transparent bg-gradient-to-r from-sky-300/40 to-blue-300/40 blur-sm"
+              className="absolute inset-0 bg-clip-text text-transparent bg-gradient-to-r from-sky-300/40 to-green-300/40 blur-sm"
               animate={{ opacity: [0.3, 0.6, 0.3] }}
               transition={{ duration: 4, repeat: Infinity }}
             >
@@ -422,7 +422,7 @@ const HeroSection: React.FC = () => {
             transition={{ duration: 0.8, delay: 0.3 }}
           >
             <motion.p
-              className="font-body text-xl md:text-2xl text-sky-300 font-medium relative"
+              className="font-body text-xl md:text-2xl text-green-300 font-medium relative"
               whileHover={{ scale: 1.05 }}
               transition={{ duration: 0.2 }}
             >
@@ -524,7 +524,7 @@ const HeroSection: React.FC = () => {
 
             <motion.a
               href="#contact"
-              className="font-body inline-flex items-center justify-center gap-3 bg-gradient-to-r from-sky-500 via-blue-600 to-blue-700 text-white text-lg font-medium py-4 px-10 rounded-xl shadow-2xl hover:shadow-sky-500/40 focus:outline-none focus:ring-2 focus:ring-sky-500 focus:ring-offset-2 focus:ring-offset-black/50 relative overflow-hidden group"
+              className="font-body inline-flex items-center justify-center gap-3 bg-gradient-to-r from-blue-700 via-blue-600 to-sky-500 text-white text-lg font-medium py-4 px-10 rounded-xl shadow-2xl hover:shadow-sky-500/40 focus:outline-none focus:ring-2 focus:ring-sky-500 focus:ring-offset-2 focus:ring-offset-black/50 relative overflow-hidden group"
               whileHover={{
                 scale: 1.05,
                 y: -2,

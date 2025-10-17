@@ -192,7 +192,7 @@ const Header: React.FC = () => {
               className="flex items-center space-x-2"
               aria-label="Homepage Logo"
             >
-              <div className="relative overflow-hidden rounded-full border-2 border-blue-400 shadow-lg shadow-blue-400/20">
+              <div className="relative overflow-hidden rounded-full border-2 border-green-400 shadow-lg shadow-green-400/20">
                 <Image
                   src="/images/logo1.png"
                   alt="Juan Francisco Marcenaro A. Logo"
@@ -203,7 +203,7 @@ const Header: React.FC = () => {
                 />
               </div>
               <span className="hidden sm:block font-bold font-mono text-white text-lg">
-                <span className="text-blue-400">J</span>F
+                <span className="text-green-400">J</span>F
               </span>
             </a>
           </motion.div>
@@ -224,7 +224,7 @@ const Header: React.FC = () => {
                 >
                   <span className="relative z-10">{item.name}</span>
                   <motion.span
-                    className="absolute inset-0 bg-blue-600/20 rounded-lg -z-0 opacity-0 group-hover:opacity-100"
+                    className="absolute inset-0 bg-green-600/20 rounded-lg -z-0 opacity-0 group-hover:opacity-100"
                     initial={{ scale: 0.85 }}
                     whileHover={{ scale: 1 }}
                     transition={{ duration: 0.2 }}
@@ -236,7 +236,7 @@ const Header: React.FC = () => {
               href="#contact"
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
-              className="font-geist ml-4 px-4 py-2 bg-blue-600 text-white rounded-full font-medium shadow-lg shadow-blue-600/20 hover:bg-blue-500 transition-all duration-300"
+              className="font-geist ml-4 px-4 py-2 bg-blue-600 text-white rounded-full font-medium shadow-lg shadow-green-600/20 hover:bg-green-500 transition-all duration-300"
             >
               Hire Me
             </motion.a>
@@ -250,7 +250,7 @@ const Header: React.FC = () => {
               whileTap={{ scale: 0.9 }}
               aria-label="Toggle menu"
               onClick={toggleMobileMenu}
-              className="inline-flex items-center justify-center p-2 rounded-full text-gray-400 hover:text-white hover:bg-gray-700/70 focus:outline-none focus:ring-2 focus:ring-blue-400"
+              className="inline-flex items-center justify-center p-2 rounded-full text-gray-400 hover:text-white hover:bg-gray-700/70 focus:outline-none focus:ring-2 focus:ring-green-400"
               aria-expanded={isMobileMenuOpen}
             >
               <span className="sr-only">Open main menu</span>
@@ -309,7 +309,7 @@ const Header: React.FC = () => {
                     className="font-geist flex items-center space-x-3 px-4 py-3 rounded-lg text-base font-medium text-gray-300 hover:text-white hover:bg-gray-800/60 focus:outline-none focus:text-white focus:bg-gray-700 transition-all duration-300"
                     onClick={handleMobileLinkClick}
                   >
-                    <span className="text-blue-400" aria-hidden="true">
+                    <span className="text-green-400" aria-hidden="true">
                       {item.icon}
                     </span>
                     <span>{item.name}</span>
@@ -319,7 +319,7 @@ const Header: React.FC = () => {
               <motion.li variants={mobileItemVariants}>
                 <a
                   href="#contact"
-                  className="font-geist block mt-6 mx-2 px-4 py-3 bg-blue-600 text-white rounded-lg font-medium text-center shadow-lg shadow-blue-600/20 hover:bg-blue-500 transition-all duration-300"
+                  className="font-geist block mt-6 mx-2 px-4 py-3 bg-green-600 text-white rounded-lg font-medium text-center shadow-lg shadow-green-600/20 hover:bg-green-500 transition-all duration-300"
                   onClick={handleMobileLinkClick}
                 >
                   Hire Me
