@@ -10,10 +10,8 @@ const Header: React.FC = () => {
   const [scrolled, setScrolled] = useState(false);
   const [targetHref, setTargetHref] = useState<string | null>(null);
   const headerRef = useRef<HTMLElement>(null);
-  // --- NEW: Refs for click outside detection ---
   const mobileMenuRef = useRef<HTMLDivElement>(null); // Ref for the mobile menu panel
   const mobileButtonRef = useRef<HTMLButtonElement>(null); // Ref for the mobile menu button
-  // --- END NEW ---
 
   const navItems = [
     { name: "Home", href: "#home", icon: "🏠" },
@@ -81,7 +79,6 @@ const Header: React.FC = () => {
       document.removeEventListener("touchstart", handleClickOutside);
     };
   }, [isMobileMenuOpen]); // Re-run this effect only when isMobileMenuOpen changes
-  // --- END NEW ---
 
   const toggleMobileMenu = () => {
     if (isMobileMenuOpen) {
@@ -203,7 +200,7 @@ const Header: React.FC = () => {
                 />
               </div>
               <span className="hidden sm:block font-bold font-mono text-white text-lg">
-                <span className="text-green-400">J</span>F
+                <span className="text-blue-400">J</span>F
               </span>
             </a>
           </motion.div>
@@ -243,7 +240,6 @@ const Header: React.FC = () => {
           </div>
 
           {/* Mobile Menu Button */}
-          {/* --- NEW: Assign ref to the button --- */}
           <div className="md:hidden">
             <motion.button
               ref={mobileButtonRef} // Assign ref here
@@ -279,14 +275,12 @@ const Header: React.FC = () => {
               </svg>
             </motion.button>
           </div>
-          {/* --- END NEW --- */}
         </nav>
       </div>
 
       {/* Mobile Menu Panel with AnimatePresence */}
       <AnimatePresence onExitComplete={handleExitComplete}>
         {isMobileMenuOpen && (
-          // --- NEW: Assign ref to the menu panel ---
           <motion.div
             ref={mobileMenuRef} // Assign ref here
             key="mobile-menu"
@@ -296,7 +290,6 @@ const Header: React.FC = () => {
             variants={mobileMenuVariants}
             className="absolute top-full left-0 w-full bg-gray-900/95 backdrop-blur-md shadow-lg border-t border-gray-800 overflow-hidden"
           >
-            {/* --- END NEW --- */}
             <motion.ul className="px-4 py-2 space-y-1">
               {navItems.map((item, index) => (
                 <motion.li
