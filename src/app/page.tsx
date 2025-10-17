@@ -14,8 +14,8 @@ export default function Home() {
       <Header />
       <main className="mt-0">
         <HeroSection />
-        <ProjectsSection />
         <AboutSection />
+        <ProjectsSection />
         <WorkflowSection />
         <ContactSection />
       </main>
