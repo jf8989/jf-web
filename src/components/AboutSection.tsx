@@ -112,8 +112,8 @@ const AboutSection: React.FC = () => {
             </div>
 
             {/* small note */}
-            <div className="mt-4 text-xs text-gray-500 dark:text-gray-400">
-              * More detail in Projects below — live demos where possible.
+            <div className="mt-4 text-base text-gray-900 dark:text-gray-900">
+              * More details in Projects below.
             </div>
           </AnimatedDiv>
         </div>
