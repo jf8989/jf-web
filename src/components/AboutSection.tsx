@@ -123,16 +123,10 @@ const AboutSection: React.FC = () => {
     },
   };
 
-  // Define background style object with image
-  const sectionStyle = {
-    backgroundImage: `url('/images/about-background.png')`, // Path relative to public folder
-  };
-
   return (
     <section
       id="about"
-      className="relative py-20 sm:py-24 bg-cover bg-center bg-no-repeat overflow-hidden"
-      style={sectionStyle} // Apply background image via style
+      className="relative py-20 sm:py-24 bg-cover bg-center bg-no-repeat overflow-hidden md:bg-[url('/images/about-background.png')]"
     >
       {/* Overlay with gradient fade-out at bottom */}
       <div className="absolute inset-0 bg-gradient-to-b from-white/90 to-transparent dark:from-gray-900/90 dark:to-transparent backdrop-blur-sm z-0"></div>

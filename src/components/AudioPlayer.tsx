@@ -2,13 +2,7 @@
 // src/components/AudioPlayer.tsx
 "use client";
 
-import React, {
-  useState,
-  useRef,
-  useEffect,
-  useCallback,
-  DependencyList,
-} from "react";
+import React, { useState, useRef, useEffect, useCallback } from "react";
 
 // SVG Icons (unchanged)
 const SpeakerLoudIcon = () => (
@@ -84,7 +78,7 @@ const AudioPlayer: React.FC = () => {
   const [showHint, setShowHint] = useState(true); // NEW: onboarding hint
 
   // Playlist
-  const trackList = useMemo(
+  const trackList = React.useMemo(
     () => [
       "/audio/BBC4-Instrumental-JF-Master.mp3",
       "/audio/Destino-Francu-JFMaster2025.mp3",
@@ -96,7 +90,7 @@ const AudioPlayer: React.FC = () => {
     ],
     []
   );
-  const trackNames = useMemo(
+  const trackNames = React.useMemo(
     () => [
       "BBC4 - Francu [Instrumental] (JF Mix | Master)",
       "Destino - Francu (JF Mix | Master)",
@@ -377,10 +371,3 @@ const AudioPlayer: React.FC = () => {
 };
 
 export default AudioPlayer;
-
-// Custom useMemo implementation
-function useMemo<T>(factory: () => T, deps: DependencyList): T {
-  const [state, setState] = React.useState(factory);
-  React.useEffect(() => setState(factory()), deps);
-  return state;
-}

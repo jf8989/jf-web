@@ -244,7 +244,7 @@ const HeroSection: React.FC = () => {
       </div>
 
       {/* Enhanced Noise Overlay */}
-      <div className="noise-overlay opacity-25"></div>
+      <div className="noise-overlay opacity-25 hidden md:block"></div>
 
       {/* Dynamic gradient overlay with animation */}
       <motion.div
@@ -422,7 +422,7 @@ const HeroSection: React.FC = () => {
             transition={{ duration: 0.8, delay: 0.3 }}
           >
             <motion.p
-              className="font-sans text-xl md:text-2xl text-sky-300 font-medium relative"
+              className="font-body text-xl md:text-2xl text-sky-300 font-medium relative"
               whileHover={{ scale: 1.05 }}
               transition={{ duration: 0.2 }}
             >
@@ -447,7 +447,7 @@ const HeroSection: React.FC = () => {
             </motion.span>
 
             <motion.p
-              className="font-sans text-xl md:text-2xl text-sky-300 font-medium relative"
+              className="font-body text-xl md:text-2xl text-sky-300 font-medium relative"
               whileHover={{ scale: 1.05 }}
               transition={{ duration: 0.2 }}
             >
@@ -468,7 +468,7 @@ const HeroSection: React.FC = () => {
         {/* Enhanced Description */}
         <AnimatedDiv delay={0.4}>
           <motion.p
-            className="font-serif text-base md:text-lg text-gray-300 max-w-3xl mx-auto mb-12 leading-relaxed relative"
+            className="font-body text-base md:text-lg text-gray-300 max-w-3xl mx-auto mb-12 leading-relaxed relative"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.4 }}
@@ -489,8 +489,7 @@ const HeroSection: React.FC = () => {
             transition={{ duration: 0.8, delay: 0.5 }}
           >
             <motion.a
-              href="#projects"
-              className="font-sans inline-flex items-center justify-center gap-3 bg-gradient-to-r from-sky-500 via-blue-600 to-blue-700 text-white text-lg font-medium py-4 px-10 rounded-xl shadow-2xl hover:shadow-sky-500/40 focus:outline-none focus:ring-2 focus:ring-sky-500 focus:ring-offset-2 focus:ring-offset-black/50 relative overflow-hidden group"
+              className="font-body inline-flex items-center justify-center gap-3 bg-gradient-to-r from-sky-500 via-blue-600 to-blue-700 text-white text-lg font-medium py-4 px-10 rounded-xl shadow-2xl hover:shadow-sky-500/40 focus:outline-none focus:ring-2 focus:ring-sky-500 focus:ring-offset-2 focus:ring-offset-black/50 relative overflow-hidden group"
               whileHover={{
                 scale: 1.05,
                 y: -2,
@@ -525,7 +524,7 @@ const HeroSection: React.FC = () => {
 
             <motion.a
               href="#contact"
-              className="font-sans inline-flex items-center justify-center gap-3 bg-transparent text-white/90 border-2 border-sky-400/50 backdrop-blur-sm text-lg font-medium py-4 px-8 rounded-xl shadow-lg hover:bg-sky-900/30 hover:border-sky-300/70 focus:outline-none focus:ring-2 focus:ring-sky-500 focus:ring-offset-2 focus:ring-offset-black/50 relative overflow-hidden group"
+              className="font-body inline-flex items-center justify-center gap-3 bg-gradient-to-r from-sky-500 via-blue-600 to-blue-700 text-white text-lg font-medium py-4 px-10 rounded-xl shadow-2xl hover:shadow-sky-500/40 focus:outline-none focus:ring-2 focus:ring-sky-500 focus:ring-offset-2 focus:ring-offset-black/50 relative overflow-hidden group"
               whileHover={{
                 scale: 1.05,
                 y: -2,
