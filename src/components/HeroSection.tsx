@@ -9,7 +9,6 @@ import AnimatedDiv from "@/components/utils/AnimatedDiv";
 /* ---------- Configuration ---------- */
 const videoNames = [
   "background7",
-  "background11",
   "background2",
   "background4",
   "background5",

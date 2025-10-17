@@ -25,7 +25,7 @@ export interface ProjectType {
 export const projectsData: ProjectType[] = [
   // Project 2: j-Flix API
   {
-    id: 2,
+    id: 1,
     title: "J-Flix API",
     description:
       "A robust RESTful API powering the J-Flix platform. Built with Node.js and Express, this API handles user authentication with JWT, manages movie data, and interfaces with MongoDB for persistent storage.",
@@ -49,7 +49,7 @@ export const projectsData: ProjectType[] = [
 
   // Project 3: J-Flix React Client
   {
-    id: 3,
+    id: 2,
     title: "J-Flix React Client",
     description:
       "The original React client for J-Flix with Redux state management. This client offers a seamless movie browsing experience with responsive design, user authentication, and profile management features.",
@@ -230,7 +230,7 @@ export const projectsData: ProjectType[] = [
 
   // Project 1: J-Flix Angular Client
   {
-    id: 1,
+    id: 9,
     title: "J-Flix Angular Client",
     description:
       "A responsive movie browsing platform built with Angular. Users can create profiles, browse and search movies, and maintain a favorites list with detailed information and responsive design for all devices.",
