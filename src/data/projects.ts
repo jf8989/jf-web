@@ -23,30 +23,6 @@ export interface ProjectType {
  * An array containing data for all portfolio projects.
  */
 export const projectsData: ProjectType[] = [
-  // Project 2: j-Flix API
-  {
-    id: 1,
-    title: "J-Flix API",
-    description:
-      "A robust RESTful API powering the J-Flix platform. Built with Node.js and Express, this API handles user authentication with JWT, manages movie data, and interfaces with MongoDB for persistent storage.",
-    techStack: [
-      "Node.js",
-      "Express.js",
-      "MongoDB",
-      "Mongoose",
-      "Passport.js",
-      "JWT",
-      "JSDoc",
-    ],
-    imageUrl: "/images/api.jpg",
-    githubUrl: "https://github.com/jf8989/j-flix",
-    liveUrl: "https://j-flixcom.netlify.app/",
-    videoUrl: null,
-    tags: ["Node.js", "API", "Backend", "REST", "MongoDB", "Authentication"],
-    featured: true,
-    year: "2024",
-  },
-
   // Project 3: J-Flix React Client
   {
     id: 2,
@@ -60,6 +36,28 @@ export const projectsData: ProjectType[] = [
     videoUrl: null,
     tags: ["React", "Frontend", "Client", "Redux", "JavaScript"],
     year: "2024",
+  },
+
+  {
+    id: 10,
+    title: "Loan Calculator Pro",
+    description:
+      "A Python + Flask web app for precise loan calculations with amortization schedules, principal/interest breakdowns, and payoff insights. Evolved from a console tool and deployed on Vercel.",
+    techStack: ["Python", "Flask", "HTML", "CSS", "JavaScript", "Vercel"],
+    imageUrl: "/images/loan.jpg",
+    githubUrl: "https://github.com/jf8989/loan-calculator",
+    liveUrl: "https://loan-calculator-py.vercel.app/en",
+    videoUrl: null,
+    tags: [
+      "Python",
+      "Flask",
+      "Finance",
+      "Calculator",
+      "Data Visualization",
+      "Web App",
+    ],
+    featured: false,
+    year: "2025",
   },
 
   // Project 3: Berlitz Report AI Dashboard
@@ -99,6 +97,29 @@ export const projectsData: ProjectType[] = [
     ],
     featured: true, // Marked as a featured project
     year: "2025",
+  },
+
+  {
+    id: 1,
+    title: "J-Flix API",
+    description:
+      "A robust RESTful API powering the J-Flix platform. Built with Node.js and Express, this API handles user authentication with JWT, manages movie data, and interfaces with MongoDB for persistent storage.",
+    techStack: [
+      "Node.js",
+      "Express.js",
+      "MongoDB",
+      "Mongoose",
+      "Passport.js",
+      "JWT",
+      "JSDoc",
+    ],
+    imageUrl: "/images/api.jpg",
+    githubUrl: "https://github.com/jf8989/j-flix",
+    liveUrl: "https://j-flixcom.netlify.app/",
+    videoUrl: null,
+    tags: ["Node.js", "API", "Backend", "REST", "MongoDB", "Authentication"],
+    featured: true,
+    year: "2024",
   },
 
   // Project 4: Meet App (React PWA)
@@ -159,44 +180,6 @@ export const projectsData: ProjectType[] = [
     videoUrl: null,
     tags: ["JavaScript", "jQuery", "Frontend", "API Client"],
     year: "2024",
-  },
-
-  // Project 7: International Mechanical Timekeeper
-  {
-    id: 7, // Corrected ID
-    title: "International Mechanical Timekeeper",
-    description:
-      "An interactive web application displaying global time via an animated SVG mechanical clock. Features dynamic timezone selection (IANA-based with search and offset grouping), real-time updates, and a responsive, themeable interface. Built with Next.js, React, and TypeScript to showcase modern front-end development skills.",
-    techStack: [
-      "Next.js",
-      "React",
-      "TypeScript",
-      "Tailwind CSS",
-      "SVG",
-      "Intl API",
-      "clsx",
-      "tailwind-merge",
-      "ESLint",
-      "Prettier",
-    ],
-    imageUrl: "/images/clock.jpg",
-    githubUrl: "https://github.com/jf8989/international-clock",
-    liveUrl: "https://international-clock-five.vercel.app/",
-    videoUrl: null,
-    tags: [
-      "Next.js",
-      "React",
-      "TypeScript",
-      "SVG",
-      "PWA",
-      "Timezone",
-      "Clock",
-      "Frontend",
-      "Showcase",
-      "WIP", // Work In Progress
-    ],
-    featured: true, // Assuming you want to feature this prominent project
-    year: "2025", // Assuming current year, adjust if started earlier
   },
 
   // Project 8: OnGuard Native Android App
