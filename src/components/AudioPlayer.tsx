@@ -2,13 +2,7 @@
 // src/components/AudioPlayer.tsx
 "use client";
 
-import React, {
-  useState,
-  useRef,
-  useEffect,
-  useCallback,
-  DependencyList,
-} from "react";
+import React, { useState, useRef, useEffect, useCallback } from "react";
 
 // SVG Icons (unchanged)
 const SpeakerLoudIcon = () => (
@@ -84,7 +78,7 @@ const AudioPlayer: React.FC = () => {
   const [showHint, setShowHint] = useState(true); // NEW: onboarding hint
 
   // Playlist
-  const trackList = useMemo(
+  const trackList = React.useMemo(
     () => [
       "/audio/BBC4-Instrumental-JF-Master.mp3",
       "/audio/Destino-Francu-JFMaster2025.mp3",
@@ -96,7 +90,7 @@ const AudioPlayer: React.FC = () => {
     ],
     []
   );
-  const trackNames = useMemo(
+  const trackNames = React.useMemo(
     () => [
       "BBC4 - Francu [Instrumental] (JF Mix | Master)",
       "Destino - Francu (JF Mix | Master)",
@@ -268,15 +262,23 @@ const AudioPlayer: React.FC = () => {
       <div className="fixed bottom-5 right-5 z-50">
         {/* Onboarding hint */}
         {showHint && (
-          <div className="absolute -top-12 right-0 flex flex-col items-end select-none">
-            <span className="mb-1 text-xs bg-sky-600 text-white px-2 py-0 rounded-lg shadow-md animate-pulse">
+          <button
+            type="button"
+            onClick={() => {
+              setShowControls(true);
+              setShowHint(false);
+            }}
+            className="absolute -top-12 right-0 flex flex-col items-end focus:outline-none"
+            aria-label="Open audio player"
+            title="Open audio player"
+          >
+            <span className="mb-1 text-xs bg-sky-600 text-white px-2 py-0 rounded-lg shadow-md animate-pulse cursor-pointer">
               Click to listen
             </span>
-            {/* Simple arrow down */}
-            <div className="w-2 h-2 mr-4 bg-sky-600 rotate-45 transform"></div>
-            {/* pulse ring (simplified) */}
-            <span className="absolute inset-0 rounded-full bg-sky-400/40 animate-ping pointer-events-none"></span>
-          </div>
+            <div className="w-2 h-2 mr-4 bg-sky-600 rotate-45 transform" />
+            {/* pulse ring should not block clicks */}
+            <span className="absolute inset-0 rounded-full bg-sky-400/40 animate-ping pointer-events-none" />
+          </button>
         )}
 
         {/* Speaker Toggle Button */}
@@ -369,10 +371,3 @@ const AudioPlayer: React.FC = () => {
 };
 
 export default AudioPlayer;
-
-// Custom useMemo implementation
-function useMemo<T>(factory: () => T, deps: DependencyList): T {
-  const [state, setState] = React.useState(factory);
-  React.useEffect(() => setState(factory()), deps);
-  return state;
-}

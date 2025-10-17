@@ -7,7 +7,7 @@
   --foreground: #171717;
 
   /* Typography variables */
-  --font-heading: var(--font-playfair), Georgia, serif;
+  --font-heading: var(--font-geist-sans), system-ui, sans-serif;
   --font-body: var(--font-geist-sans), system-ui, sans-serif;
   --font-code: var(--font-geist-mono), monospace;
 
@@ -116,18 +116,17 @@ h6 {
   }
 
   /* Noise Overlay Rule */
-  .noise-overlay {
+ .noise-overlay {
     position: absolute;
     inset: 0;
     width: 100%;
     height: 100%;
     opacity: 0.06;
-    /* Adjust intensity (0.03 to 0.1 is common) */
-    filter: url(#noiseFilter);
-    /* Apply the SVG filter */
+    background-image: url('/images/noise.png'); /* small tiling PNG/WebP */
+    background-repeat: repeat;
+    background-size: 200px 200px;
     pointer-events: none;
     z-index: -15;
-    /* Ensure correct layering */
   }
 }
 

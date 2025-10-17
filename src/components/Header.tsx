@@ -17,32 +17,39 @@ const Header: React.FC = () => {
 
   const navItems = [
     { name: "Home", href: "#home", icon: "🏠" },
-    { name: "Projects", href: "#projects", icon: "🔧" },
     { name: "About", href: "#about", icon: "👤" },
+    { name: "Projects", href: "#projects", icon: "🔧" },
     { name: "Workflow", href: "#workflow", icon: "📋" },
   ];
 
-  // Scroll handling effect (no changes needed here)
   useEffect(() => {
-    const handleScroll = () => {
-      const isScrolled = window.scrollY > 20;
-      if (isScrolled !== scrolled) {
-        setScrolled(isScrolled);
-      }
-    };
-    window.addEventListener("scroll", handleScroll);
-    if (isMobileMenuOpen) {
-      document.body.style.overflow = "hidden";
-    } else {
-      document.body.style.overflow = "";
-    }
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
-      document.body.style.overflow = "";
-    };
-  }, [scrolled, isMobileMenuOpen]);
+    // rAF-throttled scroll handler
+    let ticking = false;
 
-  // --- NEW: Effect for handling clicks outside the mobile menu ---
+    const onScroll = () => {
+      if (ticking) return;
+      ticking = true;
+      requestAnimationFrame(() => {
+        const next = window.scrollY > 20;
+        // Avoid extra renders
+        setScrolled((prev) => (prev !== next ? next : prev));
+        ticking = false;
+      });
+    };
+
+    // passive listener to avoid blocking scroll
+    window.addEventListener("scroll", onScroll, { passive: true });
+
+    // lock body scroll only when the mobile menu is open
+    document.body.style.overflow = isMobileMenuOpen ? "hidden" : "";
+
+    return () => {
+      window.removeEventListener("scroll", onScroll);
+      document.body.style.overflow = "";
+    };
+  }, [isMobileMenuOpen]);
+
+  // Effect for handling clicks outside the mobile menu ---
   useEffect(() => {
     // Only add listener if menu is open
     if (!isMobileMenuOpen) return;
