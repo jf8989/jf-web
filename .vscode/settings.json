@@ -1,25 +1,49 @@
+/// Path: .vscode/settings.json
+/// Role: Keep your theme settings; add Tailwind-friendly editor config
 {
-    "cSpell.words": [
-        "sublicensable"
-    ],
-    "workbench.colorCustomizations": {
-        "activityBar.activeBackground": "#2c7f5b",
-        "activityBar.background": "#2c7f5b",
-        "activityBar.foreground": "#e7e7e7",
-        "activityBar.inactiveForeground": "#e7e7e799",
-        "activityBarBadge.background": "#552976",
-        "activityBarBadge.foreground": "#e7e7e7",
-        "commandCenter.border": "#e7e7e799",
-        "sash.hoverBorder": "#2c7f5b",
-        "statusBar.background": "#1f5940",
-        "statusBar.foreground": "#e7e7e7",
-        "statusBarItem.hoverBackground": "#2c7f5b",
-        "statusBarItem.remoteBackground": "#1f5940",
-        "statusBarItem.remoteForeground": "#e7e7e7",
-        "titleBar.activeBackground": "#1f5940",
-        "titleBar.activeForeground": "#e7e7e7",
-        "titleBar.inactiveBackground": "#1f594099",
-        "titleBar.inactiveForeground": "#e7e7e799"
-    },
-    "peacock.color": "#1f5940"
+  "cSpell.words": [
+    "sublicensable"
+  ],
+  "workbench.colorCustomizations": {
+    "activityBar.activeBackground": "#2c7f5b",
+    "activityBar.background": "#2c7f5b",
+    "activityBar.foreground": "#e7e7e7",
+    "activityBar.inactiveForeground": "#e7e7e799",
+    "activityBarBadge.background": "#552976",
+    "activityBarBadge.foreground": "#e7e7e7",
+    "commandCenter.border": "#e7e7e799",
+    "sash.hoverBorder": "#2c7f5b",
+    "statusBar.background": "#1f5940",
+    "statusBar.foreground": "#e7e7e7",
+    "statusBarItem.hoverBackground": "#2c7f5b",
+    "statusBarItem.remoteBackground": "#1f5940",
+    "statusBarItem.remoteForeground": "#e7e7e7",
+    "titleBar.activeBackground": "#1f5940",
+    "titleBar.activeForeground": "#e7e7e7",
+    "titleBar.inactiveBackground": "#1f594099",
+    "titleBar.inactiveForeground": "#e7e7e799"
+  },
+  "peacock.color": "#1f5940",
+
+  // === Tailwind / CSS diagnostics ===
+  "css.lint.unknownAtRules": "ignore",
+  "less.lint.unknownAtRules": "ignore",
+  "scss.lint.unknownAtRules": "ignore",
+
+  // Treat your globals as Tailwind CSS (scoped, not global)
+  "files.associations": {
+    "**/src/app/globals.css": "tailwindcss"
+  },
+
+  // Better Tailwind DX
+  "tailwindCSS.emmetCompletions": true,
+  "tailwindCSS.includeLanguages": {
+    "javascript": "javascript",
+    "javascriptreact": "javascriptreact",
+    "typescript": "typescript",
+    "typescriptreact": "typescriptreact",
+    "html": "html",
+    "css": "tailwindcss"
+  },
+  "editor.quickSuggestions": { "strings": true }
 }
