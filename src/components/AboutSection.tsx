@@ -14,7 +14,7 @@ const AboutSection: React.FC = () => {
   };
 
   const factItems = [
-    { icon: <FaBolt />, label: "Projects shipped", value: "10+" },
+    { icon: <FaBolt />, label: "Projects shipped", value: "30+" },
     { icon: <FaReact />, label: "Frontend focus", value: "React / Next.js" },
     { icon: <FaNodeJs />, label: "Backend stack", value: "Node + Firebase" },
     { icon: <FaMusic />, label: "Audio cred", value: "Mix & Mastering" },
