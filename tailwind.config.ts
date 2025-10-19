@@ -1,31 +1,21 @@
-// tailwind.config.ts
+/// Path: tailwind.config.ts
+/// Role: Map Tailwind families to Next font variables; keep your palette, content, and options
+
 import type { Config } from "tailwindcss";
 
 export default {
   content: [
-    // Root directory (keep if needed, but might be redundant with src)
-    // "./pages/**/*.{js,ts,jsx,tsx,mdx}",
-    // "./components/**/*.{js,ts,jsx,tsx,mdx}",
-    // "./app/**/*.{js,ts,jsx,tsx,mdx}",
-    // Src directory (Primary paths for Next.js App Router)
     "./src/pages/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/components/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
   ],
-  darkMode: "class", // Enables dark mode with class strategy
+  darkMode: "class",
   theme: {
     extend: {
       colors: {
-        // System colors for light/dark mode
         background: "var(--background)",
         foreground: "var(--foreground)",
-
-        // Common color scheme
-        primary: {
-          DEFAULT: "#4A90E2",
-          hover: "#3A7BC8",
-        },
-        // Professional color palette
+        primary: { DEFAULT: "#4A90E2", hover: "#3A7BC8" },
         navy: {
           100: "#E6E8ED",
           200: "#BFC5D4",
@@ -75,73 +65,56 @@ export default {
         },
       },
       fontFamily: {
-        sans: ["var(--font-geist-sans)", "system-ui", "sans-serif"],
-        serif: ["Georgia", "serif"],
-        mono: ["Menlo", "monospace"],
-        geist: ["var(--font-geist-sans)", "sans-serif"],
+        // canonical families
+        sans: ["var(--font-sans)", "system-ui", "sans-serif"],
+        display: ["var(--font-display)", "system-ui", "sans-serif"],
+        mono: [
+          "var(--font-geist-mono)",
+          "ui-monospace",
+          "SFMono-Regular",
+          "Menlo",
+          "monospace",
+        ],
+        // aliases for existing classes in components
+        geist: ["var(--font-sans)", "system-ui", "sans-serif"],
         geistMono: ["var(--font-geist-mono)", "monospace"],
       },
       animation: {
-        // Existing animations
         fadeIn: "fadeIn 0.8s ease-out forwards",
         fadeOut: "fadeOut 0.8s ease-in forwards",
-        pulse: "pulse 2s infinite", // Keep pulse if used elsewhere
+        pulse: "pulse 2s infinite",
         float: "float 3s ease-in-out infinite",
-
-        // === ADDED AURA ANIMATIONS ===
         "aura-glow-outer": "aura-glow-outer 6s ease-in-out infinite",
         "aura-glow-inner": "aura-glow-inner 5s ease-in-out infinite",
-        // === END ADDED AURA ANIMATIONS ===
       },
       keyframes: {
-        // Existing keyframes
-        fadeIn: {
-          "0%": { opacity: "0" },
-          "100%": { opacity: "1" },
-        },
-        fadeOut: {
-          "0%": { opacity: "1" },
-          "100%": { opacity: "0" },
-        },
+        fadeIn: { "0%": { opacity: "0" }, "100%": { opacity: "1" } },
+        fadeOut: { "0%": { opacity: "1" }, "100%": { opacity: "0" } },
         pulse: {
-          // Keep pulse if used elsewhere
-          "0%, 100%": { transform: "scale(1)" },
+          "0%,100%": { transform: "scale(1)" },
           "50%": { transform: "scale(1.05)" },
         },
         float: {
-          "0%, 100%": { transform: "translateY(0)" },
+          "0%,100%": { transform: "translateY(0)" },
           "50%": { transform: "translateY(-5px)" },
         },
-
-        // === ADDED AURA KEYFRAMES ===
         "aura-glow-outer": {
-          "0%, 100%": { transform: "scale(1)", opacity: "0.7" },
+          "0%,100%": { transform: "scale(1)", opacity: "0.7" },
           "50%": { transform: "scale(1.08)", opacity: "0.5" },
         },
         "aura-glow-inner": {
-          "0%, 100%": { transform: "scale(1)", opacity: "0.8" },
+          "0%,100%": { transform: "scale(1)", opacity: "0.8" },
           "50%": { transform: "scale(1.05)", opacity: "0.6" },
         },
-        // === END ADDED AURA KEYFRAMES ===
       },
-      spacing: {
-        "header-height": "4rem",
-        "footer-height": "12rem",
-      },
-      maxWidth: {
-        "8xl": "88rem",
-        "9xl": "96rem",
-        content: "1240px",
-      },
-      transitionProperty: {
-        width: "width",
-        all: "all",
-      },
+      spacing: { "header-height": "4rem", "footer-height": "12rem" },
+      maxWidth: { "8xl": "88rem", "9xl": "96rem", content: "1240px" },
+      transitionProperty: { width: "width", all: "all" },
       transitionDuration: {
-        "2000": "2000ms",
-        "1000": "1000ms",
-        "500": "500ms",
-        "300": "300ms",
+        2000: "2000ms",
+        1000: "1000ms",
+        500: "500ms",
+        300: "300ms",
       },
       transitionTimingFunction: {
         "ease-in-out": "cubic-bezier(0.4, 0, 0.2, 1)",

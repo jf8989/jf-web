@@ -1,24 +1,26 @@
+/// Path: src/app/layout.tsx
+/// Role: Root layout wiring Inter (body), Space Grotesk (display), Geist Mono (mono)
+
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
-import { Playfair_Display } from "next/font/google"; // Added Playfair
+import { Inter, Space_Grotesk, Geist_Mono } from "next/font/google";
 import AudioPlayer from "@/components/AudioPlayer";
 import "./globals.css";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+const inter = Inter({
+  variable: "--font-sans",
   subsets: ["latin"],
+  display: "swap",
+});
+
+const spaceGrotesk = Space_Grotesk({
+  variable: "--font-display",
+  subsets: ["latin"],
+  display: "swap",
 });
 
 const geistMono = Geist_Mono({
   variable: "--font-geist-mono",
   subsets: ["latin"],
-});
-
-// Add Playfair Display for headings and name
-const playfair = Playfair_Display({
-  variable: "--font-playfair",
-  subsets: ["latin"],
-  weight: ["400", "500", "600", "700"],
   display: "swap",
 });
 
@@ -39,15 +41,13 @@ export const metadata: Metadata = {
 
 export default function RootLayout({
   children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
+}: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="en" suppressHydrationWarning={true}>
+    <html lang="en" suppressHydrationWarning>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} ${playfair.variable} antialiased text-base text-gray-900 dark:text-gray-100 leading-relaxed`}
+        className={`${inter.variable} ${spaceGrotesk.variable} ${geistMono.variable} antialiased text-base text-gray-900 dark:text-gray-100 leading-relaxed`}
       >
-        {/* === ADDED SVG Noise Filter Definition === */}
+        {/* SVG noise filter (kept) */}
         <svg
           style={{
             position: "absolute",
@@ -61,16 +61,16 @@ export default function RootLayout({
             <filter id="noiseFilter">
               <feTurbulence
                 type="fractalNoise"
-                baseFrequency="0.85" /* Adjust frequency for noise grain size */
-                numOctaves="3" /* Complexity */
+                baseFrequency="0.85"
+                numOctaves="3"
                 stitchTiles="stitch"
               />
             </filter>
           </defs>
         </svg>
-        {/* === END SVG Noise Filter Definition === */}
+
         {children}
-        <AudioPlayer /> {/* <-- AudioPlayer remains */}
+        <AudioPlayer />
       </body>
     </html>
   );

@@ -44,8 +44,10 @@ const ContactSection: React.FC = () => {
 
         <AnimatedDiv delay={0.05}>
           <p className="font-body text-base md:text-lg text-gray-600 dark:text-gray-300 max-w-2xl mx-auto mb-8 leading-relaxed">
-            Questions, collaboration ideas, or interesting problems — I’m open
-            to them. Pick what’s easiest:
+            Questions, collaboration ideas, or interesting problems - I’m open
+            to them.
+            <br className="hidden sm:block" />
+            Pick what’s easiest:
           </p>
         </AnimatedDiv>
 
