@@ -114,7 +114,7 @@ const WorkflowSection: React.FC = () => {
 
             <div className="overflow-x-auto scrollbar-hide -mx-2 px-2">
               <motion.ol
-                className="min-w-max sm:min-w-full grid grid-flow-col sm:grid-flow-row auto-cols-[20rem] sm:auto-cols-auto sm:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-7"
+                className="min-w-max sm:min-w-full grid grid-flow-col sm:grid-flow-row auto-cols-[20rem] sm:auto-cols-auto sm:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-7 pb-4"
                 variants={containerVariants}
                 initial="hidden"
                 whileInView="show"
