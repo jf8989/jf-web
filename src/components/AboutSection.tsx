@@ -243,12 +243,6 @@ const AboutSection: React.FC = () => {
                     </p>
                   </div>
                 </div>
-
-                <div className="pt-3 border-t border-gray-200 dark:border-gray-700">
-                  <p className="text-xs text-gray-500 dark:text-gray-400 italic">
-                    * More details in the Projects section below
-                  </p>
-                </div>
               </div>
             </motion.div>
 
