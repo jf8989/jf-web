@@ -239,9 +239,15 @@ const AboutSection: React.FC = () => {
                     </h3>
                     <p className="text-sm text-gray-600 dark:text-gray-300">
                       Professional mixing & mastering engineer with years of
-                      experience working with music producers.
+                      experience working with music producers
                     </p>
                   </div>
+                </div>
+
+                <div className="pt-3 border-t border-gray-200 dark:border-gray-700">
+                  <p className="text-xs text-gray-500 dark:text-gray-400 italic">
+                    * Click the speaker icon to hear my audio work.
+                  </p>
                 </div>
               </div>
             </motion.div>
