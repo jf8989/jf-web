@@ -299,7 +299,7 @@ const AudioPlayer: React.FC = () => {
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.9 }}
-              className="absolute -top-14 right-0 flex flex-col items-end pointer-events-none"
+              className="absolute -top-14 right-0 z-20 flex flex-col items-end pointer-events-none"
             >
               <motion.button
                 type="button"
