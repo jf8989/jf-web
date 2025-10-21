@@ -1,75 +1,178 @@
 // src/components/Footer.tsx
+"use client";
+
 import React from "react";
-// --- NEW: Import icons from react-icons for consistency and potential replacement ---
+import { motion } from "framer-motion";
 import { FaLinkedin, FaGithub, FaEnvelope } from "react-icons/fa";
-// --- END NEW ---
 
 const Footer: React.FC = () => {
   const currentYear = new Date().getFullYear();
 
-  const linkedinUrl = "https://www.linkedin.com/in/jfmarcenaroa/";
-  const githubUrl = "https://github.com/jf8989";
-  const email = "juanfrajf.contacto@gmail.com";
+  const socialLinks = [
+    {
+      name: "LinkedIn",
+      url: "https://www.linkedin.com/in/jfmarcenaroa/",
+      icon: <FaLinkedin className="w-6 h-6" />,
+      color: "hover:text-sky-400 hover:scale-110",
+      ariaLabel: "LinkedIn Profile",
+    },
+    {
+      name: "GitHub",
+      url: "https://github.com/jf8989",
+      icon: <FaGithub className="w-6 h-6" />,
+      color: "hover:text-gray-300 hover:scale-110",
+      ariaLabel: "GitHub Profile",
+    },
+    {
+      name: "Email",
+      url: "mailto:juanfrajf.contacto@gmail.com",
+      icon: <FaEnvelope className="w-6 h-6" />,
+      color: "hover:text-blue-400 hover:scale-110",
+      ariaLabel: "Send Email",
+    },
+  ];
 
   return (
-    // --- UPDATED: Added top border, subtle gradient ---
-    <footer className="bg-gradient-to-t from-gray-900 to-gray-800 dark:from-black/50 dark:to-gray-900/80 text-gray-400 py-10 border-t border-gray-700/50">
-      {/* --- END UPDATED --- */}
-      <div className="container mx-auto px-4 text-center">
-        <div className="mb-6">
-          {" "}
-          {/* Increased margin slightly */}
-          {/* --- UPDATED: Typography --- */}
-          <p className="mb-4 text-sm tracking-wide opacity-90">
-            Find me on:
-          </p>{" "}
-          {/* Adjusted size/margin/tracking/opacity */}
-          {/* --- END UPDATED --- */}
-          {/* --- UPDATED: Icon container and links --- */}
-          <div className="flex justify-center items-center space-x-8">
-            {" "}
-            {/* Increased spacing */}
-            {/* LinkedIn Icon Link */}
-            <a
-              href={linkedinUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label="LinkedIn Profile"
-              className="text-gray-400 hover:text-sky-300 transform hover:scale-110 transition-all duration-300" // Added transform/scale
-            >
-              {/* Using React Icon */}
-              <FaLinkedin className="w-7 h-7" /> {/* Increased size */}
-            </a>
-            {/* GitHub Icon Link */}
-            <a
-              href={githubUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label="GitHub Profile"
-              className="text-gray-400 hover:text-sky-300 transform hover:scale-110 transition-all duration-300" // Added transform/scale
-            >
-              {/* Using React Icon */}
-              <FaGithub className="w-7 h-7" /> {/* Increased size */}
-            </a>
-            {/* Email Icon Link */}
-            <a
-              href={`mailto:${email}`}
-              aria-label="Send Email"
-              className="text-gray-400 hover:text-sky-300 transform hover:scale-110 transition-all duration-300" // Added transform/scale
-            >
-              {/* Using React Icon */}
-              <FaEnvelope className="w-7 h-7" /> {/* Increased size */}
-            </a>
+    <footer className="relative bg-gradient-to-b from-gray-900 via-gray-900 to-black dark:from-gray-950 dark:via-black dark:to-black border-t border-gray-800/50 overflow-hidden">
+      {/* Background pattern */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none opacity-30">
+        <div
+          className="absolute inset-0"
+          style={{
+            backgroundImage:
+              "radial-gradient(circle, rgb(100 116 139 / 0.1) 1px, transparent 1px)",
+            backgroundSize: "40px 40px",
+          }}
+        />
+      </div>
+
+      {/* Gradient orbs */}
+      <div className="absolute top-0 left-1/4 w-96 h-96 bg-sky-500/5 rounded-full blur-3xl" />
+      <div className="absolute bottom-0 right-1/4 w-80 h-80 bg-blue-500/5 rounded-full blur-3xl" />
+
+      <div className="container mx-auto px-4 py-12 relative z-10">
+        {/* Social Links Section */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6 }}
+          className="text-center mb-8"
+        >
+          {/* Label */}
+          <p className="text-sm text-gray-400 mb-6 tracking-wider uppercase font-semibold">
+            Connect With Me
+          </p>
+
+          {/* Social Icons */}
+          <div className="flex justify-center items-center gap-6">
+            {socialLinks.map((link, index) => (
+              <motion.a
+                key={link.name}
+                href={link.url}
+                target={link.url.startsWith("http") ? "_blank" : undefined}
+                rel={
+                  link.url.startsWith("http")
+                    ? "noopener noreferrer"
+                    : undefined
+                }
+                aria-label={link.ariaLabel}
+                initial={{ opacity: 0, scale: 0.5 }}
+                whileInView={{ opacity: 1, scale: 1 }}
+                viewport={{ once: true }}
+                transition={{ delay: index * 0.1, duration: 0.4 }}
+                whileHover={{ y: -4 }}
+                className={`group relative p-3 rounded-xl bg-gray-800/50 backdrop-blur-sm border border-gray-700/50 text-gray-400 transition-all duration-300 ${link.color}`}
+              >
+                {/* Glow effect */}
+                <div className="absolute inset-0 rounded-xl bg-gradient-to-br from-sky-500/0 to-blue-500/0 group-hover:from-sky-500/10 group-hover:to-blue-500/10 transition-all duration-300" />
+
+                {/* Icon */}
+                <div className="relative">{link.icon}</div>
+
+                {/* Tooltip on hover */}
+                <span className="absolute -top-10 left-1/2 transform -translate-x-1/2 px-2 py-1 bg-gray-700 text-white text-xs rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap pointer-events-none">
+                  {link.name}
+                </span>
+              </motion.a>
+            ))}
           </div>
-          {/* --- END UPDATED --- */}
-        </div>
-        {/* --- UPDATED: Copyright text --- */}
-        <p className="mt-8 text-xs opacity-70 tracking-wide">
-          {" "}
-          {/* Adjusted size/opacity/margin/tracking */}© {currentYear} Juan
-          Francisco Marcenaro A. All rights reserved.
-        </p>
-        {/* --- END UPDATED --- */}
+        </motion.div>
+
+        {/* Divider */}
+        <motion.div
+          initial={{ scaleX: 0 }}
+          whileInView={{ scaleX: 1 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.8, delay: 0.3 }}
+          className="h-px bg-gradient-to-r from-transparent via-gray-700 to-transparent mb-8"
+        />
+
+        {/* Bottom Section */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          viewport={{ once: true }}
+          transition={{ delay: 0.5, duration: 0.6 }}
+          className="text-center space-y-3"
+        >
+          {/* Copyright */}
+          <p className="text-sm text-gray-500">
+            © {currentYear}{" "}
+            <span className="text-gray-400 font-semibold">
+              Juan Francisco Marcenaro A.
+            </span>{" "}
+            All rights reserved.
+          </p>
+
+          {/* Additional info */}
+          <p className="text-xs text-gray-600">
+            Built with Next.js, TypeScript & Tailwind CSS
+          </p>
+
+          {/* Tagline */}
+          <motion.p
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.8 }}
+            className="text-xs text-gray-600 italic"
+          >
+            Crafting digital experiences with precision and care
+          </motion.p>
+        </motion.div>
+
+        {/* Optional: Back to top button */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          viewport={{ once: true }}
+          transition={{ delay: 0.9 }}
+          className="mt-8 text-center"
+        >
+          <motion.button
+            onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+            whileHover={{ y: -2 }}
+            whileTap={{ scale: 0.95 }}
+            className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-gray-800/50 hover:bg-gray-800 border border-gray-700/50 text-gray-400 hover:text-gray-200 text-sm transition-all duration-300"
+            aria-label="Back to top"
+          >
+            <svg
+              className="w-4 h-4"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M5 10l7-7m0 0l7 7m-7-7v18"
+              />
+            </svg>
+            Back to Top
+          </motion.button>
+        </motion.div>
       </div>
     </footer>
   );
