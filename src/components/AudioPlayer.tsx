@@ -80,6 +80,7 @@ const AudioPlayer: React.FC = () => {
   // Playlist
   const trackList = React.useMemo(
     () => [
+      "/audio/Master-A.mp3",
       "/audio/BBC4-Instrumental-JF-Master.mp3",
       "/audio/Destino-Francu-JFMaster2025.mp3",
       "/audio/Osmosis-Francu-JFMaster2025.mp3",
@@ -92,6 +93,7 @@ const AudioPlayer: React.FC = () => {
   );
   const trackNames = React.useMemo(
     () => [
+      "Callar - Susy Joy (JF Rec | Mix | Master)",
       "BBC4 - Francu [Instrumental] (JF Mix | Master)",
       "Destino - Francu (JF Mix | Master)",
       "Osmosis - Francu (JF Mix | Master)",
