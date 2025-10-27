@@ -1,204 +1,143 @@
 /// Path: src/components/blog/BlogArticle.tsx
-/// Role: Client formatter for blog posts with EN/ES toggle; renders a list of content blocks.
+/// Role: Bilingual article renderer with named + default export to avoid barrel collisions.
 
 "use client";
 
-import React, { useEffect, useMemo, useState } from "react";
-import type {
-  BlogPostData,
-  ContentBlock,
-  MultiLanguageString,
-  SupportedLanguageCode,
-} from "@/data/blog/types";
+import React, { useMemo, useState } from "react";
+import Image from "next/image";
+import type { BlogLanguage, BlogPost, BlogBlock } from "@/data/blog/types";
+import { motion } from "framer-motion";
 
-type BlogArticleProps = {
-  post: BlogPostData;
-  initialLanguage?: SupportedLanguageCode;
+export type BlogArticleProps = {
+  post: BlogPost;
+  initialLanguage?: BlogLanguage;
 };
 
-export default function BlogArticle({
-  post,
-  initialLanguage,
-}: BlogArticleProps) {
-  const [language, setLanguage] = useState<SupportedLanguageCode>(
+export function BlogArticle({ post, initialLanguage }: BlogArticleProps) {
+  const [language, setLanguage] = useState<BlogLanguage>(
     initialLanguage ?? "en"
   );
 
-  // Remember preference locally without global state.
-  useEffect(() => {
-    const stored = window.localStorage.getItem("blogPreferredLanguage");
-    if (!initialLanguage && (stored === "en" || stored === "es")) {
-      setLanguage(stored);
+  const switchTo = (lang: BlogLanguage) => () => setLanguage(lang);
+
+  const title = post.title[language];
+  const description = post.description[language];
+
+  const renderBlock = (block: BlogBlock, index: number) => {
+    switch (block.type) {
+      case "h2":
+        return (
+          <h2
+            key={index}
+            className="text-2xl md:text-3xl font-semibold tracking-tight text-gray-100 mt-10 mb-4"
+          >
+            {block.text[language]}
+          </h2>
+        );
+      case "h3":
+        return (
+          <h3
+            key={index}
+            className="text-xl md:text-2xl font-semibold tracking-tight text-gray-100 mt-8 mb-3"
+          >
+            {block.text[language]}
+          </h3>
+        );
+      case "p":
+        return (
+          <p
+            key={index}
+            className="text-base md:text-lg leading-relaxed text-gray-300 mb-5"
+          >
+            {block.text[language]}
+          </p>
+        );
+      case "image": {
+        const caption = block.caption?.[language];
+        return (
+          <figure key={index} className="my-8">
+            <div className="relative w-full overflow-hidden rounded-xl border border-white/10 bg-white/5">
+              <Image
+                src={block.src}
+                alt={block.alt[language]}
+                width={block.width ?? 1600}
+                height={block.height ?? 900}
+                className="w-full h-auto object-cover"
+                priority={block.priority}
+              />
+            </div>
+            {caption && (
+              <figcaption className="text-sm text-gray-400 mt-2 text-center">
+                {caption}
+              </figcaption>
+            )}
+          </figure>
+        );
+      }
+      case "hr":
+        return <hr key={index} className="my-12 border-gray-800" />;
+      default:
+        return null;
     }
-  }, [initialLanguage]);
+  };
 
-  useEffect(() => {
-    window.localStorage.setItem("blogPreferredLanguage", language);
-  }, [language]);
-
-  const titleText = useMemo(
-    () => resolveText(post.meta.title, language),
-    [post.meta.title, language]
-  );
-  const descriptionText = useMemo(
-    () => resolveText(post.meta.description, language),
-    [post.meta.description, language]
-  );
+  const publishedDate = useMemo(() => {
+    try {
+      return new Date(post.publishedAt).toLocaleDateString(undefined, {
+        year: "numeric",
+        month: "short",
+        day: "2-digit",
+      });
+    } catch {
+      return post.publishedAt;
+    }
+  }, [post.publishedAt]);
 
   return (
-    <article className="prose prose-invert max-w-none prose-pre:overflow-x-auto">
-      <header className="not-prose mb-6 border-b border-white/10 pb-6">
-        <div className="flex items-center justify-between gap-4">
-          <div>
-            <h1 className="text-3xl font-semibold">{titleText}</h1>
-            <p className="mt-1 text-sm text-muted-foreground">
-              {descriptionText}
-            </p>
-            <p className="mt-1 text-xs text-muted-foreground">
-              <time dateTime={post.meta.publishedAt}>
-                {new Date(post.meta.publishedAt).toLocaleDateString(undefined, {
-                  year: "numeric",
-                  month: "short",
-                  day: "2-digit",
-                })}
-              </time>
-              {post.meta.tags.length > 0 && (
-                <span className="ml-2">
-                  {post.meta.tags.map((tag) => `#${tag}`).join(" ")}
-                </span>
-              )}
-            </p>
+    <article>
+      <header className="mb-8">
+        <div className="flex items-center justify-between gap-3">
+          <h1 className="text-3xl md:text-4xl font-bold tracking-tight text-gray-100">
+            {title}
+          </h1>
+          <div className="shrink-0">
+            <div className="inline-flex rounded-lg border border-white/10 bg-white/5 p-1">
+              <button
+                onClick={switchTo("en")}
+                className={`px-3 py-1.5 text-sm rounded-md transition ${
+                  language === "en"
+                    ? "bg-blue-600 text-white"
+                    : "text-gray-300 hover:bg-white/10"
+                }`}
+              >
+                EN
+              </button>
+              <button
+                onClick={switchTo("es")}
+                className={`px-3 py-1.5 text-sm rounded-md transition ${
+                  language === "es"
+                    ? "bg-blue-600 text-white"
+                    : "text-gray-300 hover:bg-white/10"
+                }`}
+              >
+                ES
+              </button>
+            </div>
           </div>
-
-          <LanguageToggle
-            currentLanguage={language}
-            onChangeLanguage={setLanguage}
-          />
         </div>
+        <p className="mt-2 text-gray-400">{description}</p>
+        <div className="mt-3 text-xs text-gray-500">{publishedDate}</div>
+        <motion.div
+          initial={{ scaleX: 0 }}
+          animate={{ scaleX: 1 }}
+          transition={{ duration: 0.6 }}
+          className="mt-5 h-px bg-gradient-to-r from-transparent via-gray-700 to-transparent"
+        />
       </header>
 
-      {post.contentBlocks.map((contentBlock, contentBlockIndex) => (
-        <ContentRenderer
-          key={`${post.meta.slug}-block-${contentBlockIndex}`}
-          block={contentBlock}
-          language={language}
-        />
-      ))}
+      <section className="max-w-none">{post.blocks.map(renderBlock)}</section>
     </article>
   );
 }
 
-function LanguageToggle(props: {
-  currentLanguage: SupportedLanguageCode;
-  onChangeLanguage: (newLanguage: SupportedLanguageCode) => void;
-}) {
-  const isEnglish = props.currentLanguage === "en";
-
-  return (
-    <div
-      role="group"
-      aria-label="Language toggle"
-      className="inline-flex rounded-xl border border-white/15 p-1"
-    >
-      <button
-        type="button"
-        onClick={() => props.onChangeLanguage("en")}
-        className={`rounded-lg px-3 py-1 text-sm ${
-          isEnglish ? "bg-white text-black" : "text-white hover:bg-white/10"
-        }`}
-        aria-pressed={isEnglish}
-      >
-        EN
-      </button>
-      <button
-        type="button"
-        onClick={() => props.onChangeLanguage("es")}
-        className={`rounded-lg px-3 py-1 text-sm ${
-          !isEnglish ? "bg-white text-black" : "text-white hover:bg-white/10"
-        }`}
-        aria-pressed={!isEnglish}
-      >
-        ES
-      </button>
-    </div>
-  );
-}
-
-function ContentRenderer({
-  block,
-  language,
-}: {
-  block: ContentBlock;
-  language: SupportedLanguageCode;
-}) {
-  switch (block.type) {
-    case "heading": {
-      const headingText = resolveText(block.text, language);
-      if (block.level === 1) return <h2>{headingText}</h2>;
-      if (block.level === 2) return <h3>{headingText}</h3>;
-      return <h4>{headingText}</h4>;
-    }
-    case "paragraph": {
-      return <p>{resolveText(block.text, language)}</p>;
-    }
-    case "list": {
-      const items = block.items.map((item) => resolveText(item, language));
-      return block.ordered ? (
-        <ol className="list-decimal pl-6">
-          {items.map((listItemText, listItemIndex) => (
-            <li key={`ordered-item-${listItemIndex}`}>{listItemText}</li>
-          ))}
-        </ol>
-      ) : (
-        <ul className="list-disc pl-6">
-          {items.map((listItemText, listItemIndex) => (
-            <li key={`unordered-item-${listItemIndex}`}>{listItemText}</li>
-          ))}
-        </ul>
-      );
-    }
-    case "quote": {
-      return (
-        <blockquote>
-          <p>{resolveText(block.text, language)}</p>
-          {block.attribution && (
-            <footer className="mt-1 text-sm text-muted-foreground">
-              — {resolveText(block.attribution, language)}
-            </footer>
-          )}
-        </blockquote>
-      );
-    }
-    case "code": {
-      return (
-        <pre>
-          <code>{block.code}</code>
-        </pre>
-      );
-    }
-    case "image": {
-      const altText = resolveText(block.alt, language);
-      const captionText = block.caption && resolveText(block.caption, language);
-      return (
-        <figure className="my-6">
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src={block.src} alt={altText} className="rounded-xl" />
-          {captionText && (
-            <figcaption className="mt-2 text-center text-sm text-muted-foreground">
-              {captionText}
-            </figcaption>
-          )}
-        </figure>
-      );
-    }
-    default:
-      return null;
-  }
-}
-
-function resolveText(
-  multiLanguageText: MultiLanguageString,
-  language: SupportedLanguageCode
-): string {
-  return language === "es" ? multiLanguageText.es : multiLanguageText.en;
-}
+export default BlogArticle;

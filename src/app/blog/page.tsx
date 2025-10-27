@@ -1,24 +1,22 @@
 /// Path: src/app/blog/page.tsx
-/// Role: Align with Next.js 15 searchParams (Promise) and safely parse values.
+/// Role: Use named import for BlogArticle to avoid type confusion with PostList.
 
 import React from "react";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { loadPostBySlug, listAllPostMetas } from "@/data/blog";
-import BlogArticle from "@/components/blog/BlogArticle";
 import PostList from "@/components/blog/PostList";
+import { BlogArticle } from "@/components/blog/BlogArticle";
 
-export const dynamic = "force-static";
-export const revalidate = false;
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
 
 export default async function BlogPage({
   searchParams,
 }: {
-  // Next.js 15: searchParams is a Promise at build time
   searchParams?: Promise<Record<string, string | string[] | undefined>>;
 }) {
   const sp = (await searchParams) ?? {};
-
   const getFirst = (v: string | string[] | undefined) =>
     Array.isArray(v) ? v[0] : v;
 
@@ -27,38 +25,41 @@ export default async function BlogPage({
   const preferredLanguageFromParams =
     langRaw === "en" || langRaw === "es" ? (langRaw as "en" | "es") : undefined;
 
-  const MainContent = async () => {
-    if (slugFromParams) {
-      const blogPost = await loadPostBySlug(slugFromParams);
-      if (!blogPost) {
-        const allMetas = await listAllPostMetas();
-        return (
-          <main className="mx-auto max-w-3xl px-6 pt-24 pb-16">
-            <h1 className="text-3xl font-semibold tracking-tight text-gray-100">
-              Post not found
-            </h1>
-            <p className="mt-2 text-sm text-gray-400">
-              The requested article does not exist. Pick one from the list
-              below.
-            </p>
-            <div className="mt-8">
-              <PostList posts={allMetas} />
-            </div>
-          </main>
-        );
-      }
-      return (
-        <main className="mx-auto max-w-3xl px-6 pt-24 pb-16">
+  let content: React.ReactNode;
+
+  if (slugFromParams) {
+    const blogPost = await loadPostBySlug(slugFromParams);
+    if (blogPost) {
+      content = (
+        <main
+          className="mx-auto max-w-3xl px-6 pt-24 pb-16"
+          key={slugFromParams}
+        >
           <BlogArticle
             post={blogPost}
             initialLanguage={preferredLanguageFromParams}
           />
         </main>
       );
+    } else {
+      const allMetas = await listAllPostMetas();
+      content = (
+        <main className="mx-auto max-w-3xl px-6 pt-24 pb-16">
+          <h1 className="text-3xl font-semibold tracking-tight text-gray-100">
+            Post not found
+          </h1>
+          <p className="mt-2 text-sm text-gray-400">
+            The requested article does not exist. Pick one from the list below.
+          </p>
+          <div className="mt-8">
+            <PostList posts={allMetas} />
+          </div>
+        </main>
+      );
     }
-
+  } else {
     const allMetas = await listAllPostMetas();
-    return (
+    content = (
       <main className="mx-auto max-w-3xl px-6 pt-24 pb-16">
         <h1 className="text-3xl font-semibold tracking-tight text-gray-100">
           Blog
@@ -71,14 +72,12 @@ export default async function BlogPage({
         </div>
       </main>
     );
-  };
+  }
 
   return (
     <div className="min-h-screen flex flex-col">
       <Header />
-      <div className="flex-1">
-        <MainContent />
-      </div>
+      <div className="flex-1">{content}</div>
       <Footer />
     </div>
   );

@@ -1,56 +1,43 @@
 /// Path: src/data/blog/types.ts
-/// Role: Shared types for multi-language blog posts and content blocks.
+/// Role: Canonical blog types: bilingual strings, meta, blocks, and full post.
 
-export type SupportedLanguageCode = "en" | "es";
+export type BlogLanguage = "en" | "es";
 
-export type MultiLanguageString = {
+export type LocalizedString = {
   en: string;
   es: string;
 };
 
-export type HeadingLevel = 1 | 2 | 3;
+export interface BlogPostMeta {
+  slug: string;
+  title: LocalizedString;
+  description: LocalizedString;
+  publishedAt: string; // ISO string
+  tags: string[];
+}
 
-export type ContentBlock =
+export type BlogBlock =
   | {
-      type: "heading";
-      level: HeadingLevel;
-      text: MultiLanguageString;
+      type: "h2" | "h3";
+      text: LocalizedString;
     }
   | {
-      type: "paragraph";
-      text: MultiLanguageString;
-    }
-  | {
-      type: "list";
-      ordered: boolean;
-      items: MultiLanguageString[];
-    }
-  | {
-      type: "quote";
-      text: MultiLanguageString;
-      attribution?: MultiLanguageString;
-    }
-  | {
-      type: "code";
-      code: string;
-      language?: string;
+      type: "p";
+      text: LocalizedString;
     }
   | {
       type: "image";
-      src: string;
-      alt: MultiLanguageString;
-      caption?: MultiLanguageString;
+      src: string; // public path under /public
+      alt: LocalizedString;
+      caption?: LocalizedString;
+      width?: number;
+      height?: number;
+      priority?: boolean;
+    }
+  | {
+      type: "hr";
     };
 
-export type BlogPostMeta = {
-  slug: string;
-  title: MultiLanguageString;
-  description: MultiLanguageString;
-  publishedAt: string; // ISO-8601 string
-  tags: string[];
-};
-
-export type BlogPostData = {
-  meta: BlogPostMeta;
-  contentBlocks: ContentBlock[];
-};
+export interface BlogPost extends BlogPostMeta {
+  blocks: BlogBlock[];
+}

@@ -1,35 +1,25 @@
 /// Path: src/data/blog/index.ts
-/// Role: Registry of posts and helpers to load by slug or list all metas.
+/// Role: Simple in-memory registry with loader helpers; registers the new post.
 
-import type { BlogPostData, BlogPostMeta } from "./types";
+import type { BlogPost, BlogPostMeta } from "@/data/blog/types";
+import laIaQueNadieUsa from "@/data/blog/posts/la-ia-que-nadie-usa";
 
-// Add your posts here. Each entry loads a module exporting { blogPost }.
-const blogPostRegistry: Record<
-  string,
-  () => Promise<{ blogPost: BlogPostData }>
-> = {
-  "hello-world": () => import("./posts/hello-world"),
-};
+// If you already have more posts, import and add them here.
+const registry: BlogPost[] = [laIaQueNadieUsa];
 
-export async function loadPostBySlug(
-  slug: string
-): Promise<BlogPostData | null> {
-  const loader = blogPostRegistry[slug];
-  if (!loader) return null;
-  const moduleLoaded = await loader();
-  return moduleLoaded.blogPost;
+export async function loadPostBySlug(slug: string): Promise<BlogPost | null> {
+  const found = registry.find((p) => p.slug === slug);
+  return found ?? null;
 }
 
 export async function listAllPostMetas(): Promise<BlogPostMeta[]> {
-  const moduleLoaders = Object.values(blogPostRegistry);
-  const modules = await Promise.all(moduleLoaders.map((load) => load()));
-  const metas = modules.map((moduleLoaded) => moduleLoaded.blogPost.meta);
-  // Newest first.
-  return metas.sort(
-    (first, second) =>
-      new Date(second.publishedAt).getTime() -
-      new Date(first.publishedAt).getTime()
-  );
+  return registry
+    .map((p) => ({
+      slug: p.slug,
+      title: p.title,
+      description: p.description,
+      publishedAt: p.publishedAt,
+      tags: p.tags,
+    }))
+    .sort((a, b) => (a.publishedAt > b.publishedAt ? -1 : 1));
 }
-
-export type { BlogPostData, BlogPostMeta } from "./types";

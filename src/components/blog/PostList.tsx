@@ -1,47 +1,62 @@
 /// Path: src/components/blog/PostList.tsx
-/// Role: Readable dark-mode list of posts with card styling.
+/// Role: Ensure each card actually navigates to /blog?slug=<slug>.
+
+"use client";
 
 import React from "react";
 import Link from "next/link";
+import { motion } from "framer-motion";
 import type { BlogPostMeta } from "@/data/blog/types";
 
-export default function PostList({ posts }: { posts: BlogPostMeta[] }) {
+type PostListProps = { posts: BlogPostMeta[] };
+
+export default function PostList({ posts }: PostListProps) {
+  if (!posts?.length) {
+    return (
+      <p className="text-sm text-gray-400">No articles yet. Check back soon.</p>
+    );
+  }
+
   return (
-    <ul className="space-y-4">
-      {posts.map((postMeta) => (
-        <li key={postMeta.slug}>
-          <Link
-            href={{ pathname: "/blog", query: { slug: postMeta.slug } }}
-            className="block rounded-xl border border-white/10 bg-white/5 hover:bg-white/10 transition-colors duration-200"
-          >
-            <div className="p-5">
-              <h3 className="text-lg font-medium text-gray-100">
-                {postMeta.title.en}
-              </h3>
-              <p className="mt-1 text-sm text-gray-400">
-                {postMeta.description.en}
-              </p>
-              <p className="mt-1 text-xs text-gray-500">
-                <time dateTime={postMeta.publishedAt}>
-                  {new Date(postMeta.publishedAt).toLocaleDateString(
-                    undefined,
-                    {
-                      year: "numeric",
-                      month: "short",
-                      day: "2-digit",
-                    }
-                  )}
-                </time>
-                {postMeta.tags.length > 0 && (
-                  <span className="ml-2">
-                    {postMeta.tags.map((tag) => `#${tag}`).join(" ")}
-                  </span>
-                )}
-              </p>
-            </div>
-          </Link>
-        </li>
-      ))}
+    <ul className="space-y-6">
+      {posts.map((post, index) => {
+        const title = post.title.en;
+        const description = post.description.en;
+        const published = new Date(post.publishedAt).toLocaleDateString(
+          undefined,
+          {
+            year: "numeric",
+            month: "short",
+            day: "2-digit",
+          }
+        );
+
+        const href = `/blog?slug=${encodeURIComponent(post.slug)}`;
+
+        return (
+          <li key={post.slug}>
+            <motion.div
+              initial={{ opacity: 0, y: 8 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: index * 0.05, duration: 0.25 }}
+            >
+              <Link
+                href={href}
+                prefetch
+                className="block rounded-2xl border border-white/10 bg-white/5 hover:bg-white/10 focus:bg-white/10 transition-colors shadow-md focus:outline-none focus:ring-2 focus:ring-blue-500/40"
+              >
+                <div className="p-6">
+                  <h3 className="text-xl md:text-2xl font-semibold text-gray-100">
+                    {title}
+                  </h3>
+                  <p className="mt-2 text-sm text-gray-400">{description}</p>
+                  <div className="mt-3 text-xs text-gray-500">{published}</div>
+                </div>
+              </Link>
+            </motion.div>
+          </li>
+        );
+      })}
     </ul>
   );
 }
