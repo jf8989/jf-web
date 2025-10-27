@@ -32,8 +32,8 @@ const post: BlogPost = {
       priority: true,
     },
 
-    // La regla del lunes
     {
+      // La regla del lunes
       type: "p",
       text: {
         en: "The Monday Rule: If your team didn’t make a different decision this week because of AI, you don’t have an AI project. You have an expensive hobby.",
@@ -41,7 +41,6 @@ const post: BlogPost = {
       },
     },
 
-    // El teatro de la innovación
     {
       type: "h2",
       text: { en: "The Innovation Theater", es: "El teatro de la innovación" },
@@ -90,7 +89,6 @@ const post: BlogPost = {
       height: 900,
     },
 
-    // Las tres mentiras
     {
       type: "h2",
       text: {
@@ -120,7 +118,6 @@ const post: BlogPost = {
       },
     },
 
-    // El sistema de los lunes
     {
       type: "h2",
       text: { en: "The Monday System", es: "El sistema de los lunes" },
@@ -135,29 +132,16 @@ const post: BlogPost = {
     {
       type: "p",
       text: {
-        en: "Seen this work well: every Monday at 9 AM, make one AI-informed decision with clear follow-through.",
-        es: "He visto cómo funciona esto en empresas que lo aplican bien. Por ejemplo en retail: cada lunes a las 9 AM, una decisión obligatoria informada por IA:",
-      },
-    },
-    {
-      type: "p",
-      text: {
-        en: "Week 1: Predicted cart abandonment 12–16% → double live chat for Electronics over the weekend → down to 9%.",
-        es: "Semana 1: El modelo predice 12-16% de abandono de carrito en la categoría electrónicos. Decisión: Duplicar el equipo de chat en vivo para esa categoría durante el fin de semana. Resultado: Abandono bajó a 9%.",
-      },
-    },
-    {
-      type: "p",
-      text: {
-        en: "Week 2: Inventory signals show a product will stock out in 8–11 days → pause paid ads for that SKU and reallocate budget → save $4,200 in wasted clicks.",
-        es: "Semana 2: Señales de inventario muestran que un producto va a agotarse en 8-11 días. Decisión: Pausar publicidad paga para ese SKU y redirigir presupuesto a productos similares con stock. Ahorro: $4,200 en clics desperdiciados.",
-      },
-    },
-    {
-      type: "p",
-      text: {
-        en: "Week 3: Region drops at shipping step → A/B test a free-shipping threshold at $X → +22% conversion in that region.",
-        es: "Semana 3: Patrón de compra sugiere que los clientes de cierta región abandonan en el paso de envío. Decisión: Test A/B con opción de envío gratuito sobre $X. Conversión: Aumentó 22% en esa región.",
+        en: `Seen this work well: every Monday at 9 AM, make one AI-informed decision with clear follow-through.
+
+- **Week 1:** Predicted cart abandonment 12–16% → double live chat for Electronics over the weekend → down to 9%.
+- **Week 2:** Inventory signals show a product will stock out in 8–11 days → pause paid ads for that SKU and reallocate budget → save $4,200 in wasted clicks.
+- **Week 3:** Region drops at shipping step → A/B test a free-shipping threshold at $X → +22% conversion in that region.`,
+        es: `He visto cómo funciona esto en empresas que lo aplican bien. Por ejemplo: cada lunes a las 9 AM, una decisión obligatoria informada por IA:
+
+- **Semana 1:** El modelo predice 12–16% de abandono de carrito en electrónicos. **Decisión:** duplicar chat en vivo el fin de semana. **Resultado:** bajó a 9%.
+- **Semana 2:** Señales de inventario muestran quiebre en 8–11 días. **Decisión:** pausar pauta para ese SKU y redirigir presupuesto. **Ahorro:** $4,200 en clics desperdiciados.
+- **Semana 3:** Cierta región abandona en envío. **Decisión:** test A/B con envío gratis sobre $X. **Conversión:** +22% en esa región.`,
       },
     },
     {
@@ -168,7 +152,6 @@ const post: BlogPost = {
       },
     },
 
-    // El costo invisible de no decidir
     {
       type: "h2",
       text: {
@@ -254,7 +237,6 @@ const post: BlogPost = {
       },
     },
 
-    // Semáforos (ilustración) antes de Reglas
     {
       type: "image",
       src: "/images/blog/la-ia-que-nadie-usa/final.jpg",
@@ -270,7 +252,6 @@ const post: BlogPost = {
       height: 900,
     },
 
-    // Tres reglas no negociables
     {
       type: "h2",
       text: { en: "Three Non-Negotiables", es: "Tres reglas no negociables" },
@@ -282,8 +263,9 @@ const post: BlogPost = {
         es: "Si va a implementar IA en su empresa, estas tres reglas son innegociables:",
       },
     },
+
     {
-      type: "p",
+      type: "h3",
       text: {
         en: "Rule #1: Start from the decision, not the data.",
         es: "Regla #1: Empezar por el final: La Decisión",
@@ -298,27 +280,25 @@ const post: BlogPost = {
     },
     {
       type: "p",
-      text: {
-        en: "One-liner format:",
-        es: "Formato de una línea:",
-      },
+      text: { en: "One-liner format:", es: "Formato de una línea:" },
     },
     {
       type: "p",
       text: {
-        en: "“If [metric] is between [X–Y], then [concrete action] before [deadline].”",
-        es: "“Si [métrica] está entre [X-Y], entonces [acción concreta] antes de [plazo].”",
+        en: `> "If [metric] is between [X–Y], then [concrete action] before [deadline]."`,
+        es: `> "Si [métrica] está entre [X–Y], entonces [acción concreta] antes de [plazo]."`,
       },
     },
     {
       type: "p",
       text: {
         en: "Example: “If churn risk is between 15–20%, then contact at-risk accounts within 48 hours.”",
-        es: "Ejemplo: “Si el riesgo de cancelación está entre 15-20%, entonces contactar a cuentas en riesgo en las próximas 48 horas.”",
+        es: "Ejemplo: “Si el riesgo de cancelación está entre 15–20%, entonces contactar a cuentas en riesgo en las próximas 48 horas.”",
       },
     },
+
     {
-      type: "p",
+      type: "h3",
       text: {
         en: "Rule #2: Drop decimals, adopt traffic lights.",
         es: "Regla #2: Abandonar los decimales, adoptar los semáforos",
@@ -327,22 +307,12 @@ const post: BlogPost = {
     {
       type: "p",
       text: {
-        en: "Green (0–5%): Do nothing.",
-        es: "Verde (0-5%): No hacer nada.",
-      },
-    },
-    {
-      type: "p",
-      text: {
-        en: "Amber (5–12%): Monitor and prepare contingencies.",
-        es: "Amarillo (5-12%): Monitorear y preparar contingencias.",
-      },
-    },
-    {
-      type: "p",
-      text: {
-        en: "Red (12%+): Immediate action.",
-        es: "Rojo (12%+): Acción inmediata.",
+        en: `- **Green (0–5%)**: Do nothing.
+- **Amber (5–12%)**: Monitor and prepare contingencies.
+- **Red (12%+)**: Immediate action.`,
+        es: `- **Verde (0–5%)**: No hacer nada.
+- **Amarillo (5–12%)**: Monitorear y preparar contingencias.
+- **Rojo (12%+)**: Acción inmediata.`,
       },
     },
     {
@@ -352,8 +322,9 @@ const post: BlogPost = {
         es: "Este sistema elimina reuniones interminables debatiendo si 8.7% es realmente diferente de 8.9%.",
       },
     },
+
     {
-      type: "p",
+      type: "h3",
       text: {
         en: "Rule #3: If it takes more than 15 minutes, it’s debate, not decision.",
         es: "Regla #3: Si dura más de 15 minutos, es un debate, no una decisión",
@@ -366,43 +337,19 @@ const post: BlogPost = {
         es: "Si su reunión de toma de decisiones dura más, no es una reunión de decisiones. Es una sesión de exploración disfrazada.",
       },
     },
+    { type: "p", text: { en: "Real agenda:", es: "Agenda real:" } },
     {
       type: "p",
       text: {
-        en: "Real agenda:",
-        es: "Agenda real:",
-      },
-    },
-    {
-      type: "p",
-      text: {
-        en: "Minutes 0–5: What does the model say?",
-        es: "Minutos 0-5: ¿Qué dice el modelo?",
-      },
-    },
-    {
-      type: "p",
-      text: {
-        en: "Minutes 5–10: What options do we have?",
-        es: "Minutos 5-10: ¿Qué opciones tenemos?",
-      },
-    },
-    {
-      type: "p",
-      text: {
-        en: "Minutes 10–15: Which one do we pick and who owns it?",
-        es: "Minutos 10-15: ¿Cuál elegimos y quién ejecuta?",
-      },
-    },
-    {
-      type: "p",
-      text: {
-        en: "Everything else arrives pre-digested in writing before the meeting.",
-        es: "Todo lo demás debe llegar ya procesado, por escrito, antes de la reunión.",
+        en: `- **Minutes 0–5:** What does the model say?
+- **Minutes 5–10:** What options do we have?
+- **Minutes 10–15:** Which one do we pick and who owns it?`,
+        es: `- **Minutos 0–5:** ¿Qué dice el modelo?
+- **Minutos 5–10:** ¿Qué opciones tenemos?
+- **Minutos 10–15:** ¿Cuál elegimos y quién ejecuta?`,
       },
     },
 
-    // Lo que realmente se debe medir
     {
       type: "h2",
       text: {
@@ -420,37 +367,18 @@ const post: BlogPost = {
     {
       type: "p",
       text: {
-        en: "Decisions made this week: minimum target = 1.",
-        es: "Decisiones tomadas esta semana: Objetivo mínimo = 1.",
-      },
-    },
-    {
-      type: "p",
-      text: {
-        en: "Time from insight to decision: should be under 72 hours.",
-        es: "Tiempo desde insight hasta decisión: Debe ser menor a 72 horas.",
-      },
-    },
-    {
-      type: "p",
-      text: {
-        en: "Reversion rate: how many decisions had to be reverted? (Shouldn’t be zero; otherwise you’re not taking enough risk.)",
-        es: "Tasa de reversión: ¿Cuántas decisiones tuvieron que revertirse? (No debe ser cero, o no se está arriesgando lo suficiente).",
-      },
-    },
-    {
-      type: "p",
-      text: {
-        en: "Decisions that wouldn’t exist without AI: the metric that actually matters.",
-        es: "Decisiones que no se habrían tomado sin IA: Esta es la métrica que realmente importa.",
+        en: `- Decisions made this week: **minimum target = 1**.
+- Time from insight to decision: **under 72 hours**.
+- Reversion rate: how many decisions had to be reverted? *(Shouldn’t be zero; otherwise you’re not taking enough risk.)*
+- Decisions that wouldn’t exist without AI: **the one that actually matters**.`,
+        es: `- Decisiones tomadas esta semana: **objetivo mínimo = 1**.
+- Tiempo desde insight hasta decisión: **< 72 horas**.
+- Tasa de reversión: ¿cuántas decisiones se revirtieron? *(No debe ser cero; o no se está arriesgando lo suficiente)*.
+- Decisiones que no se habrían tomado sin IA: **la métrica que realmente importa**.`,
       },
     },
 
-    // La pregunta final
-    {
-      type: "h2",
-      text: { en: "The Final Question", es: "La pregunta final" },
-    },
+    { type: "h2", text: { en: "The Final Question", es: "La pregunta final" } },
     {
       type: "p",
       text: {

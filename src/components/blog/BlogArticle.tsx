@@ -1,5 +1,5 @@
 /// Path: src/components/blog/BlogArticle.tsx
-/// Role: Bilingual article renderer with named + default export to avoid barrel collisions.
+/// Role: Bilingual article renderer — paragraphs now render via MarkdownText for rich formatting
 
 "use client";
 
@@ -7,6 +7,7 @@ import React, { useMemo, useState } from "react";
 import Image from "next/image";
 import type { BlogLanguage, BlogPost, BlogBlock } from "@/data/blog/types";
 import { motion } from "framer-motion";
+import MarkdownText from "@/components/common/MarkdownText";
 
 export type BlogArticleProps = {
   post: BlogPost;
@@ -18,7 +19,8 @@ export function BlogArticle({ post, initialLanguage }: BlogArticleProps) {
     initialLanguage ?? "en"
   );
 
-  const switchTo = (lang: BlogLanguage) => () => setLanguage(lang);
+  const switchTo = (targetLanguage: BlogLanguage) => () =>
+    setLanguage(targetLanguage);
 
   const title = post.title[language];
   const description = post.description[language];
@@ -45,12 +47,11 @@ export function BlogArticle({ post, initialLanguage }: BlogArticleProps) {
         );
       case "p":
         return (
-          <p
+          <MarkdownText
             key={index}
-            className="text-base md:text-lg leading-relaxed text-gray-300 mb-5"
-          >
-            {block.text[language]}
-          </p>
+            content={block.text[language]}
+            className="mb-5"
+          />
         );
       case "image": {
         const caption = block.caption?.[language];
@@ -97,7 +98,7 @@ export function BlogArticle({ post, initialLanguage }: BlogArticleProps) {
     <article>
       <header className="mb-8">
         <div className="flex items-center justify-between gap-3">
-          <h1 className="text-3xl md:text-4xl font-bold tracking-tight text-gray-100">
+          <h1 className="text-4xl md:text-5xl font-bold tracking-tight text-gray-100">
             {title}
           </h1>
           <div className="shrink-0">
@@ -125,7 +126,9 @@ export function BlogArticle({ post, initialLanguage }: BlogArticleProps) {
             </div>
           </div>
         </div>
-        <p className="mt-2 text-gray-400">{description}</p>
+        <p className="mt-3 text-lg leading-relaxed text-gray-300">
+          {description}
+        </p>
         <div className="mt-3 text-xs text-gray-500">{publishedDate}</div>
         <motion.div
           initial={{ scaleX: 0 }}

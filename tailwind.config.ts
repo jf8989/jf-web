@@ -1,7 +1,8 @@
 /// Path: tailwind.config.ts
-/// Role: Map Tailwind families to Next font variables; keep your palette, content, and options
+/// Role: Map Tailwind families to Next font variables; enable Typography plugin for Markdown styling
 
 import type { Config } from "tailwindcss";
+import typography from "@tailwindcss/typography";
 
 export default {
   content: [
@@ -65,7 +66,6 @@ export default {
         },
       },
       fontFamily: {
-        // canonical families
         sans: ["var(--font-sans)", "system-ui", "sans-serif"],
         display: ["var(--font-display)", "system-ui", "sans-serif"],
         mono: [
@@ -75,7 +75,6 @@ export default {
           "Menlo",
           "monospace",
         ],
-        // aliases for existing classes in components
         geist: ["var(--font-sans)", "system-ui", "sans-serif"],
         geistMono: ["var(--font-geist-mono)", "monospace"],
       },
@@ -121,5 +120,5 @@ export default {
       },
     },
   },
-  plugins: [],
+  plugins: [typography],
 } satisfies Config;
