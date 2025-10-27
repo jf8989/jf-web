@@ -1,5 +1,5 @@
 /// Path: src/components/Header.tsx
-/// Role: Header now routes hash links to Home when not already on Home, preserving original in-page behavior.
+/// Role: Hide all nav items except Home when on /blog; keep existing routing/loader behavior.
 
 "use client";
 
@@ -8,16 +8,19 @@ import Image from "next/image";
 import Link from "next/link";
 import { useRouter, usePathname } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
+import RouteLoader from "@/components/RouteLoader";
 
 const Header: React.FC = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [targetHref, setTargetHref] = useState<string | null>(null);
+  const [isNavigating, setIsNavigating] = useState(false);
   const headerRef = useRef<HTMLElement>(null);
   const mobileMenuRef = useRef<HTMLDivElement>(null);
   const mobileButtonRef = useRef<HTMLButtonElement>(null);
   const router = useRouter();
   const pathname = usePathname();
+  const isBlog = pathname === "/blog";
 
   const navItems = [
     { name: "Home", href: "#home", icon: "🏠" },
@@ -26,6 +29,9 @@ const Header: React.FC = () => {
     { name: "Workflow", href: "#workflow", icon: "📋" },
     { name: "Blog", href: "/blog", icon: "📝" },
   ];
+  const visibleNavItems = isBlog
+    ? navItems.filter((i) => i.name === "Home")
+    : navItems;
 
   useEffect(() => {
     let ticking = false;
@@ -67,12 +73,15 @@ const Header: React.FC = () => {
     };
   }, [isMobileMenuOpen]);
 
+  useEffect(() => {
+    setIsNavigating(false);
+  }, [pathname]);
+
   const toggleMobileMenu = () => {
     if (isMobileMenuOpen) setTargetHref(null);
     setIsMobileMenuOpen(!isMobileMenuOpen);
   };
 
-  // Mobile: anchors scroll on Home; on other routes, navigate to Home with hash
   const handleMobileLinkClick = (
     event: React.MouseEvent<HTMLAnchorElement>
   ) => {
@@ -80,6 +89,7 @@ const Header: React.FC = () => {
     const hrefValue = event.currentTarget.getAttribute("href") || "";
     if (hrefValue.startsWith("#")) {
       if (pathname !== "/") {
+        setIsNavigating(true); // Blog -> Home
         setTargetHref(null);
         setIsMobileMenuOpen(false);
         document.body.style.overflow = "";
@@ -90,6 +100,7 @@ const Header: React.FC = () => {
       setIsMobileMenuOpen(false);
       return;
     }
+    if (hrefValue === "/blog" && pathname === "/") setIsNavigating(true);
     setTargetHref(null);
     setIsMobileMenuOpen(false);
     document.body.style.overflow = "";
@@ -109,8 +120,6 @@ const Header: React.FC = () => {
           elementPosition + window.pageYOffset - headerHeight - 10;
         document.body.style.overflow = "";
         window.scrollTo({ top: offsetPosition });
-      } else {
-        console.error("Target element NOT found on exit (v5):", targetId);
       }
       setTargetHref(null);
     }
@@ -178,9 +187,9 @@ const Header: React.FC = () => {
             <a
               href="#home"
               onClick={(event) => {
-                // If not on Home, go to Home and hash
                 if (pathname !== "/") {
                   event.preventDefault();
+                  setIsNavigating(true);
                   router.push("/#home");
                 } else if (isMobileMenuOpen) {
                   handleMobileLinkClick(event);
@@ -207,7 +216,7 @@ const Header: React.FC = () => {
 
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center space-x-1">
-            {navItems.map((item, index) => (
+            {visibleNavItems.map((item, index) => (
               <motion.div
                 key={item.name}
                 custom={index}
@@ -218,6 +227,10 @@ const Header: React.FC = () => {
                 {item.href.startsWith("/") ? (
                   <Link
                     href={item.href}
+                    onClick={() => {
+                      if (item.href === "/blog" && pathname === "/")
+                        setIsNavigating(true);
+                    }}
                     className="font-geist relative px-3 py-2 text-sm font-medium text-gray-300 hover:text-white group"
                   >
                     <span className="relative z-10">{item.name}</span>
@@ -232,9 +245,9 @@ const Header: React.FC = () => {
                   <a
                     href={item.href}
                     onClick={(event) => {
-                      // On non-Home pages, route to Home with the hash
                       if (pathname !== "/") {
                         event.preventDefault();
+                        setIsNavigating(true);
                         router.push("/" + item.href);
                       }
                     }}
@@ -251,20 +264,24 @@ const Header: React.FC = () => {
                 )}
               </motion.div>
             ))}
-            <motion.a
-              href="#contact"
-              onClick={(event) => {
-                if (pathname !== "/") {
-                  event.preventDefault();
-                  router.push("/#contact");
-                }
-              }}
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              className="font-geist ml-4 px-4 py-2 bg-blue-600 text-white rounded-full font-medium shadow-lg shadow-green-600/20 hover:bg-green-500 transition-all duration-300"
-            >
-              Hire Me
-            </motion.a>
+            {/* Hide CTA on blog */}
+            {!isBlog && (
+              <motion.a
+                href="#contact"
+                onClick={(event) => {
+                  if (pathname !== "/") {
+                    event.preventDefault();
+                    setIsNavigating(true);
+                    router.push("/#contact");
+                  }
+                }}
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                className="font-geist ml-4 px-4 py-2 bg-blue-600 text-white rounded-full font-medium shadow-lg shadow-green-600/20 hover:bg-green-500 transition-all duration-300"
+              >
+                Hire Me
+              </motion.a>
+            )}
           </div>
 
           {/* Mobile Menu Button */}
@@ -319,7 +336,7 @@ const Header: React.FC = () => {
             className="absolute top-full left-0 w-full bg-gray-900/95 backdrop-blur-md shadow-lg border-t border-gray-800 overflow-hidden"
           >
             <motion.ul className="px-4 py-2 space-y-1">
-              {navItems.map((item, index) => (
+              {visibleNavItems.map((item, index) => (
                 <motion.li
                   key={item.name}
                   custom={index}
@@ -337,19 +354,24 @@ const Header: React.FC = () => {
                   </a>
                 </motion.li>
               ))}
-              <motion.li variants={mobileItemVariants}>
-                <a
-                  href="#contact"
-                  className="font-geist block mt-6 mx-2 px-4 py-3 bg-green-600 text-white rounded-lg font-medium text-center shadow-lg shadow-green-600/20 hover:bg-green-500 transition-all duration-300"
-                  onClick={handleMobileLinkClick}
-                >
-                  Hire Me
-                </a>
-              </motion.li>
+              {/* Hide CTA on blog */}
+              {!isBlog && (
+                <motion.li variants={mobileItemVariants}>
+                  <a
+                    href="#contact"
+                    className="font-geist block mt-6 mx-2 px-4 py-3 bg-green-600 text-white rounded-lg font-medium text-center shadow-lg shadow-green-600/20 hover:bg-green-500 transition-all duration-300"
+                    onClick={handleMobileLinkClick}
+                  >
+                    Hire Me
+                  </a>
+                </motion.li>
+              )}
             </motion.ul>
           </motion.div>
         )}
       </AnimatePresence>
+
+      <RouteLoader visible={isNavigating} />
     </motion.header>
   );
 };

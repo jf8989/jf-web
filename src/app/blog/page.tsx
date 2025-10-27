@@ -1,5 +1,5 @@
 /// Path: src/app/blog/page.tsx
-/// Role: Blog route with fixed-header offset and sticky-footer layout on dark theme.
+/// Role: Ensure footer shows reliably by giving content area flex-1 in the column layout.
 
 import React from "react";
 import Header from "@/components/Header";
@@ -23,7 +23,6 @@ export default async function BlogPage(props: BlogPageProps) {
   const preferredLanguageFromParams =
     (props.searchParams?.lang as "en" | "es" | undefined) ?? undefined;
 
-  // Helper renders the main changing area
   const MainContent = async () => {
     if (slugFromParams) {
       const blogPost = await loadPostBySlug(slugFromParams);
@@ -73,7 +72,9 @@ export default async function BlogPage(props: BlogPageProps) {
   return (
     <div className="min-h-screen flex flex-col">
       <Header />
-      <MainContent />
+      <div className="flex-1">
+        <MainContent />
+      </div>
       <Footer />
     </div>
   );
