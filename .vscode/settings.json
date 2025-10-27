@@ -2,6 +2,7 @@
 /// Role: Keep your theme settings; add Tailwind-friendly editor config
 {
   "cSpell.words": [
+    "Metas",
     "sublicensable"
   ],
   "workbench.colorCustomizations": {
