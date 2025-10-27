@@ -1,12 +1,12 @@
 /// Path: src/components/Header.tsx
-/// Role: Site header with desktop and mobile nav; now includes Blog route and path-aware mobile navigation.
+/// Role: Header now routes hash links to Home when not already on Home, preserving original in-page behavior.
 
 "use client";
 
 import React, { useState, useEffect, useRef } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { useRouter, usePathname } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 
 const Header: React.FC = () => {
@@ -17,13 +17,14 @@ const Header: React.FC = () => {
   const mobileMenuRef = useRef<HTMLDivElement>(null);
   const mobileButtonRef = useRef<HTMLButtonElement>(null);
   const router = useRouter();
+  const pathname = usePathname();
 
   const navItems = [
     { name: "Home", href: "#home", icon: "🏠" },
     { name: "About", href: "#about", icon: "👤" },
     { name: "Projects", href: "#projects", icon: "🔧" },
     { name: "Workflow", href: "#workflow", icon: "📋" },
-    { name: "Blog", href: "/blog", icon: "📝" }, // NEW
+    { name: "Blog", href: "/blog", icon: "📝" },
   ];
 
   useEffect(() => {
@@ -71,22 +72,28 @@ const Header: React.FC = () => {
     setIsMobileMenuOpen(!isMobileMenuOpen);
   };
 
-  // Path-aware mobile link handling: anchors scroll; routes navigate.
+  // Mobile: anchors scroll on Home; on other routes, navigate to Home with hash
   const handleMobileLinkClick = (
     event: React.MouseEvent<HTMLAnchorElement>
   ) => {
     event.preventDefault();
-    const href = event.currentTarget.getAttribute("href") || "";
-    if (href.startsWith("#")) {
-      setTargetHref(href);
+    const hrefValue = event.currentTarget.getAttribute("href") || "";
+    if (hrefValue.startsWith("#")) {
+      if (pathname !== "/") {
+        setTargetHref(null);
+        setIsMobileMenuOpen(false);
+        document.body.style.overflow = "";
+        router.push("/" + hrefValue);
+        return;
+      }
+      setTargetHref(hrefValue);
       setIsMobileMenuOpen(false);
       return;
     }
-    // Navigate to a route (e.g., /blog)
     setTargetHref(null);
     setIsMobileMenuOpen(false);
     document.body.style.overflow = "";
-    router.push(href);
+    router.push(hrefValue);
   };
 
   const handleExitComplete = () => {
@@ -170,8 +177,14 @@ const Header: React.FC = () => {
           >
             <a
               href="#home"
-              onClick={(e) => {
-                if (isMobileMenuOpen) handleMobileLinkClick(e);
+              onClick={(event) => {
+                // If not on Home, go to Home and hash
+                if (pathname !== "/") {
+                  event.preventDefault();
+                  router.push("/#home");
+                } else if (isMobileMenuOpen) {
+                  handleMobileLinkClick(event);
+                }
               }}
               className="flex items-center space-x-2"
               aria-label="Homepage Logo"
@@ -218,6 +231,13 @@ const Header: React.FC = () => {
                 ) : (
                   <a
                     href={item.href}
+                    onClick={(event) => {
+                      // On non-Home pages, route to Home with the hash
+                      if (pathname !== "/") {
+                        event.preventDefault();
+                        router.push("/" + item.href);
+                      }
+                    }}
                     className="font-geist relative px-3 py-2 text-sm font-medium text-gray-300 hover:text-white group"
                   >
                     <span className="relative z-10">{item.name}</span>
@@ -233,6 +253,12 @@ const Header: React.FC = () => {
             ))}
             <motion.a
               href="#contact"
+              onClick={(event) => {
+                if (pathname !== "/") {
+                  event.preventDefault();
+                  router.push("/#contact");
+                }
+              }}
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
               className="font-geist ml-4 px-4 py-2 bg-blue-600 text-white rounded-full font-medium shadow-lg shadow-green-600/20 hover:bg-green-500 transition-all duration-300"
