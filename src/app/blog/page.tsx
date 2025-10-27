@@ -1,5 +1,5 @@
 /// Path: src/app/blog/page.tsx
-/// Role: Ensure footer shows reliably by giving content area flex-1 in the column layout.
+/// Role: Align with Next.js 15 searchParams (Promise) and safely parse values.
 
 import React from "react";
 import Header from "@/components/Header";
@@ -11,17 +11,21 @@ import PostList from "@/components/blog/PostList";
 export const dynamic = "force-static";
 export const revalidate = false;
 
-type BlogPageProps = {
-  searchParams?: {
-    slug?: string;
-    lang?: "en" | "es";
-  };
-};
+export default async function BlogPage({
+  searchParams,
+}: {
+  // Next.js 15: searchParams is a Promise at build time
+  searchParams?: Promise<Record<string, string | string[] | undefined>>;
+}) {
+  const sp = (await searchParams) ?? {};
 
-export default async function BlogPage(props: BlogPageProps) {
-  const slugFromParams = props.searchParams?.slug ?? "";
+  const getFirst = (v: string | string[] | undefined) =>
+    Array.isArray(v) ? v[0] : v;
+
+  const slugFromParams = getFirst(sp.slug) ?? "";
+  const langRaw = getFirst(sp.lang);
   const preferredLanguageFromParams =
-    (props.searchParams?.lang as "en" | "es" | undefined) ?? undefined;
+    langRaw === "en" || langRaw === "es" ? (langRaw as "en" | "es") : undefined;
 
   const MainContent = async () => {
     if (slugFromParams) {
