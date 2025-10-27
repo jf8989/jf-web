@@ -1,103 +1,110 @@
-// src/components/Header.tsx
+/// Path: src/components/Header.tsx
+/// Role: Hide all nav items except Home when on /blog; keep existing routing/loader behavior.
+
 "use client";
 
-import React, { useState, useEffect, useRef } from "react"; // Keep useRef
+import React, { useState, useEffect, useRef } from "react";
 import Image from "next/image";
+import Link from "next/link";
+import { useRouter, usePathname } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
+import RouteLoader from "@/components/RouteLoader";
 
 const Header: React.FC = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [targetHref, setTargetHref] = useState<string | null>(null);
+  const [isNavigating, setIsNavigating] = useState(false);
   const headerRef = useRef<HTMLElement>(null);
-  const mobileMenuRef = useRef<HTMLDivElement>(null); // Ref for the mobile menu panel
-  const mobileButtonRef = useRef<HTMLButtonElement>(null); // Ref for the mobile menu button
+  const mobileMenuRef = useRef<HTMLDivElement>(null);
+  const mobileButtonRef = useRef<HTMLButtonElement>(null);
+  const router = useRouter();
+  const pathname = usePathname();
+  const isBlog = pathname === "/blog";
 
   const navItems = [
     { name: "Home", href: "#home", icon: "🏠" },
     { name: "About", href: "#about", icon: "👤" },
     { name: "Projects", href: "#projects", icon: "🔧" },
     { name: "Workflow", href: "#workflow", icon: "📋" },
+    { name: "Blog", href: "/blog", icon: "📝" },
   ];
+  const visibleNavItems = isBlog
+    ? navItems.filter((i) => i.name === "Home")
+    : navItems;
 
   useEffect(() => {
-    // rAF-throttled scroll handler
     let ticking = false;
-
     const onScroll = () => {
       if (ticking) return;
       ticking = true;
       requestAnimationFrame(() => {
         const next = window.scrollY > 20;
-        // Avoid extra renders
         setScrolled((prev) => (prev !== next ? next : prev));
         ticking = false;
       });
     };
-
-    // passive listener to avoid blocking scroll
     window.addEventListener("scroll", onScroll, { passive: true });
-
-    // lock body scroll only when the mobile menu is open
     document.body.style.overflow = isMobileMenuOpen ? "hidden" : "";
-
     return () => {
       window.removeEventListener("scroll", onScroll);
       document.body.style.overflow = "";
     };
   }, [isMobileMenuOpen]);
 
-  // Effect for handling clicks outside the mobile menu ---
   useEffect(() => {
-    // Only add listener if menu is open
     if (!isMobileMenuOpen) return;
-
     const handleClickOutside = (event: MouseEvent | TouchEvent) => {
-      // Check if the click target exists
       if (!event.target) return;
-
-      // Check if click is outside the menu panel AND outside the toggle button
       if (
         mobileMenuRef.current &&
         !mobileMenuRef.current.contains(event.target as Node) &&
         mobileButtonRef.current &&
         !mobileButtonRef.current.contains(event.target as Node)
       ) {
-        // If click is outside both, close the menu
         setIsMobileMenuOpen(false);
       }
     };
-
-    // Add event listener for mousedown (fires slightly before click)
     document.addEventListener("mousedown", handleClickOutside);
-    // Add touchstart listener for mobile devices
     document.addEventListener("touchstart", handleClickOutside);
-
-    // Cleanup function to remove listener when menu closes or component unmounts
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
       document.removeEventListener("touchstart", handleClickOutside);
     };
-  }, [isMobileMenuOpen]); // Re-run this effect only when isMobileMenuOpen changes
+  }, [isMobileMenuOpen]);
+
+  useEffect(() => {
+    setIsNavigating(false);
+  }, [pathname]);
 
   const toggleMobileMenu = () => {
-    if (isMobileMenuOpen) {
-      setTargetHref(null);
-    }
+    if (isMobileMenuOpen) setTargetHref(null);
     setIsMobileMenuOpen(!isMobileMenuOpen);
   };
 
-  const handleMobileLinkClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
-    e.preventDefault();
-    const href = e.currentTarget.getAttribute("href");
-    if (!href || !href.startsWith("#")) {
-      console.error("Invalid href (v5):", href);
-      setTargetHref(null);
+  const handleMobileLinkClick = (
+    event: React.MouseEvent<HTMLAnchorElement>
+  ) => {
+    event.preventDefault();
+    const hrefValue = event.currentTarget.getAttribute("href") || "";
+    if (hrefValue.startsWith("#")) {
+      if (pathname !== "/") {
+        setIsNavigating(true); // Blog -> Home
+        setTargetHref(null);
+        setIsMobileMenuOpen(false);
+        document.body.style.overflow = "";
+        router.push("/" + hrefValue);
+        return;
+      }
+      setTargetHref(hrefValue);
       setIsMobileMenuOpen(false);
       return;
     }
-    setTargetHref(href);
+    if (hrefValue === "/blog" && pathname === "/") setIsNavigating(true);
+    setTargetHref(null);
     setIsMobileMenuOpen(false);
+    document.body.style.overflow = "";
+    router.push(hrefValue);
   };
 
   const handleExitComplete = () => {
@@ -113,8 +120,6 @@ const Header: React.FC = () => {
           elementPosition + window.pageYOffset - headerHeight - 10;
         document.body.style.overflow = "";
         window.scrollTo({ top: offsetPosition });
-      } else {
-        console.error("Target element NOT found on exit (v5):", targetId);
       }
       setTargetHref(null);
     }
@@ -181,9 +186,13 @@ const Header: React.FC = () => {
           >
             <a
               href="#home"
-              onClick={(e) => {
-                if (isMobileMenuOpen) {
-                  handleMobileLinkClick(e);
+              onClick={(event) => {
+                if (pathname !== "/") {
+                  event.preventDefault();
+                  setIsNavigating(true);
+                  router.push("/#home");
+                } else if (isMobileMenuOpen) {
+                  handleMobileLinkClick(event);
                 }
               }}
               className="flex items-center space-x-2"
@@ -207,7 +216,7 @@ const Header: React.FC = () => {
 
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center space-x-1">
-            {navItems.map((item, index) => (
+            {visibleNavItems.map((item, index) => (
               <motion.div
                 key={item.name}
                 custom={index}
@@ -215,34 +224,70 @@ const Header: React.FC = () => {
                 initial="hidden"
                 animate="visible"
               >
-                <a
-                  href={item.href}
-                  className="font-geist relative px-3 py-2 text-sm font-medium text-gray-300 hover:text-white group"
-                >
-                  <span className="relative z-10">{item.name}</span>
-                  <motion.span
-                    className="absolute inset-0 bg-green-600/20 rounded-lg -z-0 opacity-0 group-hover:opacity-100"
-                    initial={{ scale: 0.85 }}
-                    whileHover={{ scale: 1 }}
-                    transition={{ duration: 0.2 }}
-                  />
-                </a>
+                {item.href.startsWith("/") ? (
+                  <Link
+                    href={item.href}
+                    onClick={() => {
+                      if (item.href === "/blog" && pathname === "/")
+                        setIsNavigating(true);
+                    }}
+                    className="font-geist relative px-3 py-2 text-sm font-medium text-gray-300 hover:text-white group"
+                  >
+                    <span className="relative z-10">{item.name}</span>
+                    <motion.span
+                      className="absolute inset-0 bg-green-600/20 rounded-lg -z-0 opacity-0 group-hover:opacity-100"
+                      initial={{ scale: 0.85 }}
+                      whileHover={{ scale: 1 }}
+                      transition={{ duration: 0.2 }}
+                    />
+                  </Link>
+                ) : (
+                  <a
+                    href={item.href}
+                    onClick={(event) => {
+                      if (pathname !== "/") {
+                        event.preventDefault();
+                        setIsNavigating(true);
+                        router.push("/" + item.href);
+                      }
+                    }}
+                    className="font-geist relative px-3 py-2 text-sm font-medium text-gray-300 hover:text-white group"
+                  >
+                    <span className="relative z-10">{item.name}</span>
+                    <motion.span
+                      className="absolute inset-0 bg-green-600/20 rounded-lg -z-0 opacity-0 group-hover:opacity-100"
+                      initial={{ scale: 0.85 }}
+                      whileHover={{ scale: 1 }}
+                      transition={{ duration: 0.2 }}
+                    />
+                  </a>
+                )}
               </motion.div>
             ))}
-            <motion.a
-              href="#contact"
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              className="font-geist ml-4 px-4 py-2 bg-blue-600 text-white rounded-full font-medium shadow-lg shadow-green-600/20 hover:bg-green-500 transition-all duration-300"
-            >
-              Hire Me
-            </motion.a>
+            {/* Hide CTA on blog */}
+            {!isBlog && (
+              <motion.a
+                href="#contact"
+                onClick={(event) => {
+                  if (pathname !== "/") {
+                    event.preventDefault();
+                    setIsNavigating(true);
+                    router.push("/#contact");
+                  }
+                }}
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                className="font-geist ml-4 px-4 py-2 bg-blue-600 text-white rounded-full font-medium shadow-lg shadow-green-600/20 hover:bg-green-500 transition-all duration-300"
+              >
+                Hire Me
+              </motion.a>
+            )}
           </div>
 
           {/* Mobile Menu Button */}
           <div className="md:hidden">
             <motion.button
-              ref={mobileButtonRef} // Assign ref here
+              ref={mobileButtonRef}
               whileTap={{ scale: 0.9 }}
               aria-label="Toggle menu"
               onClick={toggleMobileMenu}
@@ -278,11 +323,11 @@ const Header: React.FC = () => {
         </nav>
       </div>
 
-      {/* Mobile Menu Panel with AnimatePresence */}
+      {/* Mobile Menu Panel */}
       <AnimatePresence onExitComplete={handleExitComplete}>
         {isMobileMenuOpen && (
           <motion.div
-            ref={mobileMenuRef} // Assign ref here
+            ref={mobileMenuRef}
             key="mobile-menu"
             initial="closed"
             animate="open"
@@ -291,7 +336,7 @@ const Header: React.FC = () => {
             className="absolute top-full left-0 w-full bg-gray-900/95 backdrop-blur-md shadow-lg border-t border-gray-800 overflow-hidden"
           >
             <motion.ul className="px-4 py-2 space-y-1">
-              {navItems.map((item, index) => (
+              {visibleNavItems.map((item, index) => (
                 <motion.li
                   key={item.name}
                   custom={index}
@@ -309,19 +354,24 @@ const Header: React.FC = () => {
                   </a>
                 </motion.li>
               ))}
-              <motion.li variants={mobileItemVariants}>
-                <a
-                  href="#contact"
-                  className="font-geist block mt-6 mx-2 px-4 py-3 bg-green-600 text-white rounded-lg font-medium text-center shadow-lg shadow-green-600/20 hover:bg-green-500 transition-all duration-300"
-                  onClick={handleMobileLinkClick}
-                >
-                  Hire Me
-                </a>
-              </motion.li>
+              {/* Hide CTA on blog */}
+              {!isBlog && (
+                <motion.li variants={mobileItemVariants}>
+                  <a
+                    href="#contact"
+                    className="font-geist block mt-6 mx-2 px-4 py-3 bg-green-600 text-white rounded-lg font-medium text-center shadow-lg shadow-green-600/20 hover:bg-green-500 transition-all duration-300"
+                    onClick={handleMobileLinkClick}
+                  >
+                    Hire Me
+                  </a>
+                </motion.li>
+              )}
             </motion.ul>
           </motion.div>
         )}
       </AnimatePresence>
+
+      <RouteLoader visible={isNavigating} />
     </motion.header>
   );
 };
