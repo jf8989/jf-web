@@ -1,12 +1,12 @@
 /// Path: src/components/Header.tsx
-/// Role: Header shows theme toggle on all routes (desktop + mobile), outside filtered nav items
+/// Role: Show "Home + Blog" when on a specific blog post (/blog?slug=...), keep only "Home" on blog index
 
 "use client";
 
 import React, { useState, useEffect, useRef } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { useRouter, usePathname } from "next/navigation";
+import { useRouter, usePathname, useSearchParams } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import RouteLoader from "@/components/RouteLoader";
 import ThemeToggle from "@/components/ThemeToggle";
@@ -21,7 +21,10 @@ const Header: React.FC = () => {
   const mobileButtonRef = useRef<HTMLButtonElement>(null);
   const router = useRouter();
   const pathname = usePathname();
+  const searchParams = useSearchParams();
+
   const isBlog = pathname === "/blog";
+  const onBlogDetail = isBlog && !!searchParams?.get("slug");
 
   const navItems = [
     { name: "Home", href: "#home", icon: "🏠" },
@@ -30,7 +33,10 @@ const Header: React.FC = () => {
     { name: "Workflow", href: "#workflow", icon: "📋" },
     { name: "Blog", href: "/blog", icon: "📝" },
   ];
-  const visibleNavItems = isBlog
+
+  const visibleNavItems = onBlogDetail
+    ? navItems.filter((i) => i.name === "Home" || i.name === "Blog")
+    : isBlog
     ? navItems.filter((i) => i.name === "Home")
     : navItems;
 
@@ -193,9 +199,7 @@ const Header: React.FC = () => {
                   setIsNavigating(true);
                   router.push("/#home");
                 } else if (isMobileMenuOpen) {
-                  handleMobileLinkClick(
-                    event as unknown as React.MouseEvent<HTMLAnchorElement>
-                  );
+                  handleMobileLinkClick(event);
                 }
               }}
               className="flex items-center space-x-2"
