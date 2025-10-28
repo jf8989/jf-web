@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 /// Path: src/components/common/MarkdownText.tsx
 /// Role: Safe Markdown renderer with GFM and tuned Typography utilities (lists, quotes, captions)
 
@@ -19,7 +18,7 @@ export default function MarkdownText({
 }: MarkdownTextProps) {
   const wrapperClassName = [
     "prose",
-    "prose-invert",
+    "dark:prose-invert", // <- was "prose-invert"; now only in dark mode
     "max-w-none",
     "md:prose-lg",
     "prose-headings:tracking-tight",
@@ -40,20 +39,7 @@ export default function MarkdownText({
 
   return (
     <div className={wrapperClassName}>
-      <ReactMarkdown
-        remarkPlugins={[remarkGfm]}
-        components={{
-          a: ({ node, ...anchorProperties }) => (
-            <a
-              {...anchorProperties}
-              target="_blank"
-              rel="noopener noreferrer"
-            />
-          ),
-        }}
-      >
-        {content}
-      </ReactMarkdown>
+      <ReactMarkdown remarkPlugins={[remarkGfm]}>{content}</ReactMarkdown>
     </div>
   );
 }

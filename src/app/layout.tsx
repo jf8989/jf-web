@@ -1,11 +1,10 @@
 /// Path: src/app/layout.tsx
-/// Role: Root layout wiring fonts + theme init/toggle; keep everything and add light base + bg/text tokens
+/// Role: Root layout — keep ThemeInitScript; remove floating toggle (now lives in Header)
 
 import type { Metadata } from "next";
 import { Inter, Space_Grotesk, Geist_Mono } from "next/font/google";
 import AudioPlayer from "@/components/AudioPlayer";
 import ThemeInitScript from "@/components/ThemeInitScript";
-import ThemeToggle from "@/components/ThemeToggle";
 import "./globals.css";
 
 const inter = Inter({
@@ -43,11 +42,12 @@ export const metadata: Metadata = {
 
 export default function RootLayout({
   children,
-}: Readonly<{ children: React.ReactNode }>) {
+}: {
+  children: React.ReactNode;
+}) {
   return (
     <html lang="en" className="light" suppressHydrationWarning>
       <head>
-        {/* Set theme before hydration to avoid flash */}
         <ThemeInitScript />
       </head>
       <body
@@ -74,9 +74,6 @@ export default function RootLayout({
             </filter>
           </defs>
         </svg>
-
-        {/* Global theme toggle (mobile-friendly, fixed) */}
-        <ThemeToggle />
 
         {children}
         <AudioPlayer />

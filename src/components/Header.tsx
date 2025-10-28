@@ -1,5 +1,5 @@
 /// Path: src/components/Header.tsx
-/// Role: Hide all nav items except Home when on /blog; keep existing routing/loader behavior.
+/// Role: Header shows theme toggle on all routes (desktop + mobile), outside filtered nav items
 
 "use client";
 
@@ -9,6 +9,7 @@ import Link from "next/link";
 import { useRouter, usePathname } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import RouteLoader from "@/components/RouteLoader";
+import ThemeToggle from "@/components/ThemeToggle";
 
 const Header: React.FC = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -192,7 +193,9 @@ const Header: React.FC = () => {
                   setIsNavigating(true);
                   router.push("/#home");
                 } else if (isMobileMenuOpen) {
-                  handleMobileLinkClick(event);
+                  handleMobileLinkClick(
+                    event as unknown as React.MouseEvent<HTMLAnchorElement>
+                  );
                 }
               }}
               className="flex items-center space-x-2"
@@ -214,7 +217,7 @@ const Header: React.FC = () => {
             </a>
           </motion.div>
 
-          {/* Desktop Navigation */}
+          {/* Desktop Navigation + Theme Toggle */}
           <div className="hidden md:flex items-center space-x-1">
             {visibleNavItems.map((item, index) => (
               <motion.div
@@ -264,6 +267,12 @@ const Header: React.FC = () => {
                 )}
               </motion.div>
             ))}
+
+            {/* Theme toggle is always visible */}
+            <div className="ml-2">
+              <ThemeToggle variant="inline" />
+            </div>
+
             {/* Hide CTA on blog */}
             {!isBlog && (
               <motion.a
@@ -284,8 +293,9 @@ const Header: React.FC = () => {
             )}
           </div>
 
-          {/* Mobile Menu Button */}
-          <div className="md:hidden">
+          {/* Mobile: Theme Toggle + Menu Button */}
+          <div className="md:hidden flex items-center gap-2">
+            <ThemeToggle variant="inline" />
             <motion.button
               ref={mobileButtonRef}
               whileTap={{ scale: 0.9 }}
@@ -354,7 +364,6 @@ const Header: React.FC = () => {
                   </a>
                 </motion.li>
               ))}
-              {/* Hide CTA on blog */}
               {!isBlog && (
                 <motion.li variants={mobileItemVariants}>
                   <a
