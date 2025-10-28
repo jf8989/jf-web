@@ -1,9 +1,11 @@
 /// Path: src/app/layout.tsx
-/// Role: Root layout wiring Inter (body), Space Grotesk (display), Geist Mono (mono)
+/// Role: Root layout wiring fonts + theme init/toggle; keep everything and add light base + bg/text tokens
 
 import type { Metadata } from "next";
 import { Inter, Space_Grotesk, Geist_Mono } from "next/font/google";
 import AudioPlayer from "@/components/AudioPlayer";
+import ThemeInitScript from "@/components/ThemeInitScript";
+import ThemeToggle from "@/components/ThemeToggle";
 import "./globals.css";
 
 const inter = Inter({
@@ -43,9 +45,13 @@ export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html lang="en" className="light" suppressHydrationWarning>
+      <head>
+        {/* Set theme before hydration to avoid flash */}
+        <ThemeInitScript />
+      </head>
       <body
-        className={`${inter.variable} ${spaceGrotesk.variable} ${geistMono.variable} antialiased text-base text-gray-900 dark:text-gray-100 leading-relaxed`}
+        className={`${inter.variable} ${spaceGrotesk.variable} ${geistMono.variable} antialiased text-base leading-relaxed text-gray-900 dark:text-gray-100 bg-[var(--background)] text-[var(--foreground)]`}
       >
         {/* SVG noise filter (kept) */}
         <svg
@@ -68,6 +74,9 @@ export default function RootLayout({
             </filter>
           </defs>
         </svg>
+
+        {/* Global theme toggle (mobile-friendly, fixed) */}
+        <ThemeToggle />
 
         {children}
         <AudioPlayer />

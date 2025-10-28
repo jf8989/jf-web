@@ -1,5 +1,5 @@
 /// Path: tailwind.config.ts
-/// Role: Map Tailwind families to Next font variables; enable Typography plugin for Markdown styling
+/// Role: Map Tailwind families to Next font variables; enable and customize Typography + dark mode class
 
 import type { Config } from "tailwindcss";
 import typography from "@tailwindcss/typography";
@@ -118,6 +118,102 @@ export default {
       transitionTimingFunction: {
         "ease-in-out": "cubic-bezier(0.4, 0, 0.2, 1)",
       },
+      // Typography tuned for light/dark
+      typography: ({ theme }: { theme: (path: string) => string }) => ({
+        DEFAULT: {
+          css: {
+            color: theme("colors.gray.800"),
+            a: {
+              color: theme("colors.sky.700"),
+              textDecoration: "none",
+              fontWeight: "500",
+              "&:hover": {
+                textDecoration: "underline",
+                color: theme("colors.sky.800"),
+              },
+            },
+            "h2, h3": {
+              color: theme("colors.gray.900"),
+              fontWeight: "700",
+              lineHeight: "1.2",
+              scrollMarginTop: theme("spacing.header-height"),
+            },
+            h2: { marginTop: "2.25rem", marginBottom: "1rem" },
+            h3: { marginTop: "1.75rem", marginBottom: "0.75rem" },
+            p: { color: theme("colors.gray.800"), lineHeight: "1.75" },
+            strong: { color: theme("colors.gray.900") },
+            blockquote: {
+              color: theme("colors.gray.800"),
+              borderLeftColor: theme("colors.gray.300"),
+              fontStyle: "italic",
+              quotes: "none",
+            },
+            hr: { borderColor: theme("colors.gray.200") },
+            "ul > li::marker, ol > li::marker": {
+              color: theme("colors.gray.500"),
+            },
+            code: {
+              backgroundColor: theme("colors.gray.100"),
+              padding: "0.15rem 0.35rem",
+              borderRadius: "0.25rem",
+              fontWeight: "500",
+            },
+            pre: {
+              backgroundColor: theme("colors.gray.100"),
+              padding: "1rem",
+              borderRadius: "0.5rem",
+            },
+            "figure figcaption": {
+              color: theme("colors.gray.600"),
+              fontStyle: "italic",
+              textAlign: "center",
+            },
+          },
+        },
+        invert: {
+          css: {
+            color: theme("colors.gray.300"),
+            a: {
+              color: theme("colors.sky.400"),
+              textDecoration: "none",
+              fontWeight: "500",
+              "&:hover": {
+                textDecoration: "underline",
+                color: theme("colors.sky.300"),
+              },
+            },
+            "h2, h3": { color: theme("colors.gray.100") },
+            p: { color: theme("colors.gray.300") },
+            strong: { color: theme("colors.gray.100") },
+            blockquote: {
+              color: theme("colors.gray.300"),
+              borderLeftColor: theme("colors.gray.700"),
+              fontStyle: "italic",
+              quotes: "none",
+            },
+            hr: { borderColor: theme("colors.gray.700") },
+            "ul > li::marker, ol > li::marker": {
+              color: theme("colors.gray.500"),
+            },
+            code: {
+              backgroundColor: "rgba(255,255,255,0.06)",
+              padding: "0.15rem 0.35rem",
+              borderRadius: "0.25rem",
+              fontWeight: "500",
+            },
+            pre: {
+              backgroundColor: "rgba(255,255,255,0.06)",
+              padding: "1rem",
+              borderRadius: "0.5rem",
+            },
+            "figure figcaption": {
+              color: theme("colors.gray.400"),
+              fontStyle: "italic",
+              textAlign: "center",
+            },
+          },
+        },
+      }),
     },
   },
   plugins: [typography],

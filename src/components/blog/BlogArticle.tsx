@@ -1,5 +1,5 @@
 /// Path: src/components/blog/BlogArticle.tsx
-/// Role: Bilingual article renderer — paragraphs now render via MarkdownText for rich formatting
+/// Role: Bilingual renderer — colors now adapt to light/dark; header controls styled for both
 
 "use client";
 
@@ -18,7 +18,6 @@ export function BlogArticle({ post, initialLanguage }: BlogArticleProps) {
   const [language, setLanguage] = useState<BlogLanguage>(
     initialLanguage ?? "en"
   );
-
   const switchTo = (targetLanguage: BlogLanguage) => () =>
     setLanguage(targetLanguage);
 
@@ -31,7 +30,7 @@ export function BlogArticle({ post, initialLanguage }: BlogArticleProps) {
         return (
           <h2
             key={index}
-            className="text-2xl md:text-3xl font-semibold tracking-tight text-gray-100 mt-10 mb-4"
+            className="text-2xl md:text-3xl font-semibold leading-tight tracking-tight text-gray-900 dark:text-gray-100 mt-10 mb-4"
           >
             {block.text[language]}
           </h2>
@@ -40,7 +39,7 @@ export function BlogArticle({ post, initialLanguage }: BlogArticleProps) {
         return (
           <h3
             key={index}
-            className="text-xl md:text-2xl font-semibold tracking-tight text-gray-100 mt-8 mb-3"
+            className="text-xl md:text-2xl font-semibold leading-tight tracking-tight text-gray-900 dark:text-gray-100 mt-8 mb-3"
           >
             {block.text[language]}
           </h3>
@@ -57,7 +56,7 @@ export function BlogArticle({ post, initialLanguage }: BlogArticleProps) {
         const caption = block.caption?.[language];
         return (
           <figure key={index} className="my-8">
-            <div className="relative w-full overflow-hidden rounded-xl border border-white/10 bg-white/5">
+            <div className="relative w-full overflow-hidden rounded-xl border bg-black/5 border-black/10 dark:bg-white/5 dark:border-white/10">
               <Image
                 src={block.src}
                 alt={block.alt[language]}
@@ -68,7 +67,7 @@ export function BlogArticle({ post, initialLanguage }: BlogArticleProps) {
               />
             </div>
             {caption && (
-              <figcaption className="text-sm text-gray-400 mt-2 text-center">
+              <figcaption className="text-sm text-gray-600 dark:text-gray-400 mt-2 text-center italic">
                 {caption}
               </figcaption>
             )}
@@ -76,7 +75,12 @@ export function BlogArticle({ post, initialLanguage }: BlogArticleProps) {
         );
       }
       case "hr":
-        return <hr key={index} className="my-12 border-gray-800" />;
+        return (
+          <hr
+            key={index}
+            className="my-12 border-gray-200 dark:border-gray-800"
+          />
+        );
       default:
         return null;
     }
@@ -98,17 +102,17 @@ export function BlogArticle({ post, initialLanguage }: BlogArticleProps) {
     <article>
       <header className="mb-8">
         <div className="flex items-center justify-between gap-3">
-          <h1 className="text-4xl md:text-5xl font-bold tracking-tight text-gray-100">
+          <h1 className="text-4xl md:text-5xl font-bold leading-tight tracking-tight text-gray-900 dark:text-gray-100">
             {title}
           </h1>
           <div className="shrink-0">
-            <div className="inline-flex rounded-lg border border-white/10 bg-white/5 p-1">
+            <div className="inline-flex rounded-lg border bg-black/5 border-black/10 dark:bg-white/5 dark:border-white/10 p-1">
               <button
                 onClick={switchTo("en")}
                 className={`px-3 py-1.5 text-sm rounded-md transition ${
                   language === "en"
                     ? "bg-blue-600 text-white"
-                    : "text-gray-300 hover:bg-white/10"
+                    : "text-gray-800 dark:text-gray-300 hover:bg-black/10 dark:hover:bg-white/10"
                 }`}
               >
                 EN
@@ -118,7 +122,7 @@ export function BlogArticle({ post, initialLanguage }: BlogArticleProps) {
                 className={`px-3 py-1.5 text-sm rounded-md transition ${
                   language === "es"
                     ? "bg-blue-600 text-white"
-                    : "text-gray-300 hover:bg-white/10"
+                    : "text-gray-800 dark:text-gray-300 hover:bg-black/10 dark:hover:bg-white/10"
                 }`}
               >
                 ES
@@ -126,7 +130,7 @@ export function BlogArticle({ post, initialLanguage }: BlogArticleProps) {
             </div>
           </div>
         </div>
-        <p className="mt-3 text-lg leading-relaxed text-gray-300">
+        <p className="mt-3 text-lg leading-relaxed text-gray-700 dark:text-gray-300">
           {description}
         </p>
         <div className="mt-3 text-xs text-gray-500">{publishedDate}</div>
@@ -134,7 +138,7 @@ export function BlogArticle({ post, initialLanguage }: BlogArticleProps) {
           initial={{ scaleX: 0 }}
           animate={{ scaleX: 1 }}
           transition={{ duration: 0.6 }}
-          className="mt-5 h-px bg-gradient-to-r from-transparent via-gray-700 to-transparent"
+          className="mt-5 h-px bg-gradient-to-r from-transparent via-gray-300 dark:via-gray-700 to-transparent"
         />
       </header>
 

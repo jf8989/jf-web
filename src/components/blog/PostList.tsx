@@ -1,5 +1,5 @@
 /// Path: src/components/blog/PostList.tsx
-/// Role: Ensure each card actually navigates to /blog?slug=<slug>.
+/// Role: Cards adapt to light/dark (borders, backgrounds, hover, focus)
 
 "use client";
 
@@ -13,7 +13,9 @@ type PostListProps = { posts: BlogPostMeta[] };
 export default function PostList({ posts }: PostListProps) {
   if (!posts?.length) {
     return (
-      <p className="text-sm text-gray-400">No articles yet. Check back soon.</p>
+      <p className="text-sm text-gray-600 dark:text-gray-400">
+        No articles yet. Check back soon.
+      </p>
     );
   }
 
@@ -43,13 +45,15 @@ export default function PostList({ posts }: PostListProps) {
               <Link
                 href={href}
                 prefetch
-                className="block rounded-2xl border border-white/10 bg-white/5 hover:bg-white/10 focus:bg-white/10 transition-colors shadow-md focus:outline-none focus:ring-2 focus:ring-blue-500/40"
+                className="block rounded-2xl border bg-black/5 border-black/10 hover:bg-black/10 focus:bg-black/10 dark:bg-white/5 dark:border-white/10 dark:hover:bg-white/10 dark:focus:bg-white/10 transition-colors shadow-md focus:outline-none focus:ring-2 focus:ring-blue-600/30"
               >
                 <div className="p-6">
-                  <h3 className="text-xl md:text-2xl font-semibold text-gray-100">
+                  <h3 className="text-xl md:text-2xl font-semibold text-gray-900 dark:text-gray-100">
                     {title}
                   </h3>
-                  <p className="mt-2 text-sm text-gray-400">{description}</p>
+                  <p className="mt-2 text-sm text-gray-600 dark:text-gray-400">
+                    {description}
+                  </p>
                   <div className="mt-3 text-xs text-gray-500">{published}</div>
                 </div>
               </Link>

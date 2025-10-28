@@ -26,11 +26,27 @@
   --base-line-height: 1.7;
 }
 
+/* System preference fallback (se mantiene) */
 @media (prefers-color-scheme: dark) {
   :root {
     --background: #0a0a0a;
     --foreground: #ededed;
   }
+}
+
+/* Explicitar el modo elegido por el usuario vía clase (persistente) */
+:root {
+  color-scheme: light;
+}
+.light {
+  --background: #ffffff;
+  --foreground: #171717;
+  color-scheme: light;
+}
+.dark {
+  --background: #0a0a0a;
+  --foreground: #ededed;
+  color-scheme: dark;
 }
 
 /* ===============================
