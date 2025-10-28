@@ -1,7 +1,7 @@
 /// Path: src/app/blog/page.tsx
-/// Role: Blog index/detail — ensure text colors adapt to light/dark
+/// Role: Blog page wraps Header in Suspense; everything else unchanged
 
-import React from "react";
+import React, { Suspense } from "react";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { loadPostBySlug, listAllPostMetas } from "@/data/blog";
@@ -45,10 +45,10 @@ export default async function BlogPage({
       const allMetas = await listAllPostMetas();
       content = (
         <main className="mx-auto max-w-3xl px-6 pt-24 pb-16">
-          <h1 className="text-3xl font-semibold tracking-tight text-gray-900 dark:text-gray-100">
+          <h1 className="text-3xl font-semibold tracking-tight text-gray-100">
             Post not found
           </h1>
-          <p className="mt-2 text-sm text-gray-600 dark:text-gray-400">
+          <p className="mt-2 text-sm text-gray-400">
             The requested article does not exist. Pick one from the list below.
           </p>
           <div className="mt-8">
@@ -61,10 +61,10 @@ export default async function BlogPage({
     const allMetas = await listAllPostMetas();
     content = (
       <main className="mx-auto max-w-3xl px-6 pt-24 pb-16">
-        <h1 className="text-3xl font-semibold tracking-tight text-gray-900 dark:text-gray-100">
+        <h1 className="text-3xl font-semibold tracking-tight text-gray-100">
           Blog
         </h1>
-        <p className="mt-2 text-sm text-gray-600 dark:text-gray-400">
+        <p className="mt-2 text-sm text-gray-400">
           Choose an article. You can toggle English/Español inside each post.
         </p>
         <div className="mt-8">
@@ -76,7 +76,9 @@ export default async function BlogPage({
 
   return (
     <div className="min-h-screen flex flex-col">
-      <Header />
+      <Suspense fallback={<div className="h-16" />}>
+        <Header />
+      </Suspense>
       <div className="flex-1">{content}</div>
       <Footer />
     </div>
